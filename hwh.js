@@ -66,17 +66,19 @@ client.on('message', message => {
     });
 
     if (!roleValid) {
-      message.reply("you may only add these roles: `math`, `science`, `social studies`, `english`, `computer science`, `art`, `language`, `high school`, `undergraduate`, `graduate`, `post graduate`, `independent`.");
+      message.reply("you may only add these roles: `math`, `science`, `social studies`, `english`, `computer science`, `art`, `language`, `pre high school`, `high school`, `undergraduate`, `graduate`, `post graduate`, `independent`.");
     }
   }
 });
 
 client.on('message', message => {
   if (message.content.startsWith("&") && message.channel.id === "275071813992710144") {
-    const command = message.content.slice(1); // get first part of string (command)
+    const suggestion = message.content.slice(1); // get first part of string (command)
     
+    message.member.guild.channels.get("275071813992710144").send(`Suggestion '${suggestion}' received.`)
+
     //275071813992710144
-    message.member.guild.channels.get("411828103321485313").send(command).then(msg => {
+    message.member.guild.channels.get("411828103321485313").send(suggestion).then(msg => {
       msg.react("😁");
       msg.react("❌");
     });
@@ -92,9 +94,11 @@ client.on('messageReactionAdd', (reaction, user) => {
       });
       reaction.message.delete();
       reaction.message.guild.channels.get('411828103321485313').send(`Added '${reaction.message.content}' role.`)
+      reaction.message.guild.channels.get("275071813992710144").send(`Suggested role '${suggestion}' was approved.`)
     } else if (reaction.emoji.name === '❌' && reaction.message.client.user.id !== user.id) {
       reaction.message.delete();
       reaction.message.guild.channels.get('411828103321485313').send(`Rejected '${reaction.message.content}' role.`)
+      reaction.message.guild.channels.get("275071813992710144").send(`Suggested role '${suggestion}' was not approved.`)
     }
   }
 });
