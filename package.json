@@ -1,0 +1,18 @@
+{
+  "name": "hwh-bot",
+  "version": "1.0.0",
+  "description": "Homework Help Discord Bot",
+  "main": "hwh.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node hwh.js"
+  },
+  "author": "Spencer",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.3.2"
+  },
+  "engines": {
+    "node": "6.9.4"
+  }
+}
