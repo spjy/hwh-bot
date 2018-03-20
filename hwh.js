@@ -78,14 +78,25 @@ client.on('message', message => {
 client.on('message', message => {
   if (message.content.startsWith("&") && message.channel.id === "425573787950514177") {
     const suggestion = message.content.slice(1); // get first part of string (command)
-    
-    message.member.guild.channels.get("425573787950514177").send(`Suggestion '${suggestion}' received.`)
+    let roleExists = false;
 
-    //275071813992710144
-    message.member.guild.channels.get("411828103321485313").send(suggestion).then(msg => {
-      msg.react("😁");
-      msg.react("❌");
+    message.guild.roles.map(({ id, name, color }) => {
+      if (suggestion.toLowerCase() === name.toLowerCase()) {
+        message.member.guild.channels.get("425573787950514177").send(`Role already exists.  You can add it in ${client.channels.get('275071813992710144').toString()}.`)
+        roleExists = true;
+      }
     });
+
+    if (!roleExists) {
+      message.member.guild.channels.get("425573787950514177").send(`Suggestion '${suggestion}' received.`)
+      message.member.guild.channels.get("411828103321485313").send(suggestion).then(msg => {
+        msg.react("😁");
+        msg.react("❌");
+      });
+    }
+    
+
+
   }
 });
 
