@@ -29,7 +29,7 @@ client.on("guildBanRemove", (guild, user) => {
 });
 
 client.on('message', message => {
-  if (message.content.includes("+") && message.channel.id === "275071813992710144" || message.content.includes("-") && message.channel.id === "275071813992710144") {
+  if (message.content.startsWith("+") && message.channel.id === "275071813992710144" || message.content.startsWith("-") && message.channel.id === "275071813992710144") {
     const command = message.content.slice(0, 1).toLowerCase(); // get first part of string (command)
     let selectedRole = message.content.slice(1).trim().toLowerCase(); // get the rest of the string
     let roleValid = false;
@@ -47,18 +47,22 @@ client.on('message', message => {
         || selectedRole === name.toLowerCase() && color === 9240581
         || selectedRole === name.toLowerCase() && color === 12596388) {
         if (command === '+' && selectedRole === name.toLowerCase()) {
-          if (message.member.roles.has(id)) {
-            message.reply(`error! You are already in the **${name}** role!`);
-          } else {
-            message.guild.member(message.author.id).addRole(id);
-            message.reply(`you have added the **${name}** role!`);
+          if (message.member) {
+            if (message.member.roles.has(id)) {
+              message.reply(`error! You are already in the **${name}** role!`);
+            } else {
+              message.guild.member(message.author.id).addRole(id);
+              message.reply(`you have added the **${name}** role!`);
+            }
           }
         } else if (command === '-' && selectedRole === name.toLowerCase()) {
-          if (message.member.roles.has(id)) {
-            message.guild.member(message.author.id).removeRole(id);
-            message.reply(`you have removed the **${name}"** role!`);
-          } else {
-            message.reply(`error! You are not in the **${name}** role!`);
+          if (message.member) {
+            if (message.member.roles.has(id)) {
+              message.guild.member(message.author.id).removeRole(id);
+              message.reply(`you have removed the **${name}** role!`);
+            } else {
+              message.reply(`error! You are not in the **${name}** role!`);
+            }
           }
         }
         roleValid = true;
@@ -72,10 +76,10 @@ client.on('message', message => {
 });
 
 client.on('message', message => {
-  if (message.content.startsWith("&") && message.channel.id === "275071813992710144") {
+  if (message.content.startsWith("&") && message.channel.id === "425573787950514177") {
     const suggestion = message.content.slice(1); // get first part of string (command)
     
-    message.member.guild.channels.get("275071813992710144").send(`Suggestion '${suggestion}' received.`)
+    message.member.guild.channels.get("425573787950514177").send(`Suggestion '${suggestion}' received.`)
 
     //275071813992710144
     message.member.guild.channels.get("411828103321485313").send(suggestion).then(msg => {
@@ -85,20 +89,21 @@ client.on('message', message => {
   }
 });
 
-client.on('messageReactionAdd', (reaction, user) => {
-  if (reaction.message.channel.id === '411828103321485313') {
-    if (reaction.emoji.name === '😁' && reaction.message.client.user.id !== user.id) {
-      reaction.message.guild.createRole({
-        name: reaction.message.content,
+client.on('messageReactionAdd', ({ message, emoji }, user) => {
+  if (message.channel.id === '411828103321485313') {
+    const { content } = message;
+    if (emoji.name === '😁' && message.client.user.id !== user.id) {
+      message.guild.createRole({
+        name: content,
         color: 9807270
       });
-      reaction.message.delete();
-      reaction.message.guild.channels.get('411828103321485313').send(`Added '${reaction.message.content}' role.`)
-      reaction.message.guild.channels.get("275071813992710144").send(`Suggested role '${suggestion}' was approved.`)
-    } else if (reaction.emoji.name === '❌' && reaction.message.client.user.id !== user.id) {
-      reaction.message.delete();
-      reaction.message.guild.channels.get('411828103321485313').send(`Rejected '${reaction.message.content}' role.`)
-      reaction.message.guild.channels.get("275071813992710144").send(`Suggested role '${suggestion}' was not approved.`)
+      message.delete();
+      message.guild.channels.get('411828103321485313').send(`Added '${content}' role.`)
+      message.guild.channels.get("425573787950514177").send(`Suggested role '${content}' was approved.`)
+    } else if (emoji.name === '❌' && message.client.user.id !== user.id) {
+      message.delete();
+      message.guild.channels.get('411828103321485313').send(`Rejected '${content}' role.`)
+      message.guild.channels.get("425573787950514177").send(`Suggested role '${content}' was not approved.`)
     }
   }
 });
@@ -282,8 +287,8 @@ client.on('message', message => {
       author: {
         name: 'Server Rules',
       },
-      description: '1. Respect others. \n2. Keep all conversations civil. \n3. Avoid over excessive profanity. \n4. Only post safe for work (SFW) and legal content. \n4. Do not post repeating messages in quick succession (spam). \n5. Be serious in all help channels (' 
-      + client.channels.get('238956921581862913').toString() + ' and below). \n6. Use the corresponding channels for your question. \n7. Do not advertise other servers or services unless approved by staff.\n8. **After posting your own question, wait for a minimum of 15 minutes before using the helper mention. If nobody has replied by the 15 minutes, repost the question and include a helper mention with or after the question. Only use one ping per question.**\n9. Only ping HWH Staff in the case of an emergency or report.\n10. Unless explicitly given permission, do not direct message other members for help.',
+      description: '1. Respect others. \n2. Keep all conversations civil. \n3. Avoid over excessive profanity. \n4. Only post safe for work (SFW) and legal content. \n5. Do not post repeating messages in quick succession (spam). \n6. Be serious in all help channels (' 
+      + client.channels.get('238956921581862913').toString() + ' and below). \n7. Use the corresponding channels for your question. \n8. Do not advertise other servers or services unless approved by staff.\n9. **After posting your own question, wait for a minimum of 15 minutes before using the helper mention. If nobody has replied by the 15 minutes, repost the question and include a helper mention with or after the question. Only use one ping per question.**\n10. Only ping HWH Staff in the case of an emergency or report.\n11. Unless explicitly given permission, do not direct message other members for help.',
       timestamp: new Date(),
       footer: {
         icon_url: client.user.avatarURL,
