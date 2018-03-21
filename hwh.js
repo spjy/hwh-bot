@@ -88,15 +88,12 @@ client.on('message', message => {
     });
 
     if (!roleExists) {
-      message.member.guild.channels.get("425573787950514177").send(`Suggestion '${suggestion}' received.`)
+      message.member.guild.channels.get("425573787950514177").send(`Suggested role '${suggestion}' received.`)
       message.member.guild.channels.get("411828103321485313").send(suggestion).then(msg => {
         msg.react("😁");
         msg.react("❌");
       });
     }
-    
-
-
   }
 });
 
@@ -106,7 +103,8 @@ client.on('messageReactionAdd', ({ message, emoji }, user) => {
     if (emoji.name === '😁' && message.client.user.id !== user.id) {
       message.guild.createRole({
         name: content,
-        color: 9807270
+        color: 9807270,
+        mentionable: true,
       });
       message.delete();
       message.guild.channels.get('411828103321485313').send(`Added '${content}' role.`)
