@@ -117,66 +117,69 @@ client.on('messageReactionAdd', ({ message, emoji }, user) => {
   }
 });
 
-// client.on('message', message => {
+client.on('message', message => {
 
-//   if (message.guild.id === "238956364729155585") {
-//     if (message.member.roles.has('276969339901444096') && message.content.toLowerCase().startsWith("!warn")) {
-//       let warn = [];
-//       let warned;
-//       let reason = [];
+  if (message.guild.id === "238956364729155585") {
+    if (message.member) {
+      if (message.member.roles.has('276969339901444096') && message.content.toLowerCase().startsWith("?gwarn")
+      || message.member.roles.has('410350754180890624') && message.content.toLowerCase().startsWith("?gwarn")) {
+      let warn = [];
+      let warned;
+      let reason = [];
 
-//       warn = message.content.split(" ");
+      warn = message.content.split(" ");
 
-//       message.mentions.members.map((role) => {
-//         warned = role.id;
-//       });
+      message.mentions.members.map((role) => {
+        warned = role.id;
+      });
 
-//       if (warned !== undefined) {
-//         reason = warn.slice(2, warn.length);
+      if (warned !== undefined) {
+        reason = warn.slice(2, warn.length);
 
-//         message.channel.send('<@!' + warned + '>', { embed: {
-//           color: 16645888,
-//           author: {
-//             name: 'Warning',
-//           },
-//           description: 'You were warned by a staff member.',
-//           fields: [
-//             {
-//               name: 'Reason',
-//               value: warn[2] === undefined ? 'No reason provided.' : reason.join(' '),
-//             }
-//           ],
-//           timestamp: new Date(),
-//           footer: {
-//             icon_url: client.user.avatarURL,
-//             text: 'Homework Help'
-//           }
-//         }});
+        message.channel.send('', { embed: {
+          color: 16645888,
+          author: {
+            name: 'Warning',
+          },
+          description: '<@!' + warned + '>' + ' was warned by a staff member.',
+          fields: [
+            {
+              name: 'Reason',
+              value: warn[2] === undefined ? 'No reason provided.' : reason.join(' '),
+            }
+          ],
+          timestamp: new Date(),
+          footer: {
+            icon_url: client.user.avatarURL,
+            text: 'Homework Help'
+          }
+        }});
 
-//         client.channels.get('284858331745615872').send("", { embed: {
-//           color: 16645888,
-//           author: {
-//             name: 'Warning',
-//           },
-//           description: '<@!' + warned + '> was warned by <@!' + message.author.id + '>.',
-//           fields: [
-//             {
-//               name: 'Reason',
-//               value: warn[2] === undefined ? 'No reason provided.' : reason.join(' '),
-//             }
-//           ],
-//           timestamp: new Date(),
-//           footer: {
-//             icon_url: client.user.avatarURL,
-//             text: 'Homework Help'
-//           }
-//         }});
+        // client.channels.get('284858331745615872').send("", { embed: {
+        //   color: 16645888,
+        //   author: {
+        //     name: 'Warning',
+        //   },
+        //   description: '<@!' + warned + '> was warned by <@!' + message.author.id + '>.',
+        //   fields: [
+        //     {
+        //       name: 'Reason',
+        //       value: warn[2] === undefined ? 'No reason provided.' : reason.join(' '),
+        //     }
+        //   ],
+        //   timestamp: new Date(),
+        //   footer: {
+        //     icon_url: client.user.avatarURL,
+        //     text: 'Homework Help'
+        //   }
+        // }});
 
-//         message.delete();
-//       }
-//     }
-//   }
-// });
+        message.delete();
+      }
+    }
+    }
+  }
+});
 
 client.on('message', message => {
   if (message.channel.type === "dm") {
