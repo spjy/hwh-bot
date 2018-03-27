@@ -76,20 +76,22 @@ client.on('message', message => {
 });
 
 client.on('message', message => {
-  if (message.content.startsWith("&") && message.channel.id === "425573787950514177") {
-    const suggestion = message.content.slice(1); // get first part of string (command)
+  const { content, channel, guild, member } = message;
+
+  if (content.startsWith("&") && channel.id === "425573787950514177") {
+    const suggestion = content.slice(1); // get first part of string (command)
     let roleExists = false;
 
-    message.guild.roles.map(({ id, name, color }) => {
+    guild.roles.map(({ id, name, color }) => {
       if (suggestion.toLowerCase() === name.toLowerCase()) {
-        message.member.guild.channels.get("425573787950514177").send(`Role already exists.  You can add it in ${client.channels.get('275071813992710144').toString()}.`)
+        member.guild.channels.get("425573787950514177").send(`Role already exists.  You can add it in ${client.channels.get('275071813992710144').toString()}.`)
         roleExists = true;
       }
     });
 
     if (!roleExists) {
-      message.member.guild.channels.get("425573787950514177").send(`Suggested role '${suggestion}' received.`)
-      message.member.guild.channels.get("411828103321485313").send(suggestion).then(msg => {
+      member.guild.channels.get("425573787950514177").send(`Suggested role '${suggestion}' received.`)
+      member.guild.channels.get("411828103321485313").send(suggestion).then(msg => {
         msg.react("😁");
         msg.react("❌");
       });
@@ -97,7 +99,8 @@ client.on('message', message => {
   }
 });
 
-client.on('messageReactionAdd', ({ message, emoji }, user) => {
+client.on('messageReactionAdd', (reaction, user) => {
+  const { message, emoji } = reaction;
   if (message.channel.id === '411828103321485313') {
     const { content } = message;
     if (emoji.name === '😁' && message.client.user.id !== user.id) {
@@ -123,60 +126,63 @@ client.on('message', message => {
     if (message.member) {
       if (message.member.roles.has('276969339901444096') && message.content.toLowerCase().startsWith("?gwarn")
       || message.member.roles.has('410350754180890624') && message.content.toLowerCase().startsWith("?gwarn")) {
-      let warn = [];
-      let warned;
-      let reason = [];
+        let warn = [];
+        let warned;
+        let reason = [];
 
-      warn = message.content.split(" ");
+        warn = message.content.split(" ");
 
-      message.mentions.members.map((role) => {
-        warned = role.id;
-      });
+        message.mentions.members.map((role) => {
+          warned = role.id;
+        });
 
-      if (warned !== undefined) {
-        reason = warn.slice(2, warn.length);
+        if (warned !== undefined) {
+          reason = warn.slice(2, warn.length);
 
-        message.channel.send('', { embed: {
-          color: 16645888,
-          author: {
-            name: 'Warning',
-          },
-          description: '<@!' + warned + '>' + ' was warned by a staff member.',
-          fields: [
-            {
-              name: 'Reason',
-              value: warn[2] === undefined ? 'No reason provided.' : reason.join(' '),
+          message.channel.send('', { embed: {
+            color: 16645888,
+            author: {
+              name: 'Warning',
+            },
+            description: '<@!' + warned + '>' + ' was warned by a staff member.',
+            fields: [
+              {
+                name: 'Reason',
+                value: warn[2] === undefined ? 'No reason provided.' : reason.join(' '),
+              }
+            ],
+            timestamp: new Date(),
+            footer: {
+              icon_url: client.user.avatarURL,
+              text: 'Homework Help'
             }
-          ],
-          timestamp: new Date(),
-          footer: {
-            icon_url: client.user.avatarURL,
-            text: 'Homework Help'
-          }
-        }});
+          }});
 
-        // client.channels.get('284858331745615872').send("", { embed: {
-        //   color: 16645888,
-        //   author: {
-        //     name: 'Warning',
-        //   },
-        //   description: '<@!' + warned + '> was warned by <@!' + message.author.id + '>.',
-        //   fields: [
-        //     {
-        //       name: 'Reason',
-        //       value: warn[2] === undefined ? 'No reason provided.' : reason.join(' '),
-        //     }
-        //   ],
-        //   timestamp: new Date(),
-        //   footer: {
-        //     icon_url: client.user.avatarURL,
-        //     text: 'Homework Help'
-        //   }
-        // }});
-
-        message.delete();
+          message.delete();
+        }
       }
     }
+  }
+});
+
+client.on('message', message => {
+  const { member, content, channel } = message;
+
+  if (member) {
+    if (content.toLowerCase().startsWith("?t1")) {
+      channel.send('', { embed: {
+        color: 1441536,
+        author: {
+          name: 'Tip',
+        },
+        description: 'If you have a question, don\'t hesitate to ask it. To save time, post it instead of asking "Does anyone know X?" or "Can someone help with Y?".',
+        timestamp: new Date(),
+        footer: {
+          icon_url: client.user.avatarURL,
+          text: 'Homework Help'
+        }
+      }});
+      message.delete();
     }
   }
 });
@@ -281,7 +287,7 @@ client.on('message', message => {
 // });
 
 client.on('message', message => {
-  if (message.content === '!tinfo') {
+  if (message.content === '!tinfo' && message.author.id === '74576452854480896') {
     message.channel.send("", {embed: {
       color: 15608105,
       author: {
@@ -312,7 +318,7 @@ client.on('message', message => {
       author: {
         name: 'Tips',
       },
-      description: '\u2022 If you have a question, **don\'t ask to ask the question, just ask it**. \n\u2022 Instead of merely giving answers, **guide the user through the problem**. \n\u2022 Use `=tex <LaTeX>` to post beautify your math problems! For example, `=tex x^2+2x-1`. \n\u2022 Staff members are in the <@&276969339901444096> role with green names.',
+      description: '\u2022 If you have a question, don\'t hesitate to ask it. To save time, post it instead of asking "Does anyone know X?" or "Can someone help with Y?". \n\u2022 Instead of merely giving answers, **guide the user through the problem**. \n\u2022 Use `=tex <LaTeX>` to post beautify your math problems! For example, `=tex x^2+2x-1`. \n\u2022 Staff members are in the <@&276969339901444096> role with green names.',
       timestamp: new Date(),
       footer: {
         icon_url: client.user.avatarURL,
@@ -369,21 +375,21 @@ client.on('message', message => {
   }
 });
 
-client.on ('message', message => {
-  if (message.content === '!welcome' && message.author.id === '74576452854480896') {
-  message.channel.send("", {embed: {
-    color: 1271946,
-    author: {
-      name: 'Hello, welcome to the Homework Help Server!',
-    },
-    description: 'Have questions on your homework in math, science, English, social studies, or general question?  Want to discuss and share ideas about a subject?  Come join us!',
-    timestamp: new Date(),
-    footer: {
-      icon_url: client.user.avatarURL,
-      text: 'Homework Help Bot'
-    }
-  }});
-  }
-});
+// client.on('message', message => {
+//   if (message.content === '!welcome' && message.author.id === '74576452854480896') {
+//   message.channel.send("", {embed: {
+//     color: 1271946,
+//     author: {
+//       name: 'Hello, welcome to the Homework Help Server!',
+//     },
+//     description: 'Have questions on your homework in math, science, English, social studies, or general question?  Want to discuss and share ideas about a subject?  Come join us!',
+//     timestamp: new Date(),
+//     footer: {
+//       icon_url: client.user.avatarURL,
+//       text: 'Homework Help Bot'
+//     }
+//   }});
+//   }
+// });
 
 client.login("***REMOVED***");
