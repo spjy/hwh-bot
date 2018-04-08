@@ -51,7 +51,6 @@ client.on('message', message => {
             if (message.member.roles.has(id)) {
               message.reply(`error! You are already in the **${name}** role!`);
             } else {
-              message.delete();
               message.guild.member(message.author.id).addRole(id);
               message.reply(`you have added the **${name}** role!`);
             }
@@ -62,7 +61,6 @@ client.on('message', message => {
               message.guild.member(message.author.id).removeRole(id);
               message.reply(`you have removed the **${name}** role!`);
             } else {
-              message.delete();
               message.reply(`error! You are not in the **${name}** role!`);
             }
           }
@@ -72,9 +70,10 @@ client.on('message', message => {
     });
 
     if (!roleValid) {
-      message.delete();
       message.reply("you may only add these roles: `math`, `science`, `social studies`, `english`, `computer science`, `art`, `language`, `pre high school`, `high school`, `undergraduate`, `graduate`, `post graduate`, `independent`.");
     }
+
+    message.delete();
   }
 });
 
@@ -93,13 +92,14 @@ client.on('message', message => {
     });
 
     if (!roleExists) {
-      message.delete();
       message.reply('suggested role `' + suggestion + '` received.');
       member.guild.channels.get("411828103321485313").send(suggestion).then(msg => {
         msg.react("😁");
         msg.react("❌");
       });
     }
+
+    message.delete();
   }
 });
 
