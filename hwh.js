@@ -96,7 +96,7 @@ client.on('message', message => {
       member.guild.channels.get("411828103321485313").send(suggestion).then(msg => {
         msg.react("😁");
         msg.react("❌");
-      });
+      }).catch((err) => console.log(err));
     }
 
     message.delete();
@@ -126,8 +126,9 @@ client.on('messageReactionAdd', (reaction, user) => {
 
 client.on('message', message => {
   if (message.member) {
-    if (message.member.roles.has('276969339901444096') && message.content.toLowerCase().startsWith("?gwarn")
+    if (message.member.roles.has('267474828863340545') && message.content.toLowerCase().startsWith("?gwarn")
     || message.member.roles.has('410350754180890624') && message.content.toLowerCase().startsWith("?gwarn")) {
+      
       let warn = [];
       let warned;
       let reason = [];
