@@ -122,12 +122,14 @@ client.on('message', message => {
 
         warn = content.split(" ");
 
-        mentions.members.map((role) => {
-          warned = role.id;
-        });
+        if (message.mentions.members) {
+          message.mentions.members.map((role) => {
+            warned = role.id;
+          });
+        }
 
         if (warned !== undefined) {
-          reason = warn.slice(2, warn.length);
+          reason = warn.slice(2, warn.length); // Get the third->last array element
 
           channel.send('', { embed: {
             color: 16645888,
@@ -158,9 +160,15 @@ client.on('message', message => {
 
     if (content.toLowerCase().startsWith("?t1")) {
 
-      const mention = content.split(" ")
+      let mention;
 
-      channel.send(`${mention[1] ? mention[1] : ''}`, { embed: {
+      if (message.mentions.members) {
+        message.mentions.members.map((role) => {
+          mention = role.id;
+        });
+      }
+
+      channel.send(`${mention ? mention : ''}`, { embed: {
         color: 1441536,
         author: {
           name: 'Tip',
@@ -275,6 +283,7 @@ client.on('message', message => {
           text: 'Homework Help Bot'
         }
       }});
+      message.delete();
     }
 
     }
