@@ -258,10 +258,11 @@ client.on('message', message => {
               }
             }
           );
+        message
+          .delete();
       }
 
-      message
-        .delete();
+
     }
 
     /*
