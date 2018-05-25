@@ -13,7 +13,7 @@
       "experimentalObjectRestSpread": true
     }
   },
-  "extends": ["eslint:recommended"],
+  "extends": ["airbnb"],
   "rules": {
     "indent": [
       "error",
