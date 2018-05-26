@@ -154,7 +154,7 @@ client.on('message', (message) => {
               author: {
                 name: 'Warning',
               },
-              description: `<@!${warned}> was warned by a staff member.`,
+              description: `<@!${warned[0]}> was warned by a staff member.`,
               fields: [
                 {
                   name: 'Reason',
@@ -167,7 +167,7 @@ client.on('message', (message) => {
                 text: 'Homework Help',
               },
             },
-          },
+          }
         );
 
         message
