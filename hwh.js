@@ -47,16 +47,15 @@ client.on('message', (message) => {
    * Role Selection
    */
 
-    if (content.startsWith('+') && (channel.id === '275071813992710144' || channel.id === '275071813992710144')) {
+    if ((content.startsWith('+') || content.startsWith('-')) && channel.id === '275071813992710144') {
       const command = content.slice(0, 1).toLowerCase(); // get first part of string (command)
       let selectedRole = content.slice(1).trim().toLowerCase(); // get the rest of the string
-      let roleValid = false;
 
       if (selectedRole.includes('-')) {
         selectedRole = selectedRole.replace(/-/g, ' '); // replace dash with space if contained.
       }
 
-      guild.roles
+      const validRole = guild.roles
         .map(({ id, name, color }) => {
           if (selectedRole === name.toLowerCase() && (color === 9807270
             || color === 16770276
@@ -90,11 +89,12 @@ client.on('message', (message) => {
                 }
               }
             }
-            roleValid = true;
+            return true;
           }
+          return false;
         });
 
-      if (!roleValid) {
+      if (!validRole.includes(true)) {
         message
           .reply('you may only add these roles: `math`, `science`, `social studies`, `english`, `computer science`, `art`, `language`, `pre high school`, `high school`, `undergraduate`, `graduate`, `post graduate`, `independent`.');
       }
@@ -106,18 +106,18 @@ client.on('message', (message) => {
 
     if (content.startsWith('&') && channel.id === '425573787950514177') {
       const suggestion = content.slice(1); // get first part of string (command)
-      let roleExists = false;
 
-      guild.roles
+      const role = guild.roles
         .map(({ name }) => {
           if (suggestion.toLowerCase() === name.toLowerCase()) {
             member.guild.channels.get('425573787950514177')
               .send(`Role already exists.  You can add it in ${client.channels.get('275071813992710144').toString()}.`);
-            roleExists = true;
+            return true;
           }
+          return false;
         });
 
-      if (!roleExists) {
+      if (!role.includes(true)) { // If the role exists
         message.reply(`suggested role ${suggestion} received.`);
         guild.channels.get('411828103321485313')
           .send(suggestion)
@@ -134,8 +134,7 @@ client.on('message', (message) => {
       * Warning
       */
 
-    if (message.mentions.members && (member.roles.has('267474828863340545') && (content.toLowerCase().startsWith('?gwarn')
-      || content.toLowerCase().startsWith('?gwarn')))) {
+    if (message.mentions.members && (member.roles.has('267474828863340545') && (content.toLowerCase().startsWith('?gwarn')))) {
       let warn = [];
       let reason = [];
 
@@ -160,7 +159,7 @@ client.on('message', (message) => {
                 {
                   name: 'Reason',
                   value: warn[2] === undefined ? 'No reason provided.' : reason.join(' '),
-                }
+                },
               ],
               timestamp: new Date(),
               footer: {
@@ -181,18 +180,15 @@ client.on('message', (message) => {
      */
 
     if (content.toLowerCase().startsWith('?ta5')) {
-
       let mention;
 
       if (mentions.members) {
-        mentions.members
-          .map((m) => {
-            mention = m.id;
-          });
+        mention = mentions.members
+          .map(m => m.id);
       }
 
       channel.send(
-        `${mention ? mention : ''}`,
+        `${mention ? mention[0] : ''}`,
         {
           embed: {
             color: 1441536,
@@ -217,7 +213,7 @@ client.on('message', (message) => {
      * Report @HWH Staff
      */
 
-    if (mentions.roles && channel.id !== '446051447226761216' && author.id !== '274437921183105034') { 
+    if (mentions.roles && channel.id !== '446051447226761216' && author.id !== '274437921183105034') {
       // If channel is not in #reports and author is not @HWH
 
       const report = message.mentions.roles // Extract roles in message
@@ -319,7 +315,7 @@ client.on('message', (message) => {
                 },
                 {
                   name: 'F. Sharing the server',
-                  value: 'The more people that join, the more knowledge that can be shared! Consequently, I encourage everybody to share the server with your friends!\n\nShare link: https://discord.gg/YudDZtb'
+                  value: 'The more people that join, the more knowledge that can be shared! Consequently, I encourage everybody to share the server with your friends!\n\nShare link: https://discord.gg/YudDZtb',
                 },
               ],
               timestamp: new Date(),
@@ -389,10 +385,10 @@ client.on('message', (message) => {
   if (channel.type === 'dm') {
     const messageInitiator = channel.recipient;
     const botOperator = '>';
-    const channel = client.channels.get('298286259028361218');
+    const serverChannel = client.channels.get('298286259028361218');
 
     if (content.startsWith(`${botOperator}challenge`) || content.startsWith(`${botOperator}c`)) {
-      channel
+      serverChannel
         .send(`*Challenge Entry* from **${messageInitiator}**: ${content}`);
       message
         .reply('Successfully sent!');
