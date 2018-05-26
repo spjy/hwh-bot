@@ -187,7 +187,7 @@ client.on('message', (message) => {
       }
 
       channel.send(
-        `${mention[0] ? mention[0] : ''}`,
+        `${mention[0] ? `<@${mention[0]}>` : ''}`,
         {
           embed: {
             color: 1441536,
