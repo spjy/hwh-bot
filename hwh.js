@@ -202,7 +202,7 @@ client.on('message', (message) => {
               text: 'Homework Help',
             },
           },
-        },
+        }
       );
 
       message
@@ -256,7 +256,7 @@ client.on('message', (message) => {
                   text: 'Homework Help',
                 },
               },
-            },
+            }
           );
         message
           .delete();
@@ -324,7 +324,7 @@ client.on('message', (message) => {
                 text: 'Homework Help Bot',
               },
             },
-          },
+          }
         );
       message
         .delete();
@@ -375,7 +375,7 @@ client.on('message', (message) => {
                 text: 'Homework Help Bot',
               },
             },
-          },
+          }
         );
       message
         .delete();
