@@ -138,12 +138,11 @@ client.on('message', (message) => {
       let warn = [];
       let reason = [];
 
-      warn = content.split(' ');
-
       const warned = mentions.members
         .map(m => m.id);
 
       if (warned !== undefined) {
+        warn = content.split(' ');
         reason = warn.slice(2, warn.length); // Get the third->last array element
 
         channel.send(
@@ -188,7 +187,7 @@ client.on('message', (message) => {
       }
 
       channel.send(
-        `${mention ? mention[0] : ''}`,
+        `${mention[0] ? mention[0] : ''}`,
         {
           embed: {
             color: 1441536,
