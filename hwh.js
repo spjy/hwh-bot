@@ -134,7 +134,7 @@ client.on('message', (message) => {
       * Warning
       */
 
-    if (message.mentions.members && (member.roles.has('267474828863340545') && (content.toLowerCase().startsWith('?gwarn')))) {
+    if (message.mentions.members && member.roles.has('276969339901444096') && (content.toLowerCase().startsWith('?gwarn'))) {
       let warn = [];
       let reason = [];
 
