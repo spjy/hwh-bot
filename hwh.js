@@ -394,7 +394,7 @@ client.on('message', (message) => {
     } else if (content.startsWith(`${botOperator}help`) || content.startsWith(`${botOperator}h`)) {
       message
         .reply('I am a functional bot for the Homework Help Server!' +
-        'Here is a list of command(s):\n\n' +
+        ' Here is a list of command(s):\n\n' +
         '**>c** <link / image link to work> <answer> - entering work for the challenge problem.\n');
     }
   }
