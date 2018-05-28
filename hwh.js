@@ -391,7 +391,7 @@ client.on('message', (message) => {
         .send(`*Challenge Entry* from **${messageInitiator}**: ${content}`);
       message
         .reply('Successfully sent!');
-    } else {
+    } else if (content.startsWith(`${botOperator}help`) || content.startsWith(`${botOperator}h`)) {
       message
         .reply('I am a functional bot for the Homework Help Server!' +
         'Here is a list of command(s):\n\n' +
