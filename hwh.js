@@ -395,7 +395,8 @@ client.on('message', (message) => {
       message
         .reply('I am a functional bot for the Homework Help Server!' +
         ' Here is a list of command(s):\n\n' +
-        '**>c** <link / image link to work> <answer> - entering work for the challenge problem.\n');
+        '**>c** <challenge ID> <link to your solution> - entering work for the challenge problem.\n' +
+        '**?ta5** <@user> - macro saying "If you have a question, don\'t hesitate to ask it. To save time, post it instead of asking "Does anyone know X?" or "Can someone help with Y?""');
     }
   }
 });
