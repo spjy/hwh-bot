@@ -15,7 +15,7 @@ client.on('guildMemberAdd', (member) => {
     member.guild.channels
       .get('302333358078427136')
       .send(`${member} (${member.user.username}#${member.user.discriminator}) has **joined** the server.`)
-      .catch((err) => console.error(err));
+      .catch(err => console.error(err));
   }
 });
 
@@ -24,7 +24,7 @@ client.on('guildMemberRemove', (member) => {
     member.guild.channels
       .get('302333358078427136')
       .send(`${member} (${member.user.username}#${member.user.discriminator}) has **left** the server.`)
-      .catch((err) => console.error(err));
+      .catch(err => console.error(err));
   }
 });
 
@@ -33,7 +33,7 @@ client.on('guildBanAdd', (guild, user) => {
     guild.channels
       .get('302333358078427136')
       .send(`${user} (${user.username}#${user.discriminator}) was **banned**.`)
-      .catch((err) => console.error(err));
+      .catch(err => console.error(err));
   }
 });
 
@@ -42,7 +42,7 @@ client.on('guildBanRemove', (guild, user) => {
     guild.channels
       .get('302333358078427136')
       .send(`${user} (${user.username}#${user.discriminator}) was **unbanned**.`)
-      .catch((err) => console.error(err));
+      .catch(err => console.error(err));
   }
 });
 
@@ -302,6 +302,10 @@ client.on('message', (message) => {
                   {
                     name: 'Message',
                     value: `${content}`,
+                  },
+                  {
+                    name: 'Jump to report',
+                    value: `https://discordapp.com/channels/238956364729155585/${channel.id}?jump=${message.id}`,
                   },
                 ],
                 timestamp: new Date(),
