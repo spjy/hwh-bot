@@ -1,34 +1,48 @@
-const Discord = require('discord.js');
+const projectId = 'homework-help-7230a';
 
+const Discord = require('discord.js');
+const dialogflow = require('dialogflow');
+
+const sessionClient = new dialogflow.SessionsClient({
+  keyFilename: './auth.json',
+});
 const client = new Discord.Client();
 
 // HWH Server
 
 client.on('guildMemberAdd', (member) => {
   if (member.guild.id === '238956364729155585') {
-    member.guild.channels.get('302333358078427136')
-      .send(`${member} (${member.user.username}#${member.user.discriminator}) has **joined** the server.`);
+    member.guild.channels
+      .get('302333358078427136')
+      .send(`${member} (${member.user.username}#${member.user.discriminator}) has **joined** the server.`)
+      .catch((err) => console.error(err));
   }
 });
 
 client.on('guildMemberRemove', (member) => {
   if (member.guild.id === '238956364729155585') {
-    member.guild.channels.get('302333358078427136')
-      .send(`${member} (${member.user.username}#${member.user.discriminator}) has **left** the server.`);
+    member.guild.channels
+      .get('302333358078427136')
+      .send(`${member} (${member.user.username}#${member.user.discriminator}) has **left** the server.`)
+      .catch((err) => console.error(err));
   }
 });
 
 client.on('guildBanAdd', (guild, user) => {
   if (guild.id === '238956364729155585') {
-    guild.channels.get('302333358078427136')
-      .send(`${user} (${user.username}#${user.discriminator}) was **banned**.`);
+    guild.channels
+      .get('302333358078427136')
+      .send(`${user} (${user.username}#${user.discriminator}) was **banned**.`)
+      .catch((err) => console.error(err));
   }
 });
 
 client.on('guildBanRemove', (guild, user) => {
   if (guild.id === '238956364729155585') {
-    guild.channels.get('302333358078427136')
-      .send(`${user} (${user.username}#${user.discriminator}) was **unbanned**.`);
+    guild.channels
+      .get('302333358078427136')
+      .send(`${user} (${user.username}#${user.discriminator}) was **unbanned**.`)
+      .catch((err) => console.error(err));
   }
 });
 
@@ -43,9 +57,36 @@ client.on('message', (message) => {
   } = message;
 
   if (member) {
-  /*
-   * Role Selection
-   */
+    /*
+    * Dialogflow
+    */
+
+    // if (client.user.id !== author.id) {
+    //   const sessionPath = sessionClient.sessionPath(projectId, author.id);
+
+    //   const request = {
+    //     session: sessionPath,
+    //     queryInput: {
+    //       text: {
+    //         text: String(content),
+    //         languageCode: 'en-US',
+    //       },
+    //     },
+    //   };
+
+    //   sessionClient.detectIntent(request)
+    //     .then((responses) => {
+    //       const result = responses[0].queryResult;
+    //       if (result.intent.displayName === 'help' && content.length < 100) {
+    //         message.reply(`${result.fulfillmentText}, ${result.intentDetectionConfidence}`);
+    //       }
+    //     })
+    //     .catch(err => console.error(err));
+    // }
+
+    /*
+    * Role Selection
+    */
 
     if ((content.startsWith('+') || content.startsWith('-')) && channel.id === '275071813992710144') {
       const command = content.slice(0, 1).toLowerCase(); // get first part of string (command)
@@ -57,7 +98,8 @@ client.on('message', (message) => {
 
       const validRole = guild.roles
         .map(({ id, name, color }) => {
-          if (selectedRole === name.toLowerCase() && (color === 9807270
+          if (selectedRole === name.toLowerCase() && (
+            color === 9807270
             || color === 16770276
             || color === 16760511
             || color === 16741498
@@ -73,7 +115,8 @@ client.on('message', (message) => {
                   guild.member(author.id)
                     .addRole(id);
                   message
-                    .reply(`you have added the **${name}** role!`);
+                    .reply(`you have added the **${name}** role!`)
+                    .catch(err => console.error(err));
                 }
               }
             } else if (command === '-' && selectedRole === name.toLowerCase()) {
@@ -82,10 +125,12 @@ client.on('message', (message) => {
                   guild.member(author.id)
                     .removeRole(id);
                   message
-                    .reply(`you have removed the **${name}** role!`);
+                    .reply(`you have removed the **${name}** role!`)
+                    .catch(err => console.error(err));
                 } else {
                   message
-                    .reply(`error! You are not in the **${name}** role!`);
+                    .reply(`error! You are not in the **${name}** role!`)
+                    .catch(err => console.error(err));
                 }
               }
             }
@@ -96,7 +141,8 @@ client.on('message', (message) => {
 
       if (!validRole.includes(true)) {
         message
-          .reply('invalid role. See the pins for a comprehensive list.');
+          .reply('invalid role. See the pins for a comprehensive list.')
+          .catch(err => console.error(err));
       }
     }
 
@@ -111,7 +157,8 @@ client.on('message', (message) => {
         .map(({ name }) => {
           if (suggestion.toLowerCase() === name.toLowerCase()) {
             member.guild.channels.get('425573787950514177')
-              .send(`Role already exists.  You can add it in ${client.channels.get('275071813992710144').toString()}.`);
+              .send(`Role already exists.  You can add it in ${client.channels.get('275071813992710144').toString()}.`)
+              .catch(err => console.error(err));
             return true;
           }
           return false;
@@ -124,7 +171,8 @@ client.on('message', (message) => {
           .then((msg) => {
             msg.react('😁');
             msg.react('❌');
-          });
+          })
+          .catch(err => console.error(err));
       }
 
       message.delete();
@@ -145,32 +193,35 @@ client.on('message', (message) => {
         warn = content.split(' ');
         reason = warn.slice(2, warn.length); // Get the third->last array element
 
-        channel.send(
-          '',
-          {
-            embed: {
-              color: 16645888,
-              author: {
-                name: 'Warning',
-              },
-              description: `<@!${warned[0]}> was warned by a staff member.`,
-              fields: [
-                {
-                  name: 'Reason',
-                  value: warn[2] === undefined ? 'No reason provided.' : reason.join(' '),
+        channel
+          .send(
+            '',
+            {
+              embed: {
+                color: 16645888,
+                author: {
+                  name: 'Warning',
                 },
-              ],
-              timestamp: new Date(),
-              footer: {
-                icon_url: client.user.avatarURL,
-                text: 'Homework Help',
+                description: `<@!${warned[0]}> was warned by a staff member.`,
+                fields: [
+                  {
+                    name: 'Reason',
+                    value: warn[2] === undefined ? 'No reason provided.' : reason.join(' '),
+                  },
+                ],
+                timestamp: new Date(),
+                footer: {
+                  icon_url: client.user.avatarURL,
+                  text: 'Homework Help',
+                },
               },
-            },
-          }
-        );
+            }
+          )
+          .catch(err => console.err(err));
 
         message
-          .delete();
+          .delete()
+          .catch(err => console.error(err));
       }
     }
 
@@ -186,26 +237,29 @@ client.on('message', (message) => {
           .map(m => m.id);
       }
 
-      channel.send(
-        `${mention[0] ? `<@${mention[0]}>` : ''}`,
-        {
-          embed: {
-            color: 1441536,
-            author: {
-              name: 'Tip',
+      channel
+        .send(
+          `${mention[0] ? `<@${mention[0]}>` : ''}`,
+          {
+            embed: {
+              color: 1441536,
+              author: {
+                name: 'Tip',
+              },
+              description: 'If you have a question, don\'t hesitate to ask it. To save time, post it instead of asking "Does anyone know X?" or "Can someone help with Y?"',
+              timestamp: new Date(),
+              footer: {
+                icon_url: client.user.avatarURL,
+                text: 'Homework Help',
+              },
             },
-            description: 'If you have a question, don\'t hesitate to ask it. To save time, post it instead of asking "Does anyone know X?" or "Can someone help with Y?"',
-            timestamp: new Date(),
-            footer: {
-              icon_url: client.user.avatarURL,
-              text: 'Homework Help',
-            },
-          },
-        }
-      );
+          }
+        )
+        .catch(err => console.error(err));
 
       message
-        .delete();
+        .delete()
+        .catch(err => console.error(err));
     }
 
     /*
@@ -220,7 +274,8 @@ client.on('message', (message) => {
 
       if (report.includes('276969339901444096')) { // If mentions include @HWH Staff
         message
-          .reply('thank you for your report. We will review it shortly.'); // Reply in channel with report
+          .reply('thank you for your report. We will review it shortly.')
+          .catch(err => console.error(err)); // Reply in channel with report
 
         message.guild.channels
           .get('446051447226761216') // Send information to report channel
@@ -256,9 +311,14 @@ client.on('message', (message) => {
                 },
               },
             }
-          );
+          )
+          .then((msg) => {
+            msg.react('😁');
+          })
+          .catch(err => console.error(err));
         message
-          .delete();
+          .delete()
+          .catch(err => console.error(err));
       }
     }
 
@@ -324,9 +384,11 @@ client.on('message', (message) => {
               },
             },
           }
-        );
+        )
+        .catch(err => console.error(err));
       message
-        .delete();
+        .delete()
+        .catch(err => console.error(err));
     }
 
     /*
@@ -375,61 +437,80 @@ client.on('message', (message) => {
               },
             },
           }
-        );
+        )
+        .catch(err => console.error(err));
       message
-        .delete();
+        .delete()
+        .catch(err => console.error(err));
     }
   }
 
   if (channel.type === 'dm') {
-    const messageInitiator = channel.recipient;
-    const botOperator = '>';
-    const serverChannel = client.channels.get('298286259028361218');
+    try {
+      const messageInitiator = channel.recipient;
+      const botOperator = '>';
+      const serverChannel = client.channels.get('298286259028361218');
 
-    if (content.startsWith(`${botOperator}challenge`) || content.startsWith(`${botOperator}c`)) {
-      serverChannel
-        .send(`*Challenge Entry* from **${messageInitiator}**: ${content}`);
-      message
-        .reply('Successfully sent!');
-    } else if (content.startsWith(`${botOperator}help`) || content.startsWith(`${botOperator}h`)) {
-      message
-        .reply('I am a functional bot for the Homework Help Server!' +
-        ' Here is a list of command(s):\n\n' +
-        '**>c** <challenge ID> <link to your solution> - entering work for the challenge problem.\n' +
-        '**?ta5** <@user> - macro saying "If you have a question, don\'t hesitate to ask it. To save time, post it instead of asking "Does anyone know X?" or "Can someone help with Y?""');
+      if (content.startsWith(`${botOperator}challenge`) || content.startsWith(`${botOperator}c`)) {
+        serverChannel
+          .send(`*Challenge Entry* from **${messageInitiator}**: ${content}`)
+          .catch(err => console.error(err));
+        message
+          .reply('Successfully sent!')
+          .catch(err => console.error(err));
+      } else if (content.startsWith(`${botOperator}help`) || content.startsWith(`${botOperator}h`)) {
+        message
+          .reply('I am a functional bot for the Homework Help Server!' +
+          ' Here is a list of command(s):\n\n' +
+          '**>c** <challenge ID> <link to your solution> - entering work for the challenge problem.\n' +
+          '**?ta5** <@user> - macro saying "If you have a question, don\'t hesitate to ask it. To save time, post it instead of asking "Does anyone know X?" or "Can someone help with Y?""')
+          .catch(err => console.error(err));
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 });
 
 client.on('messageReactionAdd', (reaction, user) => {
-  const { message, emoji } = reaction;
-  if (message.channel.id === '411828103321485313') {
-    const { content } = message;
-    if (emoji.name === '😁' && message.client.user.id !== user.id) {
-      message.guild
-        .createRole({
-          name: content,
-          color: 9807270,
-          mentionable: true,
-        });
-      message
-        .delete();
-      message.guild.channels
-        .get('411828103321485313')
-        .send(`Added ${content} role.`);
-      message.guild.channels
-        .get('425573787950514177')
-        .send(`Suggested role ${content} was approved.`);
-    } else if (emoji.name === '❌' && message.client.user.id !== user.id) {
-      message
-        .delete();
-      message.guild.channels
-        .get('411828103321485313')
-        .send(`Rejected '${content}' role.`);
-      message.guild.channels
-        .get('425573787950514177')
-        .send(`Suggested role ${content} was not approved.`);
+  try {
+    const { message, emoji } = reaction;
+    if (message.channel.id === '411828103321485313') {
+      const { content } = message;
+      if (emoji.name === '😁' && message.client.user.id !== user.id) {
+        message.guild
+          .createRole({
+            name: content,
+            color: 9807270,
+            mentionable: true,
+          });
+        message
+          .delete()
+          .catch(err => console.error(err));
+        message.guild.channels
+          .get('411828103321485313')
+          .send(`Added ${content} role.`)
+          .catch(err => console.error(err));
+        message.guild.channels
+          .get('425573787950514177')
+          .send(`Suggested role ${content} was approved.`)
+          .catch(err => console.error(err));
+      } else if (emoji.name === '❌' && message.client.user.id !== user.id) {
+        message
+          .delete()
+          .catch(err => console.error(err));
+        message.guild.channels
+          .get('411828103321485313')
+          .send(`Rejected '${content}' role.`)
+          .catch(err => console.error(err));
+        message.guild.channels
+          .get('425573787950514177')
+          .send(`Suggested role ${content} was not approved.`)
+          .catch(err => console.error(err));
+      }
     }
+  } catch (error) {
+    console.error(error);
   }
 });
 
