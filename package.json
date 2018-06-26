@@ -1,0 +1,28 @@
+{
+  "name": "hwh-bot",
+  "version": "1.0.0",
+  "description": "Homework Help Discord Bot",
+  "main": "hwh.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node .",
+    "watch": "nodemon .",
+    "production": "pm2 start ."
+  },
+  "author": "Spencer Young",
+  "license": "MIT",
+  "dependencies": {
+    "bufferutil": "^3.0.5",
+    "dialogflow": "^0.5.0",
+    "discord.js": "^11.3.2",
+    "dotenv-extended": "^2.0.2",
+    "pm2": "^2.10.4",
+    "raven": "^2.6.3"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.3",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.12.0"
+  }
+}
