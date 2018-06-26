@@ -1,6 +1,7 @@
+const Raven = require('raven');
+
 module.exports = {
-  name: 'report',
-  description: 'On @HWH Staff, delete msg and send message in private channel',
+  description: 'On @HWH Staff, delete msg and send message in private channel.',
   execute(message) {
     const {
       cleanContent: content,
@@ -15,7 +16,7 @@ module.exports = {
     if (report.includes('276969339901444096')) { // If mentions include @HWH Staff
       message
         .reply('thank you for your report. We will review it shortly.')
-        .catch(err => console.error(err)); // Reply in channel with report
+        .catch(err => Raven.captureException(err)); // Reply in channel with report
 
       message.guild.channels
         .get('446051447226761216') // Send information to report channel
@@ -58,10 +59,10 @@ module.exports = {
         .then((msg) => {
           msg.react('😁');
         })
-        .catch(err => console.error(err));
+        .catch(err => Raven.captureException(err));
       message
         .delete()
-        .catch(err => console.error(err));
+        .catch(err => Raven.captureException(err));
     }
   }
 };

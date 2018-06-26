@@ -6,5 +6,5 @@ This is the source code for the Discord bot from Homework Help.
 - Discord.js 11.3.2
 
 ## Standards
-- JavaScript (ES6)
-- ESLint (airbnb/base)
+- JavaScript: ECMAScript 6
+- ESLint: airbnb/base

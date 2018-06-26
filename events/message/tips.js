@@ -1,5 +1,6 @@
+const Raven = require('raven');
+
 module.exports = {
-  name: 'tips',
   description: 'Sends an embed of the tips',
   execute(message, client) {
     const {
@@ -36,24 +37,24 @@ module.exports = {
               },
               {
                 name: 'C. MathBot',
-                value: '**1) LaTeX Renderer** — You can beautify your math by converting LaTeX into beautiful images. Use `=tex your LaTeX code here`.\n' +
-                  '**2) Wolfram Alpha Queryer** — Use MathBot to query Wolfram Alpha for mathematical computations or other knowledge. Use `=wolf wolfram alpha query`. Only usable in #spam-channel.\n\u200b',
+                value: '**1) LaTeX Renderer** — You can beautify your math by converting LaTeX into beautiful images. Use `=tex your LaTeX code here`.\n'
+                  + '**2) Wolfram Alpha Queryer** — Use MathBot to query Wolfram Alpha for mathematical computations or other knowledge. Use `=wolf wolfram alpha query`. Only usable in #spam-channel.\n\u200b'
               },
               {
                 name: 'D. Contributing',
-                value: '**1) Valued Contributor** — If you display considerable knowledge, activity and maturity in the help channels, you will be recognized as a valued contributor.\n' +
-                  '**2) Event Contributor** — If you have contributed a prompt to one of the Homework Help Events, you will receive this role.\n\u200b',
+                value: '**1) Valued Contributor** — If you display considerable knowledge, activity and maturity in the help channels, you will be recognized as a valued contributor.\n'
+                  + '**2) Event Contributor** — If you have contributed a prompt to one of the Homework Help Events, you will receive this role.\n\u200b'
               },
               {
                 name: 'E. Staff Positions',
-                value: '**1) Moderators** keep the peace of the server and complete various tasks that need to be done around the server.\n' +
-                  '**2) Guides** also keep the peace of the server. They welcome people, answer people\'s questions and warn people of rule offenses.\n' +
-                  '**3) Event Managers** organize events and create prompts for them.\n' +
-                  '**Applying for staff** — If you want to apply for Guide or Event Manager, apply here: <https://goo.gl/forms/Z3mVQwLdiNZcKHx52>\n\u200b',
+                value: '**1) Moderators** keep the peace of the server and complete various tasks that need to be done around the server.\n'
+                  + '**2) Guides** also keep the peace of the server. They welcome people, answer people\'s questions and warn people of rule offenses.\n'
+                  + '**3) Event Managers** organize events and create prompts for them.\n'
+                  + '**Applying for staff** — If you want to apply for Guide or Event Manager, apply here: <https://goo.gl/forms/Z3mVQwLdiNZcKHx52>\n\u200b'
               },
               {
                 name: 'F. Sharing the server',
-                value: 'The more people that join, the more knowledge that can be shared! Consequently, I encourage everybody to share the server with your friends!\n\nShare link: https://discord.gg/YudDZtb',
+                value: 'The more people that join, the more knowledge that can be shared! Consequently, I encourage everybody to share the server with your friends!\n\nShare link: https://discord.gg/YudDZtb'
               }
             ],
             timestamp: new Date(),
@@ -64,9 +65,9 @@ module.exports = {
           }
         }
       )
-      .catch(err => console.error(err));
+      .catch(err => Raven.captureException(err));
     message
       .delete()
-      .catch(err => console.error(err));
+      .catch(err => Raven.captureException(err));
   }
 };

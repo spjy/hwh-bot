@@ -1,5 +1,6 @@
+const Raven = require('raven');
+
 module.exports = {
-  name: 'rules',
   description: 'Sends embed of the rules',
   execute(message, client) {
     const {
@@ -48,10 +49,10 @@ module.exports = {
           }
         }
       )
-      .catch(err => console.error(err));
+      .catch(err => Raven.captureException(err));
 
     message
       .delete()
-      .catch(err => console.error(err));
+      .catch(err => Raven.captureException(err));
   }
 };

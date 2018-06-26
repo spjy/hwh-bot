@@ -1,6 +1,7 @@
+const Raven = require('raven');
+
 module.exports = {
-  name: 'suggestRole',
-  description: 'Suggest role',
+  description: 'Suggest role in #suggest-role',
   execute(message) {
     const {
       cleanContent: content,
@@ -12,15 +13,15 @@ module.exports = {
     const suggestion = content.slice(1); // get first part of string (command)
 
     const validRole = guild.roles
-      .map((role) => {
+      .map(role => {
         const {
           name
         } = role;
-        
+
         if (suggestion.toLowerCase() === name.toLowerCase()) {
           member.guild.channels.get('425573787950514177')
             .send(`Role already exists.  You can add it in ${client.channels.get('275071813992710144').toString()}.`)
-            .catch(err => console.error(err));
+            .catch(err => Raven.captureException(err));
           return true;
         }
         return false;
@@ -34,11 +35,11 @@ module.exports = {
           msg.react('😁');
           msg.react('❌');
         })
-        .catch(err => console.error(err));
+        .catch(err => Raven.captureException(err));
     }
 
     message
       .delete()
-      .catch(err => console.error(err));
+      .catch(err => Raven.captureException(err));
   }
 };

@@ -2,11 +2,11 @@ const Discord = require('discord.js');
 const dialogflow = require('dialogflow');
 const client = new Discord.Client();
 
+const projectId = 'homework-help-7230a';
 const sessionClient = new dialogflow.SessionsClient({
   keyFilename: './keys.json'
 });
 
-const projectId = 'homework-help-7230a';
 const serverLogChannel = '302333358078427136';
 
 // HWH Server

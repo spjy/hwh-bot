@@ -1,6 +1,7 @@
+const Raven = require('raven');
+
 module.exports = {
-  name: 'role',
-  description: 'Role adding/removing',
+  description: 'Role adding/removing in #change-role',
   execute(message) {
     const {
       content,
@@ -41,7 +42,7 @@ module.exports = {
                 .addRole(id);
               message
                 .reply(`you have added the **${name}** role!`)
-                .catch(err => console.error(err));
+                .catch(err => Raven.captureException(err));
             }
           } else if (command === '-' && selectedRole === name.toLowerCase()) {
             if (member.roles.has(id)) {
@@ -49,11 +50,11 @@ module.exports = {
                 .removeRole(id);
               message
                 .reply(`you have removed the **${name}** role!`)
-                .catch(err => console.error(err));
+                .catch(err => Raven.captureException(err));
             } else {
               message
                 .reply(`error! You are not in the **${name}** role!`)
-                .catch(err => console.error(err));
+                .catch(err => Raven.captureException(err));
             }
           }
           return true;
@@ -64,7 +65,7 @@ module.exports = {
     if (!validRole.includes(true)) { // If role exists
       message
         .reply('invalid role. See the pins for a comprehensive list.')
-        .catch(err => console.error(err));
+        .catch(err => Raven.captureException(err));
     }
   }
 };

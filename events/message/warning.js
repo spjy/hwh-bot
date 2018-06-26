@@ -1,6 +1,7 @@
+const Raven = require('raven');
+
 module.exports = {
-  name: 'warning',
-  description: 'Warning',
+  description: 'Warning message ?gwarn',
   execute(message) {
     const {
       cleanContent: content,
@@ -42,11 +43,11 @@ module.exports = {
             }
           }
         )
-        .catch(err => console.err(err));
+        .catch(err => Raven.captureException(err));
 
       message
         .delete()
-        .catch(err => console.error(err));
+        .catch(err => Raven.captureException(err));
     }
   }
 };

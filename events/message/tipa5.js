@@ -1,5 +1,6 @@
+const Raven = require('raven');
+
 module.exports = {
-  name: 'tipa5',
   description: 'Posts Tip A.5 in embed',
   execute(message) {
     const {
@@ -34,10 +35,10 @@ module.exports = {
           }
         }
       )
-      .catch(err => console.error(err));
+      .catch(err => Raven.captureException(err));
 
     message
       .delete()
-      .catch(err => console.error(err));
+      .catch(err => Raven.captureException(err));
   }
 };
