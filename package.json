@@ -2,7 +2,7 @@
   "name": "hwh-bot",
   "version": "1.0.0",
   "description": "Homework Help Discord Bot",
-  "main": "hwh.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node .",
@@ -12,7 +12,6 @@
   "author": "Spencer Young",
   "license": "MIT",
   "dependencies": {
-    "bufferutil": "^3.0.5",
     "dialogflow": "^0.5.0",
     "discord.js": "^11.3.2",
     "dotenv-extended": "^2.0.2",

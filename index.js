@@ -25,7 +25,7 @@ client.on('message', (message) => {
     } = message;
 
     if (member) {
-      const command = content.split().shift().toLowerCase(); // Get first word of string
+      const command = content.split(' ').shift().toLowerCase(); // Get first word of string
       const operator = content.slice(0, 1);
 
       if (author.id === client.user.id) return; // Ignore own bot's messages
