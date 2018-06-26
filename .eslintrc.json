@@ -1,6 +1,6 @@
 {
   "env": {
-    "browser": true,
+    "browser": false,
     "es6": true,
     "node": true,
     "mocha": true
@@ -13,23 +13,5 @@
       "experimentalObjectRestSpread": true
     }
   },
-  "extends": ["airbnb"],
-  "rules": {
-    "indent": [
-      "error",
-      2
-    ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "semi": [
-      "error",
-      "always"
-    ]
-  }
+  "extends": ["airbnb-base/legacy"]
 }
