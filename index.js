@@ -134,4 +134,4 @@ client.on('guildBanRemove', (guild, user) => {
   }
 });
 
-client.login(process.env.DISCORD_TOKEN);
+client.login('***REMOVED***');

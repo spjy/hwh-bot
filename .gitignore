@@ -55,7 +55,3 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-#.env
-
-#keys.json
-#Procfile
