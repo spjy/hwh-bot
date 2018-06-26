@@ -1,1 +1,1 @@
-worker: node hwh.js
+worker: node .

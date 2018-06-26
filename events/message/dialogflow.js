@@ -7,7 +7,7 @@ const sessionClient = new dialogflow.SessionsClient({
 });
 
 module.exports = {
-  description: 'Ping!',
+  description: 'DialogFlow',
   execute(message) {
     const {
       cleanContent: content,
