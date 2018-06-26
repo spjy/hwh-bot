@@ -2,6 +2,7 @@
 This is the source code for the Discord bot from Homework Help.
 
 https://homework-help.org
+
 https://discord.gg/YudDZtb
 
 Any concerns, feedback or suggestions should be directed to @spencer#6388 on Discord.
@@ -19,4 +20,4 @@ Any concerns, feedback or suggestions should be directed to @spencer#6388 on Dis
 
 ## Standards
 - JavaScript: ECMAScript 6
-- ESLint: airbnb/base
+- ESLint: airbnb-base/legacy
