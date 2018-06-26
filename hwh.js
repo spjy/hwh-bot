@@ -535,4 +535,4 @@ client.on('messageReactionAdd', (reaction, user) => {
   }
 });
 
-client.login('***REMOVED***');
+client.login('Mjc0NDM3OTIxMTgzMTA1MDM0.DhOUzw.GqUZDaCWBoaYBMsvGFsqhEwzKjs');
