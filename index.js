@@ -54,11 +54,11 @@ client.on('message', (message) => {
         client.events
           .get('message::tipa5')
           .execute(message);
-      } else if (mentions.roles
-        && channel.id !== '446051447226761216') { // Exclude #report channel
-        client.events
-          .get('message::report')
-          .execute(message);
+      // } else if (mentions.roles
+      //   && channel.id !== '446051447226761216') { // Exclude #report channel
+      //   client.events
+      //     .get('message::report')
+      //     .execute(message);
       } else if (command === '?hello'
         && author.id === '74576452854480896') { // Only if by @spencer
         client.events
