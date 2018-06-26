@@ -3,7 +3,7 @@ const Raven = require('raven');
 const dialogflow = require('dialogflow');
 
 const sessionClient = new dialogflow.SessionsClient({
-  keyFilename: '../../keys.json'
+  keyFilename: './keys.json'
 });
 
 module.exports = {
