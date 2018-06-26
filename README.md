@@ -1,6 +1,11 @@
 # Homework Help Discord Bot
 This is the source code for the Discord bot from Homework Help.
 
+https://homework-help.org
+https://discord.gg/YudDZtb
+
+Any concerns, feedback or suggestions should be directed to @spencer#6388 on Discord.
+
 ## Requirements
 - Node.js 6.0.0+
 - Discord.js 11.3.2
