@@ -1,1 +1,1 @@
-worker: node hwh.js
+worker: yarn start
