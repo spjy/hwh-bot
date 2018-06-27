@@ -9,24 +9,22 @@ module.exports = {
       client
     } = message;
 
-    const messageInitiator = channel.recipient;
-    const botOperator = '>';
-    const serverChannel = client.channels.get('298286259028361218');
+    const operator = '>';
 
-    if (content.startsWith(`${botOperator}challenge`) || content.startsWith(`${botOperator}c`)) {
-      serverChannel
-        .send(`*Challenge Entry* from **${messageInitiator}**: ${content}`)
+    if (content.startsWith(`${operator}challenge`) || content.startsWith(`${operator}c`)) {
+      client.channels
+        .get('298286259028361218')
+        .send(`*Challenge Entry* from **${channel.recipient}**: ${content}`)
         .catch(err => Raven.captureException(err));
+
       message
         .reply('Successfully sent!')
         .catch(err => Raven.captureException(err));
-    } else if (content.startsWith(`${botOperator}help`) || content.startsWith(`${botOperator}h`)) {
+    } else if (content.startsWith(`${operator}help`) || content.startsWith(`${operator}h`)) {
       message
         .reply('I am a functional bot for the Homework Help Server!'
           + ' Here is a list of command(s):\n\n'
-          + '**>c** <challenge ID> <link to your solution> - entering work for the challenge problem.\n'
-          + '**?ta5** <@user> - macro saying "If you have a question, don\'t hesitate to ask it. To save time,'
-          + 'post it instead of asking "Does anyone know X?" or "Can someone help with Y?""')
+          + '**>c** <challenge ID> <link/attachment to your solution> - entering work for the challenge problem.\n')
         .catch(err => Raven.captureException(err));
     }
   }

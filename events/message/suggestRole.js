@@ -19,8 +19,10 @@ module.exports = {
         } = role;
 
         if (suggestion.toLowerCase() === name.toLowerCase()) {
-          member.guild.channels.get('425573787950514177')
-            .send(`Role already exists.  You can add it in ${client.channels.get('275071813992710144').toString()}.`)
+          member.guild.channels
+            .get('425573787950514177')
+            .send(`Role already exists. You can add it in 
+              ${client.channels.get('275071813992710144').toString()}.`)
             .catch(err => Raven.captureException(err));
           return true;
         }
@@ -29,7 +31,9 @@ module.exports = {
 
     if (!validRole.includes(true)) { // If the role exists
       message.reply(`suggested role ${suggestion} received.`);
-      guild.channels.get('411828103321485313')
+
+      guild.channels
+        .get('411828103321485313')
         .send(suggestion)
         .then((msg) => {
           msg.react('😁');

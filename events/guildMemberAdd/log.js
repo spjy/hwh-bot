@@ -6,7 +6,7 @@ module.exports = {
     const { channels } = member.guild;
 
     channels
-      .get('302333358078427136')
+      .get('302333358078427136') // #server-log channel
       .send(`${member} (${member.user.username}#${member.user.discriminator}) has **joined** the server.`)
       .catch(err => Raven.captureException(err));
   }

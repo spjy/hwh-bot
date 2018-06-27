@@ -6,7 +6,7 @@ module.exports = {
     const { channels } = guild;
 
     channels
-      .get('302333358078427136')
+      .get('302333358078427136') // #server-log channel
       .send(`${user} (${user.username}#${user.discriminator}) was **unbanned**.`)
       .catch(err => Raven.captureException(err));
   }

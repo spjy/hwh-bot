@@ -40,6 +40,7 @@ module.exports = {
             } else {
               guild.member(author.id)
                 .addRole(id);
+
               message
                 .reply(`you have added the **${name}** role!`)
                 .catch(err => Raven.captureException(err));
@@ -48,6 +49,7 @@ module.exports = {
             if (member.roles.has(id)) {
               guild.member(author.id)
                 .removeRole(id);
+
               message
                 .reply(`you have removed the **${name}** role!`)
                 .catch(err => Raven.captureException(err));

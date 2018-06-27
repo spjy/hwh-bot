@@ -2,12 +2,12 @@ require('dotenv-extended').load();
 const Discord = require('discord.js');
 const Raven = require('raven');
 
-// Instantiations
+// Instantiations of Discord.js, Discord Collection, Sentry
 const client = new Discord.Client();
 client.events = new Discord.Collection();
 Raven.config(process.env.SENTRY_DSN).install();
 
-require('./events')(client.events);
+require('./events')(client.events); // Require all events
 
 client.on('ready', () => {
   // eslint-disable-next-line

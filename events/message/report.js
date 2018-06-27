@@ -60,6 +60,7 @@ module.exports = {
           msg.react('😁');
         })
         .catch(err => Raven.captureException(err));
+
       message
         .delete()
         .catch(err => Raven.captureException(err));
