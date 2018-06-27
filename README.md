@@ -7,7 +7,7 @@ https://discord.gg/YudDZtb
 Any concerns, feedback or suggestions should be directed to @spencer#6388 on Discord.
 
 ## Requirements
-- Node.js 6.0.0+
+- Node.js 8.0.0+
 - Discord.js 11.3.2
 
 ## Installing
@@ -19,4 +19,4 @@ Any concerns, feedback or suggestions should be directed to @spencer#6388 on Dis
 
 ## Standards
 - JavaScript: ECMAScript 6
-- ESLint: airbnb/base
+- ESLint: airbnb-base/legacy
