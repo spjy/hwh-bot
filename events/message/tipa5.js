@@ -25,7 +25,7 @@ module.exports = {
             author: {
               name: 'Tip'
             },
-            description: 'If you have a question, don\'t hesitate to ask it. To save time,'
+            description: 'If you have a question, don\'t hesitate to ask it. To save time, '
               + 'post it instead of asking "Does anyone know X?" or "Can someone help with Y?"',
             timestamp: new Date(),
             footer: {
