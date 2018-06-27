@@ -3,7 +3,11 @@ const Raven = require('raven');
 const dialogflow = require('dialogflow');
 
 const sessionClient = new dialogflow.SessionsClient({
-  keyFilename: './keys.json'
+  projectId: process.env.DIALOGFLOW_PROJECT_ID,
+  credentials: {
+    client_email: process.env.GOOGLE_CLOUD_CLIENT_EMAIL,
+    private_key: process.env.GOOGLE_CLOUD_PRIVATE_KEY.replace(/\\n/g, '\n')
+  }
 });
 
 module.exports = {
@@ -14,7 +18,9 @@ module.exports = {
       author
     } = message;
 
-    const sessionPath = sessionClient.sessionPath(process.env.DIALOGFLOW_PROJECT_ID, author.id);
+    const sessionPath = sessionClient.sessionPath(
+      process.env.DIALOGFLOW_PROJECT_ID, author.id
+    );
 
     const request = {
       session: sessionPath,
