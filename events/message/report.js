@@ -45,7 +45,7 @@ module.exports = {
                 },
                 {
                   name: 'Jump to report',
-                  value: `https://discordapp.com/channels/238956364729155585/${channel.id}?jump=${message.id}`
+                  value: `<https://discordapp.com/channels/238956364729155585/${channel.id}/${message.id}>`
                 }
               ],
               timestamp: new Date(),
