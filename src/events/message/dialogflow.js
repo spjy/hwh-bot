@@ -11,6 +11,7 @@ module.exports = {
     } = message;
 
     if (process.env.DIALOGFLOW_PROJECT_ID === undefined) {
+      // eslint-disable-next-line
       console.warn('DialogFlow not configured.');
       return;
     }

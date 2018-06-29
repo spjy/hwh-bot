@@ -9,11 +9,11 @@ module.exports = {
       channel,
       client
     } = message;
-    // If channel is not in #reports and author is not @HWH
+
     const report = message.mentions.roles // Extract roles in message
       .map(role => role.id);
 
-    if (report.includes('276969339901444096')) { // If mentions include @HWH Staff
+    if (report.includes('276969339901444096')) { // If mentions includes @HWH Staff
       message
         .reply('thank you for your report. We will review it shortly.')
         .catch(err => Raven.captureException(err)); // Reply in channel with report

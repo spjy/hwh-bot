@@ -32,7 +32,9 @@ module.exports = {
               fields: [
                 {
                   name: 'Reason',
-                  value: warn[2] === undefined ? 'No reason provided.' : reason.join(' ')
+                  value: warn[2] === undefined
+                    ? 'No reason provided.'
+                    : reason.join(' ')
                 }
               ],
               timestamp: new Date(),

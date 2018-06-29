@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node .",
-    "watch": "nodemon .",
+    "start": "node src/",
+    "watch": "nodemon src/",
     "production": "pm2 start ."
   },
   "author": "Spencer Young",
