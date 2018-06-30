@@ -2,7 +2,7 @@ const Raven = require('raven');
 
 module.exports = {
   description: 'Suggest role in #suggest-role',
-  execute(message) {
+  execute(message, suggestRoleChannel, changeRoleChannel, roleRequestChannel) {
     const {
       cleanContent: content,
       guild,
@@ -20,9 +20,9 @@ module.exports = {
 
         if (suggestion.toLowerCase() === name.toLowerCase()) {
           member.guild.channels
-            .get('425573787950514177')
+            .get(suggestRoleChannel)
             .send(`Role already exists. You can add it in 
-              ${client.channels.get('275071813992710144').toString()}.`)
+              ${client.channels.get(changeRoleChannel).toString()}.`)
             .catch(err => Raven.captureException(err));
           return true;
         }
@@ -33,7 +33,7 @@ module.exports = {
       message.reply(`suggested role ${suggestion} received.`);
 
       guild.channels
-        .get('411828103321485313')
+        .get(roleRequestChannel)
         .send(suggestion)
         .then((msg) => {
           msg.react('😁');

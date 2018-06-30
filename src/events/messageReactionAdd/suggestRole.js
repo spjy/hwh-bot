@@ -2,7 +2,7 @@ const Raven = require('raven');
 
 module.exports = {
   description: 'Suggest role approval in #role-request',
-  execute(reaction, user) {
+  execute(reaction, user, suggestRoleChannel, roleRequestChannel) {
     const {
       cleanContent: content,
       message,
@@ -25,12 +25,12 @@ module.exports = {
           .catch(err => Raven.captureException(err));
 
         message.guild.channels
-          .get('411828103321485313')
+          .get(roleRequestChannel)
           .send(`Added ${content} role.`)
           .catch(err => Raven.captureException(err));
 
         message.guild.channels
-          .get('425573787950514177')
+          .get(suggestRoleChannel)
           .send(`Suggested role ${content} was approved.`)
           .catch(err => Raven.captureException(err));
       } else if (emoji.name === '❌') {
@@ -39,12 +39,12 @@ module.exports = {
           .catch(err => Raven.captureException(err));
 
         message.guild.channels
-          .get('411828103321485313')
+          .get(roleRequestChannel)
           .send(`Rejected '${content}' role.`)
           .catch(err => Raven.captureException(err));
 
         message.guild.channels
-          .get('425573787950514177')
+          .get(suggestRoleChannel)
           .send(`Suggested role ${content} was not approved.`)
           .catch(err => Raven.captureException(err));
       }

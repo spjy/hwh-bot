@@ -7,6 +7,19 @@ const client = new Discord.Client();
 client.events = new Discord.Collection();
 Raven.config(process.env.SENTRY_DSN).install();
 
+// Guild owner user ID (@spencer#6388)
+const ownerUserId = '74576452854480896';
+// Staff member role ID (@HWH Staff)
+const staffRoleId = '276969339901444096';
+
+// Channel IDs
+const changeRoleChannel = '275071813992710144'; // #change-role
+const serverLogChannel = '302333358078427136'; // #server-log
+const botMessagesChannel = '298286259028361218'; // #bot-messages
+const reportsChannel = '446051447226761216'; // #reports
+const suggestRoleChannel = '425573787950514177'; // #suggest-role
+const roleRequestChannel = '411828103321485313'; // #role-request
+
 require('./events')(client.events); // Require all events
 
 client.on('ready', () => {
@@ -34,19 +47,33 @@ client.on('message', (message) => {
       //   .get('message::dialogflow')
       //   .execute(message);
 
+      // Reports are separate since stipulations are too general
+      if (mentions.roles
+        && channel.id !== reportsChannel) {
+        client.events
+          .get('message::report')
+          .execute(message, reportsChannel, staffRoleId);
+      }
+
+      // Commands
       if ((operator === '+' || operator === '-')
-        && channel.id === '275071813992710144') { // Only in #change-role channel
+        && channel.id === changeRoleChannel) {
         client.events
           .get('message::role')
           .execute(message);
       } else if (operator === '&'
-        && channel.id === '425573787950514177') { // Only in #suggest-role channel
+        && channel.id === suggestRoleChannel) {
         client.events
           .get('message::suggestRole')
-          .execute(message);
+          .execute(
+            message,
+            suggestRoleChannel,
+            changeRoleChannel,
+            roleRequestChannel
+          );
       } else if (command === '?gwarn'
         && mentions.members
-        && member.roles.has('276969339901444096')) { // If they have @HWH Staff role
+        && member.roles.has(staffRoleId)) {
         client.events
           .get('message::warning')
           .execute(message);
@@ -54,25 +81,20 @@ client.on('message', (message) => {
         client.events
           .get('message::tipa5')
           .execute(message);
-      } else if (mentions.roles
-        && channel.id !== '446051447226761216') { // Exclude #report channel
-        client.events
-          .get('message::report')
-          .execute(message);
       } else if (command === '?hello'
-        && author.id === '74576452854480896') { // Only if by @spencer
+        && author.id === ownerUserId) {
         client.events
           .get('message::tips')
-          .execute(message);
+          .execute(message, client);
       } else if (command === '?rules'
-        && author.id === '74576452854480896') { // Only if by @spencer
+        && author.id === ownerUserId) {
         client.events
           .get('message::rules')
-          .execute(message);
+          .execute(message, client);
       } else if (channel.type === 'dm') {
         client.events
           .get('message::dm')
-          .execute(message);
+          .execute(message, botMessagesChannel);
       }
     }
   } catch (err) {
@@ -84,10 +106,10 @@ client.on('messageReactionAdd', (reaction, user) => {
   try {
     const { message } = reaction;
 
-    if (message.channel.id === '411828103321485313') {
+    if (message.channel.id === roleRequestChannel) {
       client.events
         .get('messageReactionAdd::suggestRole')
-        .execute(reaction, user);
+        .execute(reaction, user, suggestRoleChannel, roleRequestChannel);
     }
   } catch (err) {
     Raven.captureException(err);
@@ -98,7 +120,7 @@ client.on('guildMemberAdd', (member) => {
   try {
     client.events
       .get('guildMemberAdd::log')
-      .execute(member);
+      .execute(member, serverLogChannel);
   } catch (err) {
     Raven.captureException(err);
   }
@@ -108,7 +130,7 @@ client.on('guildMemberRemove', (member) => {
   try {
     client.events
       .get('guildMemberRemove::log')
-      .execute(member);
+      .execute(member, serverLogChannel);
   } catch (err) {
     Raven.captureException(err);
   }
@@ -118,7 +140,7 @@ client.on('guildBanAdd', (guild, user) => {
   try {
     client.events
       .get('guildBanAdd::log')
-      .execute(guild, user);
+      .execute(guild, user, serverLogChannel);
   } catch (err) {
     Raven.captureException(err);
   }
@@ -128,7 +150,7 @@ client.on('guildBanRemove', (guild, user) => {
   try {
     client.events
       .get('guildBanRemove::log')
-      .execute(guild, user);
+      .execute(guild, user, serverLogChannel);
   } catch (err) {
     Raven.captureException(err);
   }

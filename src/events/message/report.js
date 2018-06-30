@@ -2,7 +2,7 @@ const Raven = require('raven');
 
 module.exports = {
   description: 'On @HWH Staff, delete msg and send message in private channel.',
-  execute(message) {
+  execute(message, reportsChannel, staffRoleId) {
     const {
       cleanContent: content,
       author,
@@ -13,13 +13,13 @@ module.exports = {
     const report = message.mentions.roles // Extract roles in message
       .map(role => role.id);
 
-    if (report.includes('276969339901444096')) { // If mentions includes @HWH Staff
+    if (report.includes(staffRoleId)) { // If mentions includes @HWH Staff
       message
         .reply('thank you for your report. We will review it shortly.')
         .catch(err => Raven.captureException(err)); // Reply in channel with report
 
       message.guild.channels
-        .get('446051447226761216') // Send information to report channel
+        .get(reportsChannel) // Send information to report channel
         .send(
           '', {
             embed: {

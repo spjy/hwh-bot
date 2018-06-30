@@ -2,7 +2,7 @@ const Raven = require('raven');
 
 module.exports = {
   description: 'DM Commands (>h, >c, ?ta5)',
-  execute(message) {
+  execute(message, botMessagesChannel) {
     const {
       cleanContent: content,
       channel,
@@ -13,7 +13,7 @@ module.exports = {
 
     if (content.startsWith(`${operator}challenge`) || content.startsWith(`${operator}c`)) {
       client.channels
-        .get('298286259028361218')
+        .get(botMessagesChannel)
         .send(`*Challenge Entry* from **${channel.recipient}**: ${content}`)
         .catch(err => Raven.captureException(err));
 
