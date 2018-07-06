@@ -37,6 +37,12 @@ client.on('message', (message) => {
       mentions
     } = message;
 
+    if (channel.type === 'dm') {
+      client.events
+        .get('message::dm')
+        .execute(message, client, botMessagesChannel);
+    }
+
     if (member) {
       const command = content.split(' ').shift().toLowerCase(); // Get first word of string
       const operator = content.slice(0, 1); // Get first letter of string
@@ -91,10 +97,6 @@ client.on('message', (message) => {
         client.events
           .get('message::rules')
           .execute(message, client);
-      } else if (channel.type === 'dm') {
-        client.events
-          .get('message::dm')
-          .execute(message, botMessagesChannel);
       }
     }
   } catch (err) {

@@ -2,11 +2,10 @@ const Raven = require('raven');
 
 module.exports = {
   description: 'DM Commands (>h, >c, ?ta5)',
-  execute(message, botMessagesChannel) {
+  execute(message, client, botMessagesChannel) {
     const {
       cleanContent: content,
-      channel,
-      client
+      channel
     } = message;
 
     const operator = '>';
