@@ -4,7 +4,7 @@ module.exports = {
   description: 'Warning message ?gwarn',
   execute(message) {
     const {
-      cleanContent: content,
+      content,
       mentions,
       channel,
       client
