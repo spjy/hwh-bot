@@ -38,7 +38,8 @@ module.exports = {
                 value: '**1) Mentioning/Tagging Roles** — After posting your own question, wait a minimum of 15 minutes before using the helper mention. If nobody has replied by the 15 minutes, repost the question and include a helper mention with or after the question. Only use one ping per question (*exception*: if there is a matching sub-topic role, you may include the mentions in one message only, ex. `@Science @Physics`).\n'
                   + '**2) Be serious and encouraging in all help channels.** — We want to promote a sense of credibility when receiving help. Additionally, be encouraging to others, as they are merely trying to learn new things.\n'
                   + '**3) Don\'t cheat or encourage it** — Academic integrity is an ideology we uphold seriously, so do not attempt to encourage cheating. Instead, guide the person through the problem to gain intuition on how to solve it.\n'
-                  + '**4) Don\'t offer payment, goods, or services in exchange for having your work done.** — We don\'t want to be held liable for any transactions that occur on this server.\n\u200b'
+                  + '**4) Don\'t offer payment, goods, or services in exchange for having your work done.** — We don\'t want to be held liable for any transactions that occur on this server.\n'
+                  + '**5) Only post one instance of your question** (ex. if you post your question in #math, you cannot post it in any other channel). This is to avoid double helping.\n\u200b'
               }
             ],
             timestamp: new Date(),
