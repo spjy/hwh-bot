@@ -48,7 +48,7 @@ module.exports = {
               {
                 name: 'E. Staff Positions',
                 value: '**1) Moderators** keep the peace of the server and complete various tasks that need to be done around the server.\n'
-                  + '**2) Guides** also keep the peace of the server. They welcome people, answer people\'s questions and warn people of rule offenses.\n'
+                  + '**2) Guides** also keep the peace of the server. They welcome people, answer people\'s questions about the server and warn people of rule offenses.\n'
                   + '**3) Event Managers** organize events and create prompts for them.\n'
                   + '**Applying for staff** — If you want to apply for Guide or Event Manager, apply here: <https://goo.gl/forms/Z3mVQwLdiNZcKHx52>\n\u200b'
               },
