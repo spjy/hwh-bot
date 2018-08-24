@@ -7,24 +7,21 @@ module.exports = {
       const {
         cleanContent: content,
         guild,
-        member,
-        client
+        member
       } = message;
 
       const suggestion = content.slice(1); // get first part of string (command)
 
       const validRole = guild.roles
-        .map(role => {
+        .map(async (role) => {
           const {
             name
           } = role;
 
           if (suggestion.toLowerCase() === name.toLowerCase()) {
-            member.guild.channels
+            await member.guild.channels
               .get(suggestRoleChannel)
-              .send(`Role already exists. You can add it in 
-                ${client.channels.get(changeRoleChannel).toString()}.`)
-              .catch(err => Raven.captureException(err));
+              .send(`Role already exists. You can add it in <#${changeRoleChannel}>.`);
             return true;
           }
           return false;

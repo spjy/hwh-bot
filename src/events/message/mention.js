@@ -1,7 +1,7 @@
 const Raven = require('raven');
 
 module.exports = {
-  description: 'Mentioning system',
+  description: 'Mentioning system - ?mention <message ID> <roles ...>',
   async execute(message, helpMentions) {
     try {
       const {
@@ -11,10 +11,10 @@ module.exports = {
         guild
       } = message;
 
-      // Get author id (key), channel, current date, mentions
+      // Get message id, mentions (limit of 2)
       const mention = content.split(' ');
       const messageId = mention[1];
-      const mentions = mention.slice(2, mention.length);
+      const mentions = mention.slice(2, 4);
 
       // Check collection to see if they have a key pending
       const helpMention = helpMentions.get(author.id);
@@ -32,7 +32,8 @@ module.exports = {
                 color
               } = role;
 
-              if (m.toLowerCase() === name.toLowerCase() && color === 9807270) {
+              if (m.toLowerCase().replace(/-/g, ' ') === name.toLowerCase()
+                && color === 9807270) {
                 rolesToMention.push(role);
               }
             });
@@ -69,7 +70,8 @@ module.exports = {
         const expiration = helpDate + 3600000;
 
         // Check if matching channels and if 15 minutes later
-        if (helpChannel === channel.id && cooldown <= Date.now()) {
+        if (helpChannel === channel.id
+          && cooldown <= Date.now()) {
           // Set roles mentionable
           await Promise.all(helpUserMentions.map(async (m) => {
             await m
@@ -89,11 +91,15 @@ module.exports = {
             await m
               .setMentionable(false);
           }));
-        } else if (helpChannel === channel.id && cooldown > Date.now()) {
+        } else if (helpChannel === channel.id
+            && cooldown > Date.now()) {
           await message.reply('the cooldown time (15 minutes) has not elapsed yet.');
-        } else if (helpChannel === channel.id && Date.now() >= expiration) {
+        } else if (helpChannel === channel.id
+            && Date.now() >= expiration) {
           helpMentions.set(author.id, undefined);
-          await message.reply('your key has expired.');
+          await message.reply('your key has expired. Generate a new one.');
+        } else if (helpChannel !== channel.id) {
+          await message.reply(`The channel you generated your key is in <#${channel.id}>. Use the command there.`);
         }
       }
 
