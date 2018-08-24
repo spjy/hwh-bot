@@ -5,6 +5,7 @@ const Raven = require('raven');
 // Instantiations of Discord.js, Discord Collection, Sentry
 const client = new Discord.Client();
 client.events = new Discord.Collection();
+const helpMentions = new Discord.Collection();
 Raven.config(process.env.SENTRY_DSN).install();
 
 // Guild owner user ID (@spencer#6388)
@@ -97,6 +98,15 @@ client.on('message', (message) => {
         client.events
           .get('message::rules')
           .execute(message, client);
+      } else if (command === '!mentionable'
+        && member.roles.has(staffRoleId)) {
+        client.events
+          .get('message::mentionable')
+          .execute(message);
+      } else if (command === '?mention') {
+        client.events
+          .get('message::mention')
+          .execute(message, helpMentions);
       }
     }
   } catch (err) {
