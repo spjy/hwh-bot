@@ -1,7 +1,7 @@
 const Raven = require('raven');
 
 module.exports = {
-  description: 'Mentioning system - ?mention <message ID> <roles ...>',
+  description: 'Mentioning system - ?mention <message ID> <role>[ <role>]',
   async execute(message, helpMentions, mentionLogChannel) {
     try {
       const {
@@ -15,11 +15,13 @@ module.exports = {
       const mention = content.trim().split(' ');
       const setting = mention[1]; // cancel or message id
       const mentions = mention.slice(2, 4);
+
       // Check collection to see if they have a key pending
       const helpMention = helpMentions.get(author.id);
 
       // Check if only ?mention
       if (!setting) {
+        // Check if helpMention exists
         if (helpMention) {
           const {
             channel: helpChannel,
@@ -83,7 +85,7 @@ module.exports = {
               .send(`[Use attempt (incorrect channel)] <@${author.id}> ${helpChannel} ${helpMentions} ${helpMessage}`);
           }
         } else {
-          await message.reply('you do not have a key generated. Use `?mention <message id> <roles ...>` to do so.');
+          await message.reply('you do not have a key generated. Use `?mention <message id> <role>[ <role>]` to do so.');
 
           await guild.channels
             .get(mentionLogChannel)
@@ -104,14 +106,12 @@ module.exports = {
 
               if (m.toLowerCase().replace(/-/g, ' ') === name.toLowerCase()
                 && color === 9807270) {
-                console.log(m.toLowerCase().replace(/-/g, ' '), name.toLowerCase());
                 rolesToMention.push(role);
               }
             });
         });
 
-        console.log(rolesToMention);
-
+        // Check if contains any valid roles
         if (rolesToMention.length === 0) {
           await message.reply('the role(s) you have included are invalid.');
 
@@ -146,6 +146,12 @@ module.exports = {
         await guild.channels
           .get(mentionLogChannel)
           .send(`[Cancel] <@${author.id}> ${mentions} ${setting}`);
+      } else {
+        await message.reply('incorrect format.');
+
+        await guild.channels
+          .get(mentionLogChannel)
+          .send(`[Generation attempt (incorrect format)] <@${author.id}> ${mentions} ${setting}`);
       }
 
       await message
