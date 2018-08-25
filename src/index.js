@@ -15,6 +15,7 @@ const staffRoleId = '276969339901444096';
 
 // Channel IDs
 const changeRoleChannel = '275071813992710144'; // #change-role
+const mentionLogChannel = '482699744305741834';
 const serverLogChannel = '302333358078427136'; // #server-log
 const botMessagesChannel = '298286259028361218'; // #bot-messages
 const reportsChannel = '446051447226761216'; // #reports
@@ -106,7 +107,7 @@ client.on('message', (message) => {
       } else if (command === '?mention') {
         client.events
           .get('message::mention')
-          .execute(message, helpMentions);
+          .execute(message, helpMentions, mentionLogChannel);
       }
     }
   } catch (err) {
