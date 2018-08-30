@@ -117,7 +117,7 @@ module.exports = {
 
           await guild.channels
             .get(mentionLogChannel)
-            .send(`[Generation (incorrect role(s))] <@${author.id}> ${mentions} ${setting}`);
+            .send(`[Generation (incorrect role(s))] <@${author.id}> ${channel.id} ${mentions} ${setting}`);
         } else {
           // Get message content
           const m = await channel
@@ -135,7 +135,7 @@ module.exports = {
 
           await guild.channels
             .get(mentionLogChannel)
-            .send(`[Generation] <@${author.id}> ${setting} ${mentions}`);
+            .send(`[Generation] <@${author.id}> ${setting} ${channel.id} ${mentions}`);
         }
       // Check if cancel ?mention cancel command
       } else if (setting.toLowerCase() === 'cancel') {
@@ -145,13 +145,13 @@ module.exports = {
 
         await guild.channels
           .get(mentionLogChannel)
-          .send(`[Cancel] <@${author.id}> ${mentions} ${setting}`);
+          .send(`[Cancel] <@${author.id}> ${channel.id} ${mentions} ${setting}`);
       } else {
         await message.reply('incorrect format.');
 
         await guild.channels
           .get(mentionLogChannel)
-          .send(`[Generation attempt (incorrect format)] <@${author.id}> ${mentions} ${setting}`);
+          .send(`[Generation attempt (incorrect format)] <@${author.id}> ${channel.id} ${mentions} ${setting}`);
       }
 
       await message

@@ -66,7 +66,8 @@ module.exports = {
                   + '**3)** For roles with multiple words, separate them with `-`, e.g. Social-Science\n'
                   + '**4)** After 15 minutes, you may use `?mention` to redeem your key in the same channel you used the command.\n'
                   + '**5)** If you do not use it within 60 minutes, the key will expire and you will have to redeem a new one.\n'
-                  + '**6)** Example: ?mention 484484358879707136 Social-Science Psychology \n'
+                  + '**6)** To cancel a mention, type `?mention cancel`. \n'
+                  + '**7)** Example: ?mention 484484358879707136 Social-Science Psychology \n'
                   + 'To get your message ID, follow: https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-'
                 }
               ],
