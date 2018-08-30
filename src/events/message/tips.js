@@ -27,7 +27,7 @@ module.exports = {
                     + '**4) Start a discussion or ask for help** in the respective channels.\n'
                     + '**5) If you have a question, don\'t hesitate to ask it.** To save time, post it instead of asking "Does anyone know X?" or "Can someone help with Y?"\n'
                     + '**6) Display your knowledge** in one of our events <#446166388235829248>.\n\u200b'
-                    + '**7) Post what you have experience with in <#450080745499656223> and look for others with similar interests.\n\u200b'
+                    + '**7) Post what you have experience with** in <#450080745499656223> and look for others with similar interests.\n\u200b'
                 },
                 {
                   name: 'B. HWH Bot',
