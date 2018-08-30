@@ -61,14 +61,14 @@ module.exports = {
 
             await guild.channels
               .get(mentionLogChannel)
-              .send(`[Used] <@${author.id}> ${helpChannel} ${helpMentions} ${helpMessage}`);
+              .send(`[Used] <@${author.id}> <#${helpChannel}> ${helpMentions} ${helpMessage}`);
           } else if (helpChannel === channel.id
               && cooldown > Date.now()) {
             await message.reply('the cooldown time (15 minutes) has not elapsed yet.');
 
             await guild.channels
               .get(mentionLogChannel)
-              .send(`[Use attempt (cooldown)] <@${author.id}> ${helpChannel}`);
+              .send(`[Use attempt (cooldown)] <@${author.id}> <#${helpChannel}>`);
           } else if (helpChannel === channel.id
               && Date.now() >= expiration) {
             helpMentions.set(author.id, undefined);
@@ -76,13 +76,13 @@ module.exports = {
 
             await guild.channels
               .get(mentionLogChannel)
-              .send(`[Expired] <@${author.id}> ${helpChannel} ${helpMentions} ${helpMessage}`);
+              .send(`[Expired] <@${author.id}> <#${helpChannel}> ${helpMentions} ${helpMessage}`);
           } else if (helpChannel !== channel.id) {
             await message.reply(`the channel you generated your key is in <#${helpChannel}>. Use the command there.`);
 
             await guild.channels
               .get(mentionLogChannel)
-              .send(`[Use attempt (incorrect channel)] <@${author.id}> ${helpChannel} ${helpMentions} ${helpMessage}`);
+              .send(`[Use attempt (incorrect channel)] <@${author.id}> <#${helpChannel}> ${helpMentions} ${helpMessage}`);
           }
         } else {
           await message.reply('you do not have a key generated. Use `?mention <message id> <role>[ <role>]` to do so.');
@@ -117,7 +117,7 @@ module.exports = {
 
           await guild.channels
             .get(mentionLogChannel)
-            .send(`[Generation (incorrect role(s))] <@${author.id}> ${channel.id} ${mentions} ${setting}`);
+            .send(`[Generation (incorrect role(s))] <@${author.id}> <#${channel.id}> ${mentions} ${setting}`);
         } else {
           // Get message content
           const m = await channel
@@ -135,7 +135,7 @@ module.exports = {
 
           await guild.channels
             .get(mentionLogChannel)
-            .send(`[Generation] <@${author.id}> ${setting} ${channel.id} ${mentions}`);
+            .send(`[Generation] <@${author.id}> ${setting} <#${channel.id}> ${mentions}`);
         }
       // Check if cancel ?mention cancel command
       } else if (setting.toLowerCase() === 'cancel') {
@@ -145,13 +145,13 @@ module.exports = {
 
         await guild.channels
           .get(mentionLogChannel)
-          .send(`[Cancel] <@${author.id}> ${channel.id} ${mentions} ${setting}`);
+          .send(`[Cancel] <@${author.id}> <#${channel.id}> ${mentions} ${setting}`);
       } else {
         await message.reply('incorrect format.');
 
         await guild.channels
           .get(mentionLogChannel)
-          .send(`[Generation attempt (incorrect format)] <@${author.id}> ${channel.id} ${mentions} ${setting}`);
+          .send(`[Generation attempt (incorrect format)] <@${author.id}> <#${channel.id}> ${mentions} ${setting}`);
       }
 
       await message
