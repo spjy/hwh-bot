@@ -23,17 +23,18 @@ module.exports = {
                   name: 'A. Quality of Life',
                   value: '**1) Respect others** — Keep in mind you are speaking to other people. Treat others how you want to be treated.\n'
                     + '**2) Remain civil**  — Maintain civil conversations by displaying a placid demeanor. Don\'t personally attack anyone over their physicality or personality. Avoid over-excessive profanity.\n'
-                    + '**3) Don\'t send unsolicited direct messages** — As a courtesy to respect others\' privacy, don\'t send direct messages asking for help unless explicitly given permission.\n'
-                    + '**4) Discord name / nickname**  — Your name must precede with a minimum of three alphanumeric characters, remain within the bounds of the message line, and maintain an appropriate appearance.\n'
-                    + '**5) Use the `@HWH Staff` mention for reports only.** — In the report, please also include the offender and the offense.\n'
-                    + '**6) Don\'t backseat moderate** — Let staff members give the punishments. If you notice a rule breaker, submit a report (reference the previous point (A.5)).\n\u200b'
+                    + '**3) Discord name / nickname**  — Your name must precede with a minimum of three alphanumeric characters, remain within the bounds of the message line, and maintain an appropriate appearance.\n'
+                    + '**4) Use the `@HWH Staff` mention for reports only.** — In the report, please also include the offender and the offense.\n'
+                    + '**5) Don\'t backseat moderate** — Let staff members give the punishments. If you notice a rule breaker, submit a report (reference the previous point (A.5)).\n'
+                    + '**6) Age requirement** — Though you should be aware of Discord\'s age requirement, we reiterate that you must be at least thirteen (13) years old to use Discord and to be in this server. No exceptions.\n\u200b'
                 },
                 {
                   name: 'B. Messaging',
                   value: '**1) Post clean content only**  — Keep the channels free of NSFW and illegal material.\n'
                     + '**2) Don\'t spam** — Don\'t send repeating, similar or non-pertinent messages in quick succession.\n'
                     + '**3) Don\'t advertise servers, services, or social media without permission** — We want to be sure to scan them for any inappropriate content before posting them.\n'
-                    + '**4) Don\'t offer payment, goods, or services in exchange for having your work done.** — We don\'t want to be held liable for any transactions that occur on this server.\n\u200b'
+                    + '**4) Don\'t offer payment, goods, or services in exchange for having your work done.** — We don\'t want to be held liable for any transactions that occur on this server.\n'
+                    + '**5) Don\'t send unsolicited direct messages** — As a courtesy to respect others\' privacy, don\'t send direct messages asking for help unless explicitly given permission.\n\u200b'
                 },
                 {
                   name: 'C. Help Channels',
