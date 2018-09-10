@@ -10,7 +10,7 @@ Raven.config(process.env.SENTRY_DSN).install();
 
 // Guild owner user ID (@spencer#6388)
 const ownerUserId = '74576452854480896';
-// Staff member role ID (@HWH Staff)
+// Staff member role ID (@Staff)
 const staffRoleId = '276969339901444096';
 
 // Channel IDs

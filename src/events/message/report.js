@@ -1,7 +1,7 @@
 const Raven = require('raven');
 
 module.exports = {
-  description: 'On @HWH Staff, delete msg and send message in private channel.',
+  description: 'On @Staff, delete msg and send message in private channel.',
   async execute(message, reportsChannel, staffRoleId) {
     try {
       const {
@@ -15,7 +15,7 @@ module.exports = {
       const report = message.mentions.roles // Extract roles in message
         .map(role => role.id);
 
-      if (report.includes(staffRoleId)) { // If mentions includes @HWH Staff
+      if (report.includes(staffRoleId)) { // If mentions includes @Staff
         await message
           .reply('thank you for your report. We will review it shortly.');
 
