@@ -32,7 +32,7 @@ module.exports = {
                 {
                   name: 'B. HWH Bot',
                   value: '**1) Server Commands** —\n'
-                    + '• `@HWH Staff <@USER> <OFFENSE>` to submit a report.\n'
+                    + '• `@Staff <@USER> <OFFENSE>` to submit a report.\n'
                     + '• `?ta5` macro that quickly displays \'If you have a question, don\'t hesitate to ask it. To save time, post it instead of asking "Does anyone know X?" or "Can someone help with Y?"\'\n'
                     + '**2) Direct Message Commands** —\n'
                     + '• `>c <challenge id> <work>` for event submissions.\n\u200b'

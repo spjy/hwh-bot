@@ -24,7 +24,7 @@ module.exports = {
                   value: '**1) Respect others** — Keep in mind you are speaking to other people. Treat others how you want to be treated.\n'
                     + '**2) Remain civil**  — Maintain civil conversations by displaying a placid demeanor. Don\'t personally attack anyone over their physicality or personality. Avoid over-excessive profanity.\n'
                     + '**3) Discord name / nickname**  — Your name must precede with a minimum of three alphanumeric characters, remain within the bounds of the message line, and maintain an appropriate appearance.\n'
-                    + '**4) Use the `@HWH Staff` mention for reports only.** — In the report, please also include the offender and the offense.\n'
+                    + '**4) Use the `@Staff` mention for reports only.** — In the report, please also include the offender and the offense.\n'
                     + '**5) Don\'t backseat moderate** — Let staff members give the punishments. If you notice a rule breaker, submit a report (reference the previous point (A.5)).\n'
                     + '**6) Age requirement** — Though you should be aware of Discord\'s age requirement, we reiterate that you must be at least thirteen (13) years old to use Discord and to be in this server. No exceptions.\n\u200b'
                 },
