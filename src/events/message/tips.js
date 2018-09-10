@@ -27,6 +27,7 @@ module.exports = {
                     + '**4) Start a discussion or ask for help** in the respective channels.\n'
                     + '**5) If you have a question, don\'t hesitate to ask it.** To save time, post it instead of asking "Does anyone know X?" or "Can someone help with Y?"\n'
                     + '**6) Display your knowledge** in one of our events <#446166388235829248>.\n\u200b'
+                    + '**7) Post what you have experience with** in <#450080745499656223> and look for others with similar interests.\n\u200b'
                 },
                 {
                   name: 'B. HWH Bot',
@@ -56,7 +57,18 @@ module.exports = {
                 },
                 {
                   name: 'F. Sharing the server',
-                  value: 'The more people that join, the more knowledge that can be shared! Consequently, I encourage everybody to share the server with your friends!\n\nShare link: https://discord.gg/YudDZtb'
+                  value: 'The more people that join, the more knowledge that can be shared! Consequently, I encourage everybody to share the server with your friends!\n\nShare link: https://discord.gg/YudDZtb \n\u200b'
+                },
+                {
+                  name: 'G. Help Mentioning',
+                  value: '**1)** Use `?mention <message id of question> <role>[ <role>]` in the channel you want to mention in to create a \'key\'.\n'
+                  + '**2)** You may use up to two related pings, e.g. Math Algebra.\n'
+                  + '**3)** For roles with multiple words, separate them with `-`, e.g. Social-Science\n'
+                  + '**4)** After 15 minutes, you may use `?mention` to redeem your key in the same channel you used the command.\n'
+                  + '**5)** If you do not use it within 60 minutes, the key will expire and you will have to redeem a new one.\n'
+                  + '**6)** To cancel a mention, type `?mention cancel`. \n'
+                  + '**7)** Example: ?mention 484484358879707136 Social-Science Psychology \n'
+                  + 'To get your message ID, follow: https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-'
                 }
               ],
               timestamp: new Date(),
