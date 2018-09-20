@@ -25,7 +25,7 @@ module.exports = {
                     + '**2) Remain civil**  — Maintain civil conversations by displaying a placid demeanor. Don\'t personally attack anyone over their physicality or personality. Avoid over-excessive profanity.\n'
                     + '**3) Discord name / nickname**  — Your name must precede with a minimum of three alphanumeric characters, remain within the bounds of the message line, and maintain an appropriate appearance.\n'
                     + '**4) Use the `@Staff` mention for reports only.** — In the report, please also include the offender and the offense.\n'
-                    + '**5) Don\'t backseat moderate** — Let staff members give the punishments. If you notice a rule breaker, submit a report (reference the previous point (A.5)).\n'
+                    + '**5) Don\'t backseat moderate** — Let staff members give the punishments. If you notice a rule breaker, submit a report (reference the previous point (A.4)).\n'
                     + '**6) Age requirement** — Though you should be aware of Discord\'s age requirement, we reiterate that you must be at least thirteen (13) years old to use Discord and to be in this server. No exceptions.\n\u200b'
                 },
                 {
@@ -38,10 +38,9 @@ module.exports = {
                 },
                 {
                   name: 'C. Help Channels',
-                  value: '**1) Mentioning/Tagging Roles** — After posting your own question, wait a minimum of 15 minutes before using the helper mention. If nobody has replied by the 15 minutes, repost the question and include a helper mention with or after the question. Only use one ping per question (*exception*: if there is a matching sub-topic role, you may include the mentions in one message only, ex. `@Science @Physics`).\n'
-                    + '**2) Be serious and encouraging in all help channels.** — We want to promote a sense of credibility when receiving help. Additionally, be encouraging to others, as they are merely trying to learn new things.\n'
-                    + '**3) Don\'t cheat or encourage it** — Academic integrity is an ideology we uphold seriously, so do not attempt to encourage cheating. Instead, guide the person through the problem to gain intuition on how to solve it.\n'
-                    + '**4) Only post one instance of your question** (ex. if you post your question in #math, you cannot post it in any other channel). This is to avoid double helping.\n\u200b'
+                  value: '**1) Be serious and encouraging in all help channels.** — We want to promote a sense of credibility when receiving help. Additionally, be encouraging to others, as they are merely trying to learn new things.\n'
+                    + '**2) Don\'t cheat or encourage it** — Academic integrity is an ideology we uphold seriously, so do not attempt to encourage cheating. Instead, guide the person through the problem to gain intuition on how to solve it.\n'
+                    + '**3) Only post one instance of your question** (ex. if you post your question in #math, you cannot post it in any other channel). This is to avoid double helping.\n\u200b'
                 }
               ],
               timestamp: new Date(),
