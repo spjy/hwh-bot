@@ -16,8 +16,9 @@ module.exports = {
         .map(role => role.id);
 
       if (report.includes(staffRoleId)) { // If mentions includes @Staff
-        await message
-          .reply('thank you for your report. We will review it shortly.');
+        const reportMessage = await guild.channels
+          .get(channel.id)
+          .send('Thank you for your report. We will review it shortly.');
 
         const m = await message.guild.channels
           .get(reportsChannel) // Send information to report channel
@@ -46,7 +47,7 @@ module.exports = {
                   },
                   {
                     name: 'Jump to report',
-                    value: `https://discordapp.com/channels/${guild.id}/${channel.id}/${message.id}`
+                    value: `https://discordapp.com/channels/${guild.id}/${reportMessage.channel.id}/${reportMessage.id}`
                   }
                 ],
                 timestamp: new Date(),
