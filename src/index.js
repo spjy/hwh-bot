@@ -107,7 +107,11 @@ client.on('message', (message) => {
       } else if (command === '?mention') {
         client.events
           .get('message::mention')
-          .execute(message, helpMentions, mentionLogChannel);
+          .execute(
+            message,
+            helpMentions,
+            mentionLogChannel
+          );
       }
     }
   } catch (err) {
@@ -122,7 +126,12 @@ client.on('messageReactionAdd', (reaction, user) => {
     if (message.channel.id === roleRequestChannel) {
       client.events
         .get('messageReactionAdd::suggestRole')
-        .execute(reaction, user, suggestRoleChannel, roleRequestChannel);
+        .execute(
+          reaction,
+          user,
+          suggestRoleChannel,
+          roleRequestChannel
+        );
     }
   } catch (err) {
     Raven.captureException(err);
