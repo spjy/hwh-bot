@@ -15,7 +15,7 @@ const staffRoleId = '276969339901444096';
 
 // Channel IDs
 const changeRoleChannel = '275071813992710144'; // #change-role
-const mentionLogChannel = '482699744305741834';
+const mentionLogChannel = '482699744305741834'; // #mention-log
 const serverLogChannel = '302333358078427136'; // #server-log
 const botMessagesChannel = '298286259028361218'; // #bot-messages
 const reportsChannel = '446051447226761216'; // #reports

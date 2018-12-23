@@ -92,7 +92,7 @@ module.exports = {
             .send(`[Use attempt (no key)] <@${author.id}>`);
         }
       // Check if message id is valid and help mention doesn't exist for user
-      } else if (/^[0-9]{1,20}$/.test(setting) && !helpMention) {
+      } else if (Number(setting) > 0 && !helpMention) {
         let rolesToMention = [];
 
         // Check for role by name and push Guild object to array
@@ -147,7 +147,7 @@ module.exports = {
           .get(mentionLogChannel)
           .send(`[Cancel] <@${author.id}> <#${channel.id}> ${mentions} ${setting}`);
       } else {
-        await message.reply('incorrect format.');
+        await message.reply('incorrect format. Use `?mention <message id> <role>[ <role>]` to generate a key or `?mention cancel` to cancel.');
 
         await guild.channels
           .get(mentionLogChannel)
