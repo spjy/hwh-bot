@@ -1,16 +1,8 @@
-const Raven = require('raven');
+const Log = require('../../log.js');
 
 module.exports = {
   description: 'Sends join message in #server-log',
-  async execute(member, serverLogChannel) {
-    try {
-      const { guild, user } = member;
-
-      await guild.channels
-        .get(serverLogChannel)
-        .send(`${member} (${user.username}#${user.discriminator}) has **joined** the server.`);
-    } catch (err) {
-      Raven.captureException(err);
-    }
+  execute(guild, user, serverLogChannel) {
+    Log(guild, user, serverLogChannel, 'has **joined**').logAction();
   }
 };

@@ -140,9 +140,10 @@ client.on('messageReactionAdd', (reaction, user) => {
 
 client.on('guildMemberAdd', (member) => {
   try {
+    const { guild, user } = member;
     client.events
       .get('guildMemberAdd::log')
-      .execute(member, serverLogChannel);
+      .execute(guild, user, serverLogChannel);
   } catch (err) {
     Raven.captureException(err);
   }
@@ -150,9 +151,10 @@ client.on('guildMemberAdd', (member) => {
 
 client.on('guildMemberRemove', (member) => {
   try {
+    const { guild, user } = member;
     client.events
       .get('guildMemberRemove::log')
-      .execute(member, serverLogChannel);
+      .execute(guild, user, serverLogChannel);
   } catch (err) {
     Raven.captureException(err);
   }

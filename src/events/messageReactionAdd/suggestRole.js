@@ -11,6 +11,8 @@ module.exports = {
         emoji
       } = reaction;
 
+      const { channels } = guild;
+
       // Igonore addition of own emoji.
       if (message.client.user.id !== user.id) {
         // Listen for addition of X or grin emoji to message.
@@ -25,22 +27,22 @@ module.exports = {
           await message
             .delete();
 
-          await guild.channels
+          await channels
             .get(roleRequestChannel)
             .send(`Added ${content} role.`);
 
-          await guild.channels
+          await channels
             .get(suggestRoleChannel)
             .send(`Suggested role ${content} was approved.`);
         } else if (emoji.name === '❌') {
           await message
             .delete();
 
-          await guild.channels
+          await channels
             .get(roleRequestChannel)
             .send(`Rejected '${content}' role.`);
 
-          await guild.channels
+          await channels
             .get(suggestRoleChannel)
             .send(`Suggested role ${content} was not approved.`);
         }
