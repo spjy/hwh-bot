@@ -23,7 +23,8 @@ module.exports = {
         const m = await message.guild.channels
           .get(reportsChannel) // Send information to report channel
           .send(
-            '', {
+            '',
+            {
               embed: {
                 color: 16645888,
                 author: {
