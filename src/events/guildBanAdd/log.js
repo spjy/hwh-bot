@@ -1,8 +1,15 @@
-const Log = require('../../log.js');
+import Log from '../../log';
 
-module.exports = {
-  description: 'Sends ban message in #server-log',
-  execute(guild, user, serverLogChannel) {
-    Log(guild, user, serverLogChannel, 'was **banned**').logAction();
+/**
+ * @description Sends a log in #server-log advising when a ban occurs.
+ */
+
+export default class GuildBanAdd extends Log {
+  constructor(guild, user, serverLogChannel) {
+    super(guild, user, serverLogChannel, 'was **banned**');
   }
-};
+
+  execute() {
+    super.logAction();
+  }
+}

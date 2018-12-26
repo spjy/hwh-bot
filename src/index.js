@@ -82,23 +82,27 @@ client.on('message', (message) => {
       } else if (command === '?gwarn'
         && mentions.members
         && member.roles.has(staffRoleId)) {
-        client.events
-          .get('message::warning')
-          .execute(message);
+        const Warning = client.events
+          .get('message::warning').default;
+
+        new Warning(message).execute();
       } else if (command === '?ta5') {
-        client.events
-          .get('message::tipa5')
-          .execute(message);
-      } else if (command === '?hello'
+        const TipA5 = client.events
+          .get('message::tipa5').default;
+
+        new TipA5(message).execute();
+      } else if (command === '?tips'
         && author.id === ownerUserId) {
-        client.events
-          .get('message::tips')
-          .execute(message, client);
+        const Tips = client.events
+          .get('message::tips').default;
+
+        new Tips(message).execute();
       } else if (command === '?rules'
         && author.id === ownerUserId) {
-        client.events
-          .get('message::rules')
-          .execute(message, client);
+        const Rules = client.events
+          .get('message::rules').default;
+
+        new Rules(message).execute();
       } else if (command === '!mentionable'
         && member.roles.has(staffRoleId)) {
         client.events
@@ -141,9 +145,10 @@ client.on('messageReactionAdd', (reaction, user) => {
 client.on('guildMemberAdd', (member) => {
   try {
     const { guild, user } = member;
-    client.events
-      .get('guildMemberAdd::log')
-      .execute(guild, user, serverLogChannel);
+    const GuildMemberAdd = client.events
+      .get('guildMemberAdd::log').default;
+
+    new GuildMemberAdd(guild, user, serverLogChannel).execute();
   } catch (err) {
     Raven.captureException(err);
   }
@@ -152,9 +157,10 @@ client.on('guildMemberAdd', (member) => {
 client.on('guildMemberRemove', (member) => {
   try {
     const { guild, user } = member;
-    client.events
-      .get('guildMemberRemove::log')
-      .execute(guild, user, serverLogChannel);
+    const GuildMemberRemove = client.events
+      .get('guildMemberRemove::log').default;
+
+    new GuildMemberRemove(guild, user, serverLogChannel).execute();
   } catch (err) {
     Raven.captureException(err);
   }
@@ -162,9 +168,10 @@ client.on('guildMemberRemove', (member) => {
 
 client.on('guildBanAdd', (guild, user) => {
   try {
-    client.events
-      .get('guildBanAdd::log')
-      .execute(guild, user, serverLogChannel);
+    const GuildBanAdd = client.events
+      .get('guildBanAdd::log').default;
+
+    new GuildBanAdd(guild, user, serverLogChannel).execute();
   } catch (err) {
     Raven.captureException(err);
   }
@@ -172,9 +179,10 @@ client.on('guildBanAdd', (guild, user) => {
 
 client.on('guildBanRemove', (guild, user) => {
   try {
-    client.events
-      .get('guildBanRemove::log')
-      .execute(guild, user, serverLogChannel);
+    const GuildBanRemove = client.events
+      .get('guildBanRemove::log').default;
+
+    new GuildBanRemove(guild, user, serverLogChannel).execute();
   } catch (err) {
     Raven.captureException(err);
   }

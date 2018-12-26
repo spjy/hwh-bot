@@ -1,23 +1,25 @@
 const Raven = require('raven');
 
 /**
-* Send an embed to a specified channel.
-* @param {Object} message - The message being sent.
-* @param {Number} color - The color of the side of the embed.
-* @param {string} title - The title of the embed (at the very top).
-* @param {string} description - The description of the embed (after the title).
-* @param {Array} fields - The fields of the embed.
-* @param {string} footer - The message at the footer of the embed.
-* @param {string} [preembed = ''] - A message before the embed.
-* @param {string} channelToSend - The channel to send the embed.
-*/
+ * @description Send an embed to a specified channel.
+ * @param {Object} message - The message being sent.
+ * @param {Number} color - The color of the side of the embed.
+ * @param {string} title - The title of the embed (at the very top).
+ * @param {string} [description = ''] - The description of the embed (after the title).
+ * @param {Array} fields - The fields of the embed.
+ * @param {string} [footer = 'Homework Help Bot'] - The message at the footer of the embed.
+ * @param {string} [channelToSend = ''] - The channel to send the embed.
+ * @param {string} [preembed = ''] - Content before the mention.
+ */
 
 export default class Embed {
-  constructor(message, color, title, description, fields, footer, preembed = '', channelToSend) {
+  constructor(message, color, title, description = '', fields, footer = 'Homework Help Bot', channelToSend = '', preembed = '') {
     const {
       channel,
       guild
     } = message;
+
+    this.message = message;
 
     this.content = {
       embed: {
@@ -34,13 +36,56 @@ export default class Embed {
         }
       }
     };
-    
+
     this.channel = channel;
     this.guild = guild;
-    this.preembed = preembed;
     this.channelToSend = channelToSend;
+    this.preembed = preembed;
   }
 
+  /**
+   * @description Sets the preembed value.
+   * @param {string} preembed
+   */
+  setPreembed(preembed) {
+    this.preembed = preembed;
+  }
+
+  /**
+   * @description Sets the preembed value.
+   * @param {string} title
+   */
+  setTitle(title) {
+    this.content.embed.author.name = title;
+  }
+
+  /**
+   * @description Sets the description value.
+   * @param {string} description 
+   */
+  setDescription(description) {
+    this.content.embed.description = description;
+  }
+
+  /**
+   * @description Sets the fields value.
+   * @param {Array} fields 
+   */
+  setFields(fields) {
+    this.content.embed.fields = fields;
+  }
+
+  /**
+   * @description Sets the footer value.
+   * @param {*} footer 
+   */
+  setFooter(footer) {
+    this.content.embed.footer.text = footer;
+  }
+
+  /**
+   * @description Method to send the embed to the current channel of instantiation.
+   */
   async sendToCurrentChannel() {
     try {
       await this.channel
@@ -48,11 +93,17 @@ export default class Embed {
           this.preembed,
           this.content
         );
+
+      await this.message
+        .delete();
     } catch (err) {
       Raven.captureException(err);
     }
   }
 
+  /**
+   * @description Method to send the embed to a specified channel.
+   */
   async sendToDifferentChannel() {
     try {
       await this.guild.channels
@@ -61,6 +112,9 @@ export default class Embed {
           this.preembed,
           this.content
         );
+
+      await this.message
+        .delete();
     } catch (err) {
       Raven.captureException(err);
     }

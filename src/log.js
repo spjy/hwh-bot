@@ -6,15 +6,23 @@ const Raven = require('raven');
  * @param {Object} user - The user instantiating the event.
  * @param {string} channel - The channel that will contain the logged message.
  * @param {string} [prefix = ''] - A prefix before the log.
- * @param {string} message - A message describing the log, to be appended at the end.
+ * @param {string} [message = ''] - A message describing the log, to be appended at the end.
  */
 
 export default class Log {
-  constructor(guild, user, channel, message, prefix = '') {
+  constructor(guild, user, channel, prefix = '', message = '') {
     this.guild = guild;
     this.user = user;
     this.channel = channel;
     this.message = message;
+    this.prefix = prefix;
+  }
+
+  setMessage(message) {
+    this.message = message;
+  }
+
+  setPrefix(prefix) {
     this.prefix = prefix;
   }
 

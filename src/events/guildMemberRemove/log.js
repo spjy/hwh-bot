@@ -1,8 +1,15 @@
-const Log = require('../../log.js');
+import Log from '../../log';
 
-module.exports = {
-  description: 'Sends leave message in #server-log',
-  execute(guild, user, serverLogChannel) {
-    Log(guild, user, serverLogChannel, 'has **left**').logAction();
+/**
+ * @description Sends a log in #server-log advising when a member left the server.
+ */
+
+export default class GuildMemberAdd extends Log {
+  constructor(guild, user, serverLogChannel) {
+    super(guild, user, serverLogChannel, 'has **left**');
   }
-};
+
+  execute() {
+    super.logAction();
+  }
+}

@@ -1,8 +1,15 @@
-const Log = require('../../log.js');
+import Log from '../../log';
 
-module.exports = {
-  description: 'Sends unban message in #server-log',
-  execute(guild, user, serverLogChannel) {
-    Log(guild, user, serverLogChannel, 'was **unbanned**').logAction();
+/**
+ * @description Sends a log in #server-log advising when an unban occurs.
+ */
+
+export default class GuildBanRemove extends Log {
+  constructor(guild, user, serverLogChannel) {
+    super(guild, user, serverLogChannel, 'was **unbanned**');
   }
-};
+
+  execute() {
+    super.logAction();
+  }
+}
