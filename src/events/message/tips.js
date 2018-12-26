@@ -27,7 +27,7 @@ export default class Tips extends Embed {
           name: '2. HWH Bot',
           value: '**A) Server Commands** —\n'
             + '• `@Staff <@USER> <OFFENSE>` to submit a report.\n'
-            + '• `?ta5` macro that quickly displays \'If you have a question, don\'t hesitate to ask it. To save time, post it instead of asking "Does anyone know X?" or "Can someone help with Y?"\'\n'
+            + '• `?t5a` macro that quickly displays \'If you have a question, don\'t hesitate to ask it. To save time, post it instead of asking "Does anyone know X?" or "Can someone help with Y?"\'\n'
             + '**B) Direct Message Commands** —\n'
             + '• `>c <challenge id> <work>` for event submissions.\n\u200b'
             + '**C) Source code**: https://github.com/spjy/hwh-bot \u200b'

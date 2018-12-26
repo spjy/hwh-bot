@@ -1,11 +1,11 @@
 import Embed from '../../embed';
 
 /**
- * @description Sends TipA5 in an embed to the current channel. Triggered by `?ta5`.
- * @param {Object} message - The message object instantiating `?ta5`.
+ * @description Sends TipA5 in an embed to the current channel. Triggered by `?t5a`.
+ * @param {Object} message - The message object instantiating `?t5a`.
  */
 
-export default class TipA5 extends Embed {
+export default class Tip5A extends Embed {
   constructor(message) {
     super(
       message,
@@ -30,8 +30,6 @@ export default class TipA5 extends Embed {
     // Get mentions in message
     mention = mentions.members
       .map(m => m.id);
-
-    console.log(mention)
 
     // Check if any mentions exist
     if (mention.length > 0) {
