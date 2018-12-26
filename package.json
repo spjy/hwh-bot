@@ -5,14 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel-node src/index.js",
-    "dev": "nodemon --exec babel-node src/index.js",
-    "build": "npx babel src/index.js --out-file src/dist.js",
-    "production": "pm2 start ."
+    "start": "node build/",
+    "dev": "nodemon --exec npx babel-node src/index.js",
+    "build": "./node_modules/.bin/babel src --out-dir build"
   },
   "author": "Spencer Young",
   "license": "MIT",
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "dialogflow": "^0.5.0",
     "discord.js": "^11.3.2",
     "dotenv-extended": "^2.0.2",
@@ -20,14 +20,17 @@
     "raven": "^2.6.3"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
     "babel-eslint": "^8.2.3",
     "babel-loader": "^8.0.4",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.12.0"
+    "eslint-plugin-import": "^2.12.0",
+    "webpack": "^4.28.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-node-externals": "^1.7.2"
   }
 }
