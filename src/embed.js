@@ -52,7 +52,7 @@ export default class Embed {
   }
 
   /**
-   * @description Sets the preembed value.
+   * @description Sets the title value.
    * @param {string} title
    */
   setTitle(title) {
@@ -77,7 +77,7 @@ export default class Embed {
 
   /**
    * @description Sets the footer value.
-   * @param {*} footer
+   * @param {string} footer
    */
   setFooter(footer) {
     this.content.embed.footer.text = footer;
