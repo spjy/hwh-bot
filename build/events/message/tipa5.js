@@ -70,8 +70,9 @@ function (_Embed) {
       var mentions = this.message.mentions;
       var mention; // Check if any mentions exist
 
-      if (mentions.members) {
-        // Get mentions in message
+      if (mentions.members.length > 0) {
+        console.log(mentions.members); // Get mentions in message
+
         mention = mentions.members.map(function (m) {
           return m.id;
         }); // Append the mention to the pre-embed.
