@@ -27,13 +27,14 @@ export default class TipA5 extends Embed {
 
     let mention;
 
-    // Check if any mentions exist
-    if (mentions.members.length > 0) {
-      console.log(mentions.members)
-      // Get mentions in message
-      mention = mentions.members
-        .map(m => m.id);
+    // Get mentions in message
+    mention = mentions.members
+      .map(m => m.id);
 
+    console.log(mention)
+
+    // Check if any mentions exist
+    if (mention.length > 0) {
       // Append the mention to the pre-embed.
       super.setPreembed(`<@!${mention[0]}>`);
     }
