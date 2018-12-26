@@ -62,10 +62,10 @@ export default class Tips extends Embed {
         {
           name: '9. Partnering & Advertising',
           value: '**A) To be eligible to be a partner, you must have:**\n'
-          + '• At least 1/4 of Homework Help\'s members.'
-          + '• Less than 15 partners.'
-          + '• Our server and invite link be posted in a channel to recognize the partnership (and not under an NSFW lock).'
-          + '**B)** If you do not fulfill the above requirements, your server will be posted in #advertise. If you do, it will be posted in #partners.'
+          + '• At least 1/4 of Homework Help\'s members.\n'
+          + '• Less than 15 partners.\n'
+          + '• Our server and invite link be posted in a channel to recognize the partnership (and not under an NSFW lock).\n'
+          + '**B)** If you do not fulfill the above requirements, your server will be posted in #advertise. If you do, it will be posted in #partners.\n'
           + '**C) Applying for partnership or to advertise**: https://goo.gl/forms/ltqYN19xlYZ2HuXq1 \u200b'
         },
         {
