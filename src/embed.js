@@ -61,7 +61,7 @@ export default class Embed {
 
   /**
    * @description Sets the description value.
-   * @param {string} description 
+   * @param {string} description
    */
   setDescription(description) {
     this.content.embed.description = description;
@@ -69,7 +69,7 @@ export default class Embed {
 
   /**
    * @description Sets the fields value.
-   * @param {Array} fields 
+   * @param {Array} fields
    */
   setFields(fields) {
     this.content.embed.fields = fields;
@@ -77,7 +77,7 @@ export default class Embed {
 
   /**
    * @description Sets the footer value.
-   * @param {*} footer 
+   * @param {*} footer
    */
   setFooter(footer) {
     this.content.embed.footer.text = footer;

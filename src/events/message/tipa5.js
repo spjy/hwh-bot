@@ -28,7 +28,8 @@ export default class TipA5 extends Embed {
     let mention;
 
     // Check if any mentions exist
-    if (mentions.members) {
+    if (mentions.members.length > 0) {
+      console.log(mentions.members)
       // Get mentions in message
       mention = mentions.members
         .map(m => m.id);
