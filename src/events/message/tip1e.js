@@ -1,8 +1,8 @@
 import Embed from '../../embed';
 
 /**
- * @description Sends Tip1D in an embed to the current channel. Triggered by `?t1d`.
- * @param {Object} message - The message object instantiating `?t1d`.
+ * @description Sends Tip1E in an embed to the current channel. Triggered by `?t1e`.
+ * @param {Object} message - The message object instantiating `?t1e`.
  */
 
 export default class Tip1E extends Embed {
