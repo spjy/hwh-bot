@@ -50,7 +50,7 @@ export default class Tips extends Embed {
             + '**D) Applying for staff** — If you want to apply for Guide or Event Manager, apply here: <https://goo.gl/forms/Z3mVQwLdiNZcKHx52>\n\u200b'
         },
         {
-          name: '8. Help Mentioning',
+          name: '6. Help Mentioning',
           value: '**A)** Use `?mention <message id of question> <role>[ <role>]` in the channel you want to mention in to create a \'key\'.\n'
           + '**B)** You may use up to two related pings, e.g. Math Algebra.\n'
           + '**C)** For roles with multiple words, separate them with `-`, e.g. Social-Science\n'
@@ -60,7 +60,7 @@ export default class Tips extends Embed {
           + 'To get your message ID, follow: https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID- \u200b'
         },
         {
-          name: '9. Partnering & Advertising',
+          name: '7. Partnering & Advertising',
           value: '**A) To be eligible to be a partner, you must have:**\n'
           + '• At least 1/4 of Homework Help\'s members.\n'
           + '• Less than 15 partners.\n'
@@ -69,7 +69,7 @@ export default class Tips extends Embed {
           + '**C) Applying for partnership or to advertise**: https://goo.gl/forms/ltqYN19xlYZ2HuXq1 \u200b'
         },
         {
-          name: '6. Sharing the server',
+          name: '8. Sharing the server',
           value: 'The more people that join, the more knowledge that can be shared! Consequently, I encourage everybody to share the server with your friends!\n\nShare link: https://discord.gg/YudDZtb'
         }
       ],
