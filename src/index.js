@@ -86,11 +86,11 @@ client.on('message', (message) => {
           .get('message::warning').default;
 
         new Warning(message).execute();
-      } else if (command === '?t5a') {
-        const Tip5A = client.events
-          .get('message::tip5a').default;
+      } else if (command === '?t1e') {
+        const Tip1E = client.events
+          .get('message::tip1e').default;
 
-        new Tip5A(message).execute();
+        new Tip1E(message).execute();
       } else if (command === '?tips'
         && author.id === ownerUserId) {
         const Tips = client.events
