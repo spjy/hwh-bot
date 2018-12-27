@@ -57,7 +57,7 @@ export default class Tips extends Embed {
           + '**D)** After 15 minutes, you may use `?mention` to redeem your key in the same channel you used the command.\n'
           + '**E)** To cancel a mention, type `?mention cancel`. \n'
           + '**F)** Example: `?mention 484484358879707136 Social-Science Psychology` \n'
-          + 'To get your message ID, follow: https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID- \u200b'
+          + 'To get your message ID, follow: https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID- \n\u200b'
         },
         {
           name: '7. Partnering & Advertising',
@@ -66,7 +66,7 @@ export default class Tips extends Embed {
           + '• Less than 15 partners.\n'
           + '• Our server and invite link be posted in a channel to recognize the partnership (and not under an NSFW lock).\n'
           + '**B)** If you do not fulfill the above requirements, your server will be posted in #advertise. If you do, it will be posted in #partners.\n'
-          + '**C) Applying for partnership or to advertise**: https://goo.gl/forms/ltqYN19xlYZ2HuXq1 \u200b'
+          + '**C) Applying for partnership or to advertise**: https://goo.gl/forms/ltqYN19xlYZ2HuXq1 \n\u200b'
         },
         {
           name: '8. Sharing the server',
