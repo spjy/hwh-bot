@@ -29,8 +29,8 @@ export default class Tips extends Embed {
             + '• `@Staff <@USER> <OFFENSE>` to submit a report.\n'
             + '• `?t1e` macro that quickly displays \'If you have a question, don\'t hesitate to ask it. To save time, post it instead of asking "Does anyone know X?" or "Can someone help with Y?"\'\n'
             + '**B) Direct Message Commands** —\n'
-            + '• `>c <challenge id> <work>` for event submissions.\n\u200b'
-            + '**C) Source code**: https://github.com/spjy/hwh-bot \u200b'
+            + '• `>c <challenge id> <work>` for event submissions.'
+            + '**C) Source code**: https://github.com/spjy/hwh-bot\n\u200b'
         },
         {
           name: '3. MathBot',

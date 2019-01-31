@@ -33,7 +33,7 @@ export default class Warning extends Embed {
       const warned = mentions.members
         .map(m => m.id);
 
-      if (warned) {
+      if (warned && warned[0]) {
         warn = content.split(' ');
         reason = warn.slice(2, warn.length); // Get the third->last array element
 
