@@ -33,7 +33,7 @@ export default class Log {
 
       await channels
         .get(this.channel)
-        .send(`${this.prefix}${this.user} (${username}#${discriminator}) ${this.message}.`);
+        .send(`${this.prefix ? this.prefix : ''}${this.user} (${username}#${discriminator}) ${this.message}.`);
     } catch (err) {
       Raven.captureException(err);
     }
