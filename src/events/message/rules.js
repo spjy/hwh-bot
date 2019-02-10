@@ -17,7 +17,7 @@ export default class Rules extends Embed {
           name: '1. Quality of Life',
           value: '**A) Respect others** — Keep in mind you are speaking to other people. Treat others how you want to be treated.\n'
             + '**B) Remain civil**  — Maintain civil conversations by displaying a placid demeanor. Don\'t personally attack anyone over their physicality or personality. Avoid over-excessive profanity.\n'
-            + '**C) Discord name / nickname**  — Your name must precede with a minimum of three alphanumeric characters, remain within the bounds of the message line, and maintain an appropriate appearance.\n'
+            + '**C) Discord name / nickname**  — Your name must precede with a minimum of three QWERTY keyboard characters, remain within the bounds of the message line, and maintain an appropriate appearance.\n'
             + '**D) Use the `@Staff` mention for reports only.** — In the report, please also include the offender and the offense.\n'
             + '**E) Don\'t backseat moderate** — Let staff members give the punishments. If you notice a rule breaker, submit a report (reference the previous point (A.4)).\n'
             + '**F) Age requirement** — Though you should be aware of Discord\'s age requirement, we reiterate that you must be at least thirteen (13) years old to use Discord and to be in this server. No exceptions.\n\u200b'
