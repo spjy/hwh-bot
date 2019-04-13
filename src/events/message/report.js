@@ -5,7 +5,7 @@ module.exports = {
   async execute(message, reportsChannel, staffRoleId) {
     try {
       const {
-        cleanContent: content,
+        content,
         author,
         guild,
         channel,

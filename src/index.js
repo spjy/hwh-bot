@@ -29,6 +29,21 @@ client.on('ready', () => {
   console.log('I\'m ready!');
 });
 
+// const events = {
+//   MESSAGE_DELETE: 'messageDelete'
+// };
+
+// client.on('raw', async event => {
+//   const { t, d } = event;
+
+//   if (t !== 'MESSAGE_DELETE') return;
+
+//   const GuildBanAdd = client.events
+//     .get('messageDelete::log').default;
+
+//   new GuildBanAdd(guild, user, serverLogChannel).execute();
+// });
+
 client.on('message', (message) => {
   try {
     const {
