@@ -7,12 +7,12 @@ import Embed from '../../embed';
 
 export default class Rules extends Embed {
   constructor(message) {
-    super(
+    super({
       message,
-      15608105,
-      'Server Rules',
-      'In addition to following the [Discord Guidelines](http://dis.gd/guidelines) and [Discord Terms](https://discordapp.com/terms), you must also comply with these rules while on Homework Help:',
-      [
+      color: 15608105,
+      title: 'Server Rules',
+      description: 'In addition to following the [Discord Guidelines](http://dis.gd/guidelines) and [Discord Terms](https://discordapp.com/terms), you must also comply with these rules while on Homework Help:',
+      fields: [
         {
           name: '1. Quality of Life',
           value: '**A) Respect others** — Keep in mind you are speaking to other people. Treat others how you want to be treated.\n'
@@ -37,8 +37,8 @@ export default class Rules extends Embed {
             + '**C) Only post one instance of your question** (ex. if you post your question in #math, you cannot post it in any other channel). This is to avoid double helping.\n\u200b'
         }
       ],
-      'NOTE: Staff members have the power to take affirmative action in order to maintain a peaceful environment. They have the final say in any situation.'
-    );
+      footer: 'NOTE: Staff members have the power to take affirmative action in order to maintain a peaceful environment. They have the final say in any situation.'
+    });
   }
 
   execute() {

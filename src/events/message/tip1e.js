@@ -7,15 +7,14 @@ import Embed from '../../embed';
 
 export default class Tip1E extends Embed {
   constructor(message) {
-    super(
+    super({
       message,
-      1441536,
-      'Tip',
-      'If you have a question, don\'t hesitate to ask it. To save time, '
+      color: 1441536,
+      title: 'Tip',
+      description: 'If you have a question, don\'t hesitate to ask it. To save time, '
       + 'post it instead of asking "Does anyone know X?" or "Can someone help with Y?"',
-      null,
-      'Homework Help Bot'
-    );
+      footer: 'Homework Help Bot'
+    });
 
     this.message = message;
   }

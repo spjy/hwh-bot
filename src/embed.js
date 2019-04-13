@@ -2,18 +2,28 @@ const Raven = require('raven');
 
 /**
  * @description Send an embed to a specified channel.
- * @param {Object} message - The message being sent.
- * @param {Number} color - The color of the side of the embed.
- * @param {string} title - The title of the embed (at the very top).
- * @param {string} [description = ''] - The description of the embed (after the title).
- * @param {Array} fields - The fields of the embed.
- * @param {string} [footer = 'Homework Help Bot'] - The message at the footer of the embed.
- * @param {string} [channelToSend = ''] - The channel to send the embed.
- * @param {string} [preembed = ''] - Content before the mention.
+ * @param {Object} params - The message being sent.
+ * @param {Object} params.message - The message being sent.
+ * @param {Number} params.color - The color of the side of the embed.
+ * @param {string} params.title - The title of the embed (at the very top).
+ * @param {string} [params.description = ''] - The description of the embed (after the title).
+ * @param {Array} params.fields - The fields of the embed.
+ * @param {string} [params.footer = 'Homework Help Bot'] - The message at the footer of the embed.
+ * @param {string} [params.channelToSend = ''] - The channel to send the embed.
+ * @param {string} [params.preembed = ''] - Content before the mention.
  */
 
 export default class Embed {
-  constructor(message, color, title, description = '', fields, footer = 'Homework Help Bot', channelToSend = '', preembed = '') {
+  constructor({
+    message,
+    color,
+    title,
+    description = '',
+    fields,
+    footer = 'Homework Help Bot',
+    channelToSend = '',
+    preembed = ''
+  } = {}) {
     const {
       channel,
       guild

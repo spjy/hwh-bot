@@ -9,14 +9,12 @@ import Embed from '../../embed';
 
 export default class Warning extends Embed {
   constructor(message) {
-    super(
+    super({
       message,
-      16645888,
-      'Warning',
-      null,
-      null,
-      'NOTE: If you wish to clarify or contest this warning, please contact a staff member via direct message (not in channel).',
-    );
+      color: 16645888,
+      title: 'Warning',
+      footer: 'NOTE: If you wish to clarify or contest this warning, please contact a staff member via direct message (not in channel).'
+    });
   }
 
   async execute() {

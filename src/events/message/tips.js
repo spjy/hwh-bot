@@ -7,12 +7,12 @@ import Embed from '../../embed';
 
 export default class Tips extends Embed {
   constructor(message) {
-    super(
+    super({
       message,
-      15608105,
-      'Tips',
-      'Welcome to the Homework Help Discord Server!',
-      [
+      color: 15608105,
+      title: 'Tips',
+      description: 'Welcome to the Homework Help Discord Server!',
+      fields: [
         {
           name: '1. Getting Started',
           value: '**A) Familiarize yourself with the rules** so you don\'t get in trouble.\n'
@@ -73,8 +73,8 @@ export default class Tips extends Embed {
           value: 'The more people that join, the more knowledge that can be shared! Consequently, I encourage everybody to share the server with your friends!\n\nShare link: https://discord.gg/YudDZtb'
         }
       ],
-      'Homework Help Bot'
-    );
+      footer: 'Homework Help Bot'
+    });
   }
 
   execute() {
