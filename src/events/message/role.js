@@ -27,14 +27,16 @@ module.exports = {
             color
           } = role;
 
-          if (selectedRole === name.toLowerCase()
-            && (color === 9807270
-            || color === 16770276
-            || color === 16760511
-            || color === 16741498
-            || color === 12713987
-            || color === 9240581
-            || color === 12596388)) {
+          const roleName = name.toLowerCase();
+
+          if (selectedRole === roleName
+            && (color === 9807270 // subject roles
+            || roleName === 'post graduate'
+            || roleName === 'graduate'
+            || roleName === 'undergraduate'
+            || roleName === 'high school'
+            || roleName === 'pre high school'
+            || roleName === 'independent')) {
             if (command === '+'
               && selectedRole === name.toLowerCase()) {
               if (member.roles.has(id)) {
