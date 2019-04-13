@@ -10,7 +10,13 @@ const Raven = require('raven');
  */
 
 export default class Log {
-  constructor(guild, user, channel, prefix = '', message = '') {
+  constructor({
+    guild,
+    user,
+    channel,
+    prefix = '',
+    message = ''
+  } = {}) {
     this.guild = guild;
     this.user = user;
     this.channel = channel;

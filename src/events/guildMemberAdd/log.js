@@ -6,7 +6,12 @@ import Log from '../../log';
 
 export default class GuildMemberAdd extends Log {
   constructor(guild, user, serverLogChannel) {
-    super(guild, user, serverLogChannel, null, 'has **joined**');
+    super({
+      guild,
+      user,
+      channel: serverLogChannel,
+      message: 'has **joined**'
+    });
   }
 
   execute() {

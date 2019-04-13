@@ -6,7 +6,12 @@ import Log from '../../log';
 
 export default class GuildBanRemove extends Log {
   constructor(guild, user, serverLogChannel) {
-    super(guild, user, serverLogChannel, null, 'was **unbanned**');
+    super({
+      guild,
+      user,
+      channel: serverLogChannel,
+      message: 'was **unbanned**'
+    });
   }
 
   execute() {
