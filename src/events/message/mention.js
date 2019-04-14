@@ -1,44 +1,49 @@
 const Raven = require('raven');
 
-module.exports = {
-  description: 'Mentioning system - ?mention <message ID> <role>[ <role>]',
-  async execute(message, helpMentions, mentionLogChannel) {
+/**
+* @description Sends a log in #server-log advising when a member left the server.
+* @param {Object} message - The message being sent.
+* @param {Collection} helpMentions - The collection of help mentions stored.
+* @param {String} mentionLogChannel - The mention log channel ID.
+*/
+
+export default class Mention {
+  constructor(message, helpMentions, mentionLogChannel) {
+    this.message = message;
+    this.helpMentions = helpMentions;
+    this.mentionLogChannel = mentionLogChannel;
+  }
+
+  async execute() {
     try {
       const {
         cleanContent: content,
         channel,
         author,
         guild
-      } = message;
+      } = this.message;
 
-      // Get message id, mentions (limit of 2)
-      const mention = content.trim().split(' ');
-      const setting = mention[1]; // cancel or message id
-      const mentions = mention.slice(2, 4);
+      let error;
+      const helpMention = this.helpMentions.get(author.id);
+      const command = content.split(' ');
+      const [, commandOrRole, role] = command;
+      const mentions = [commandOrRole];
 
-      // Check collection to see if they have a key pending
-      const helpMention = helpMentions.get(author.id);
+      if (role) {
+        mentions.push(role);
+      }
 
-      // Check if only ?mention
-      if (!setting) {
-        // Check if helpMention exists
-        if (helpMention) {
+      if (!commandOrRole) { // trying to use mention
+        if (helpMention) { // help mention exists
           const {
             channel: helpChannel,
-            date: helpDate,
+            cooldownDate: helpDate,
             mentions: helpUserMentions,
-            message: helpMessage
+            message: helpMessage,
+            attachment: helpAttachment
           } = helpMention;
 
-          // 15 minutes
-          const cooldown = helpDate + 900000;
-
-          // Expiration time - 60 minutes
-          const expiration = helpDate + 3600000;
-
-          // Check if matching channels and if 15 minutes later
-          if (helpChannel === channel.id
-            && cooldown <= Date.now()) {
+          if (Date.now() >= helpDate) { // cooldown has elapsed
             // Set roles mentionable
             await Promise.all(helpUserMentions.map(async (m) => {
               await m
@@ -46,118 +51,93 @@ module.exports = {
             }));
 
             // Send help mention
-            await message.guild.channels
+            await guild.channels
               .get(helpChannel)
-              .send(`${helpUserMentions.join(' ')} <@${author.id}> ${helpMessage}`);
+              .send(`**Mention**: ${helpUserMentions.join(' ')} <@${author.id}> ${helpMessage}`);
+
+            if (helpAttachment) {
+              await guild.channels
+                .get(helpChannel)
+                .send(`**Attachment**: ${helpAttachment}`);
+            }
 
             // Reset collection
-            helpMentions.set(author.id, undefined);
+            this.helpMentions.set(author.id, undefined);
 
             // Set unmentionable
             await Promise.all(helpUserMentions.map(async (m) => {
               await m
                 .setMentionable(false);
             }));
-
-            await guild.channels
-              .get(mentionLogChannel)
-              .send(`[Used] <@${author.id}> <#${helpChannel}> ${helpMentions} ${helpMessage}`);
-          } else if (helpChannel === channel.id
-              && cooldown > Date.now()) {
-            await message.reply('the cooldown time (15 minutes) has not elapsed yet.');
-
-            await guild.channels
-              .get(mentionLogChannel)
-              .send(`[Use attempt (cooldown)] <@${author.id}> <#${helpChannel}>`);
-          } else if (helpChannel === channel.id
-              && Date.now() >= expiration) {
-            helpMentions.set(author.id, undefined);
-            await message.reply('your key has expired. Generate a new one.');
-
-            await guild.channels
-              .get(mentionLogChannel)
-              .send(`[Expired] <@${author.id}> <#${helpChannel}> ${helpMentions} ${helpMessage}`);
-          } else if (helpChannel !== channel.id) {
-            await message.reply(`the channel you generated your key is in <#${helpChannel}>. Use the command there.`);
-
-            await guild.channels
-              .get(mentionLogChannel)
-              .send(`[Use attempt (incorrect channel)] <@${author.id}> <#${helpChannel}> ${helpMentions} ${helpMessage}`);
+          } else if (Date.now() <= helpDate) {
+            error = await this.message.reply('the cooldown time (10 minutes) has not elapsed yet.');
           }
-        } else {
-          await message.reply('you do not have a key generated. Use `?mention <message id> <role>[ <role>]` to do so.');
-
-          await guild.channels
-            .get(mentionLogChannel)
-            .send(`[Use attempt (no key)] <@${author.id}>`);
+        } else { // mention doesn't exist
+          error = await this.message.reply('you do not have a key generated. Use `?mention role1 [role2]` to do so.');
         }
-      // Check if message id is valid and help mention doesn't exist for user
-      } else if (Number(setting) > 0 && !helpMention) {
-        let rolesToMention = [];
+      } else if (commandOrRole === 'cancel') { // cancelling mention
+        this.helpMentions.set(author.id, undefined);
 
-        // Check for role by name and push Guild object to array
-        mentions.forEach((m) => {
-          guild.roles
-            .forEach((role) => {
-              const {
-                name,
-                color
-              } = role;
+        error = await this.message.reply('your previously generated key has been cancelled.');
+      } else { // creating a mention
+        // fetch last 50 messages in the channel with the message was sent
+        const messages = await channel.fetchMessages();
 
-              if (m.toLowerCase().replace(/-/g, ' ') === name.toLowerCase()
-                && color === 9807270) {
-                rolesToMention.push(role);
-              }
-            });
-        });
+        // get second oldest message from user
+        const question = messages.filter(m => m.author.id === author.id).array()[1];
 
-        // Check if contains any valid roles
-        if (rolesToMention.length === 0) {
-          await message.reply('the role(s) you have included are invalid.');
+        if (question) {
+          const text = question.content; // get second oldest message
+          const attachment = question.attachments.array(); // get attachments if there are any
 
-          await guild.channels
-            .get(mentionLogChannel)
-            .send(`[Generation (incorrect role(s))] <@${author.id}> <#${channel.id}> ${mentions} ${setting}`);
-        } else {
-          // Get message content
-          const m = await channel
-            .fetchMessage(setting);
+          // Check if roles are valid
 
-          helpMentions.set(author.id, {
-            channel: channel.id,
-            date: Date.now(),
-            mentions: rolesToMention,
-            message: m.cleanContent
+          const rolesToMention = [];
+
+          mentions.forEach((m) => {
+            guild.roles
+              .forEach((r) => {
+                const {
+                  name,
+                  color
+                } = r;
+
+                if (m.toLowerCase().replace(/-/g, ' ') === name.toLowerCase()
+                  && color === 9807270) {
+                  rolesToMention.push(r);
+                }
+              });
           });
 
-          await message.reply(`you have generated a key for message ID ${setting}. `
+          if (rolesToMention.length === 0) {
+            error = await this.message.reply('the role(s) you have included are invalid.');
+          } else {
+            this.helpMentions.set(author.id, {
+              channel: channel.id,
+              cooldownDate: Date.now() + 600000,
+              mentions: rolesToMention,
+              message: text,
+              attachment: attachment.length === 1 ? attachment[0].url : null
+            });
+
+            await question
+              .react(guild.emojis.get('558963509077999637'));
+
+            await this.message.reply('you have generated a key for the message indicated by <:thonk_cool:558963509077999637>. '
             + `It'll mention ${rolesToMention[0] ? rolesToMention[0].name : ''}${rolesToMention[1] ? ` and ${rolesToMention[1].name}` : ''}.`);
-
-          await guild.channels
-            .get(mentionLogChannel)
-            .send(`[Generation] <@${author.id}> ${setting} <#${channel.id}> ${mentions}`);
+          }
+        } else {
+          error = await this.message.reply('you have not sent any messages recently.');
         }
-      // Check if cancel ?mention cancel command
-      } else if (setting.toLowerCase() === 'cancel') {
-        helpMentions.set(author.id, undefined);
-
-        await message.reply('your previously generated key has been cancelled.');
-
-        await guild.channels
-          .get(mentionLogChannel)
-          .send(`[Cancel] <@${author.id}> <#${channel.id}> ${mentions} ${setting}`);
-      } else {
-        await message.reply('incorrect format. Use `?mention <message id> <role>[ <role>]` to generate a key or `?mention cancel` to cancel.');
-
-        await guild.channels
-          .get(mentionLogChannel)
-          .send(`[Generation attempt (incorrect format)] <@${author.id}> <#${channel.id}> ${mentions} ${setting}`);
       }
 
-      await message
-        .delete();
+      if (error) {
+        setTimeout(() => {
+          error.delete();
+        }, 10000);
+      }
     } catch (err) {
       Raven.captureException(err);
     }
   }
-};
+}

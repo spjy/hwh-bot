@@ -26,10 +26,10 @@ export default class Tips extends Embed {
         {
           name: '2. HWH Bot',
           value: '**A) Server Commands** —\n'
-            + '• `@Staff <@USER> <OFFENSE>` to submit a report.\n'
+            + '• `@Staff @USER OFFENSE` to submit a report.\n'
             + '• `?t1e` macro that quickly displays \'If you have a question, don\'t hesitate to ask it. To save time, post it instead of asking "Does anyone know X?" or "Can someone help with Y?"\'\n'
             + '**B) Direct Message Commands** —\n'
-            + '• `>c <challenge id> <work>` for event submissions.'
+            + '• `>c <challenge id> <work>` for event submissions.\n'
             + '**C) Source code**: https://github.com/spjy/hwh-bot\n\u200b'
         },
         {
@@ -51,13 +51,13 @@ export default class Tips extends Embed {
         },
         {
           name: '6. Help Mentioning',
-          value: '**A)** Use `?mention <message id of question> <role>[ <role>]` in the channel you want to mention in to create a \'key\'.\n'
-          + '**B)** You may use up to two related pings, e.g. Math Algebra.\n'
-          + '**C)** For roles with multiple words, separate them with `-`, e.g. Social-Science\n'
-          + '**D)** After 15 minutes, you may use `?mention` to redeem your key in the same channel you used the command.\n'
-          + '**E)** To cancel a mention, type `?mention cancel`. \n'
-          + '**F)** Example: `?mention 484484358879707136 Social-Science Psychology` \n'
-          + 'To get your message ID, follow: https://support.discordapp.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID- \n\u200b'
+          value: '**A)** First, post your question along with an attachment if needed. The bot will mention the message you previously sent.\n'
+          + '**B)** Immediately after doing step A, use `?mention role1 [role2]` where `role1` is the name of the role you want to ping without the `@`, and `role2` has the same format but it is optional.\n'
+          + '**C)** You may use up to two related roles, e.g. `Math Algebra`.\n'
+          + '**D)** For roles with multiple words, separate them with a `-`, e.g. Social-Science\n'
+          + '**E)** After 10 minutes, you may use `?mention` to redeem your key in the same channel you used the command.\n'
+          + '**F)** To cancel a mention, type `?mention cancel`.\n'
+          + '**G)** Example: `?mention Social-Science Psychology`\n\u200b'
         },
         {
           name: '7. Partnering & Advertising',

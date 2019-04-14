@@ -124,13 +124,10 @@ client.on('message', (message) => {
           .get('message::mentionable')
           .execute(message);
       } else if (command === '?mention') {
-        client.events
-          .get('message::mention')
-          .execute(
-            message,
-            helpMentions,
-            mentionLogChannel
-          );
+        const Mention = client.events
+          .get('message::mention').default;
+
+        new Mention(message, helpMentions, mentionLogChannel).execute();
       }
     }
   } catch (err) {
