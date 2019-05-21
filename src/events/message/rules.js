@@ -24,18 +24,23 @@ export default class Rules extends Embed {
         },
         {
           name: '2. Messaging',
-          value: '**A) Post clean content only** — Keep the channels free of NSFW and illegal material. Additionally, do not speak of illegal activities.\n'
-            + '**B) Don\'t spam** — Don\'t send repeating, similar or non-pertinent messages in quick succession.\n'
-            + '**C) Don\'t advertise servers, services, or social media without permission** — We want to be sure to scan them for any inappropriate content before posting them.\n'
-            + '**D) Don\'t offer payment, goods, or services in exchange for having your work done.** — We don\'t want to be held liable for any transactions that occur on this server.\n'
-            + '**E) Don\'t send unsolicited direct messages** — As a courtesy to respect others\' privacy, don\'t send direct messages asking for help unless explicitly given permission.\n\u200b'
+          value: '**A) Clean content only** — Keep the channels free of NSFW and illegal material. Additionally, do not speak of illegal activities.\n'
+            + '**B) Spamming** — Don\'t send repeating, similar or non-pertinent messages in quick succession.\n'
+            + '**C) Advertising servers, services, or social media without permission** — We want to be sure to scan them for any inappropriate content before posting them. Don\'t send any of the above content without permission from staff.\n'
+            + '**D) Offering payment, goods, or services in exchange for having your work done.** — We don\'t want to be held liable for any transactions that occur on this server. Don\'t offer any of the above in exchange for having your work done.\n'
+            + '**E) Unsolicited direct messages** — As a courtesy to respect others\' privacy, don\'t send direct messages asking for help unless explicitly given permission.\n\u200b'
         },
         {
           name: '3. Help Channels & Mentioning',
-          value: '**A) Be serious and encouraging in all help channels.** — We want to promote a sense of credibility when receiving help. Additionally, be encouraging to others, as they are merely trying to learn new things.\n'
-            + '**B) Don\'t cheat or encourage it** — Academic integrity is an ideology we uphold seriously, so do not attempt to encourage cheating. Instead, guide the person through the problem to gain intuition on how to solve it.\n'
+          value: '**A) Seriousness and encouragement** — We want to promote a sense of credibility when receiving help; therefore, remain serious when answering questions. Additionally, be encouraging to others, as they are merely trying to learn new things.\n'
+            + '**B) Cheating** — Academic integrity is an ideology we uphold seriously, so do not attempt to encourage cheating. Do not give answers; instead, guide the person through the problem to gain intuition on how to solve it.\n'
             + '**C) Only post one instance of your question** — (ex. if you post your question in #math, you cannot post it in any other channel). This is to avoid double helping.\n\u200b'
-            + '**D) Mentioning** — If you use a help mention, you must include the majority of the question in the ping message.'
+            + '**D) Mentioning** — If you use a help mention, you must include the majority of the question in the ping message.\n\u200b'
+        },
+        {
+          name: '4. Voice Channels',
+          value: '**A) Conduct** — Respect others and remain civil as outlined in sections 1A and 1B.\n'
+          + '**B) Music Queuing** — Don\'t play exceedingly obnoxious or loud audio. Keep it safe for work.'
         }
       ],
       footer: 'NOTE: Staff members have the power to take affirmative action in order to maintain a peaceful environment. They have the final say in any situation.'
