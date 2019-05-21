@@ -73,7 +73,7 @@ export default class Mention {
             error = await this.message.reply('the cooldown time (10 minutes) has not elapsed yet.');
           }
         } else { // mention doesn't exist
-          error = await this.message.reply('you do not have a key generated. Use `?mention role1 [role2]` to do so.');
+          error = await this.message.reply('you do not have a key generated. Use `?mention role1 [role2]` to do so. See section six (6) in #tips for more information.');
         }
       } else if (commandOrRole === 'cancel') { // cancelling mention
         this.helpMentions.set(author.id, undefined);
@@ -110,7 +110,7 @@ export default class Mention {
           });
 
           if (rolesToMention.length === 0) {
-            error = await this.message.reply('the role(s) you have included are invalid.');
+            error = await this.message.reply('the role(s) you have included are invalid. See #change-role for a list of mentionable roles.');
           } else {
             this.helpMentions.set(author.id, {
               channel: channel.id,
@@ -124,10 +124,11 @@ export default class Mention {
               .react(guild.emojis.get('558963509077999637'));
 
             await this.message.reply('you have generated a key for the message indicated by <:thonk_cool:558963509077999637>. '
-            + `It'll mention ${rolesToMention[0] ? rolesToMention[0].name : ''}${rolesToMention[1] ? ` and ${rolesToMention[1].name}` : ''}.`);
+            + `It'll mention ${rolesToMention[0] ? rolesToMention[0].name : ''}${rolesToMention[1] ? ` and ${rolesToMention[1].name} ` : ' '}.`
+            + 'Type `?mention` in ten (10) minutes to activate the mention.');
           }
         } else {
-          error = await this.message.reply('you have not sent any messages recently.');
+          error = await this.message.reply('you have not sent any messages recently. Try send a message again and regenerate a key.');
         }
       }
 
