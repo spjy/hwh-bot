@@ -124,7 +124,7 @@ export default class Mention {
               .react(guild.emojis.get('558963509077999637'));
 
             await this.message.reply('you have generated a key for the message indicated by <:thonk_cool:558963509077999637>. '
-            + `It'll mention ${rolesToMention[0] ? rolesToMention[0].name : ''}${rolesToMention[1] ? ` and ${rolesToMention[1].name} ` : ' '}.`
+            + `It'll mention ${rolesToMention[0] ? rolesToMention[0].name : ''}${rolesToMention[1] ? ` and ${rolesToMention[1].name}` : ''}. `
             + 'Type `?mention` in ten (10) minutes to activate the mention.');
           }
         } else {
