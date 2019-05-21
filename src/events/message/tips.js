@@ -51,13 +51,14 @@ export default class Tips extends Embed {
         },
         {
           name: '6. Help Mentioning',
-          value: '**A)** First, post your question along with an attachment if needed. The bot will mention the message you previously sent.\n'
+          value: '**A)** First, post your question in the channel you want to mention in along with an attachment if needed. The bot will mention the message you previously sent.\n'
           + '**B)** Immediately after doing step A, use `?mention role1 [role2]` where `role1` is the name of the role you want to ping without the `@`, and `role2` has the same format but it is optional.\n'
           + '**C)** You may use up to two related roles, e.g. `Math Algebra`.\n'
           + '**D)** For roles with multiple words, separate them with a `-`, e.g. Social-Science\n'
           + '**E)** After 10 minutes, you may use `?mention` to redeem your key in the same channel you used the command.\n'
           + '**F)** To cancel a mention, type `?mention cancel`.\n'
-          + '**G)** Example: `?mention Social-Science Psychology`\n\u200b'
+          + '**G)** Example: `?mention Social-Science Psychology`\n'
+          + '**Note**: Be aware of rule 3D: If you use a help mention, you must include the majority of the question in the ping message.\n\u200b'
         },
         {
           name: '7. Partnering & Advertising',
