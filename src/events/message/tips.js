@@ -1,11 +1,13 @@
 import Embed from '../../embed';
 
 /**
- * @description Sends tips in an embed to the current channel. Triggered by `?tips`.
- * @param {Object} message - The message object instantiating `?tips`.
+ * Sends tips in an embed to the current channel. Triggered by `?tips`.
  */
 
 export default class Tips extends Embed {
+  /**
+   * @param {Object} message - The message object instantiating `?tips`.
+   */
   constructor(message) {
     super({
       message,
@@ -78,6 +80,9 @@ export default class Tips extends Embed {
     });
   }
 
+  /**
+   * The main function to run.
+   */
   execute() {
     super.sendToCurrentChannel();
   }

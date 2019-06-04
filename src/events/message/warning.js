@@ -2,12 +2,14 @@ import Raven from 'raven';
 import Embed from '../../embed';
 
 /**
- * @description Creates an embed containing the user warned and the reason.
+ * Creates an embed containing the user warned and the reason.
  * Triggered through `?gwarn @user reason`.
- * @param {Object} message - The message object instantiating `?gwarn`.
  */
 
 export default class Warning extends Embed {
+  /**
+   * @param {Object} message - The message object instantiating `?gwarn`.
+   */
   constructor(message) {
     super({
       message,
@@ -17,6 +19,9 @@ export default class Warning extends Embed {
     });
   }
 
+  /**
+   * The main function to run.
+   */
   async execute() {
     try {
       const {
@@ -28,12 +33,15 @@ export default class Warning extends Embed {
       let warn;
       let reason;
 
+      // Get mention included in warning
       const warned = mentions.members
         .map(m => m.id);
 
+      // Check if mention was included
       if (warned && warned[0]) {
         warn = content.split(' ');
-        reason = warn.slice(2, warn.length); // Get the third->last array element
+        // Get the message included by staff
+        reason = warn.slice(2, warn.length);
 
         super.setDescription(`<@!${warned[0]}> was warned by a staff member.`);
         super.setFields(

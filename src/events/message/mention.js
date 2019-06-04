@@ -1,19 +1,23 @@
 const Raven = require('raven');
 
 /**
-* @description Sends a log in #server-log advising when a member left the server.
-* @param {Object} message - The message being sent.
-* @param {Collection} helpMentions - The collection of help mentions stored.
-* @param {String} mentionLogChannel - The mention log channel ID.
+* Sends a log in #server-log advising when a member left the server.
 */
-
 export default class Mention {
+  /**
+   * @param {Object} message - The message being sent.
+   * @param {Collection} helpMentions - The collection of help mentions stored.
+   * @param {String} mentionLogChannel - The mention log channel ID.
+   */
   constructor(message, helpMentions, mentionLogChannel) {
     this.message = message;
     this.helpMentions = helpMentions;
     this.mentionLogChannel = mentionLogChannel;
   }
 
+  /**
+  * The main function to run.
+  */
   async execute() {
     try {
       const {

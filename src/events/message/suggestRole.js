@@ -12,6 +12,7 @@ module.exports = {
 
       const suggestion = content.slice(1); // get first part of string (command)
 
+      // Check if the role exists
       const validRole = guild.roles
         .map(async (role) => {
           const {
@@ -27,6 +28,7 @@ module.exports = {
           return false;
         });
 
+      // If it does not exist, accept suggestion
       if (!validRole.includes(true)) { // If the role exists
         await message
           .reply(`suggested role ${suggestion} received.`);

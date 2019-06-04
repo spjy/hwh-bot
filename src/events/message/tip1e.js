@@ -1,11 +1,12 @@
 import Embed from '../../embed';
 
 /**
- * @description Sends Tip1E in an embed to the current channel. Triggered by `?t1e`.
- * @param {Object} message - The message object instantiating `?t1e`.
+ * Sends Tip1E in an embed to the current channel. Triggered by `?t1e`.
  */
-
 export default class Tip1E extends Embed {
+  /**
+   * @param {Object} message - The message object instantiating `?t1e`.
+   */
   constructor(message) {
     super({
       message,
@@ -19,6 +20,9 @@ export default class Tip1E extends Embed {
     this.message = message;
   }
 
+  /**
+   * The main function to run.
+   */
   execute() {
     const {
       mentions
@@ -32,7 +36,6 @@ export default class Tip1E extends Embed {
 
     // Check if any mentions exist
     if (mention.length > 0) {
-      // Append the mention to the pre-embed.
       super.setPreembed(`<@!${mention[0]}>`);
     }
 

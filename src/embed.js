@@ -1,7 +1,7 @@
 const Raven = require('raven');
 
 /**
- * @description Send an embed to a specified channel.
+ * Send an embed to a specified channel.
  * @param {Object} params - The message being sent.
  * @param {Object} params.message - The message being sent.
  * @param {Number} params.color - The color of the side of the embed.
@@ -54,7 +54,7 @@ export default class Embed {
   }
 
   /**
-   * @description Sets the preembed value.
+   * Sets the preembed value.
    * @param {string} preembed
    */
   setPreembed(preembed) {
@@ -62,7 +62,7 @@ export default class Embed {
   }
 
   /**
-   * @description Sets the title value.
+   * Sets the title value.
    * @param {string} title
    */
   setTitle(title) {
@@ -70,7 +70,7 @@ export default class Embed {
   }
 
   /**
-   * @description Sets the description value.
+   * Sets the description value.
    * @param {string} description
    */
   setDescription(description) {
@@ -78,7 +78,7 @@ export default class Embed {
   }
 
   /**
-   * @description Sets the fields value.
+   * Sets the fields value.
    * @param {Array} fields
    */
   setFields(fields) {
@@ -86,7 +86,7 @@ export default class Embed {
   }
 
   /**
-   * @description Sets the footer value.
+   * Sets the footer value.
    * @param {string} footer
    */
   setFooter(footer) {
@@ -94,7 +94,7 @@ export default class Embed {
   }
 
   /**
-   * @description Method to send the embed to the current channel of instantiation.
+   * Method to send the embed to the current channel of instantiation.
    */
   async sendToCurrentChannel() {
     try {
@@ -112,7 +112,7 @@ export default class Embed {
   }
 
   /**
-   * @description Method to send the embed to a specified channel.
+   * Method to send the embed to a specified channel.
    */
   async sendToDifferentChannel() {
     try {

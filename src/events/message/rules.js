@@ -1,11 +1,12 @@
 import Embed from '../../embed';
 
 /**
- * @description Sends rules in an embed to the current channel. Triggered by `?rules`.
- * @param {Object} message - The message object instantiating `?rules`.
+ * Sends rules in an embed to the current channel. Triggered by `?rules`.
  */
-
 export default class Rules extends Embed {
+  /**
+   * @param {Object} message - The message object instantiating `?rules`.
+   */
   constructor(message) {
     super({
       message,
@@ -47,6 +48,9 @@ export default class Rules extends Embed {
     });
   }
 
+  /**
+   * The main function to run.
+   */
   execute() {
     super.sendToCurrentChannel();
   }
