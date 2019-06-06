@@ -1,21 +1,36 @@
 const Raven = require('raven');
 
-module.exports = {
-  description: 'Role adding/removing in #change-role',
-  async execute(message) {
+/**
+ * Handles role additions or subtractions for members.
+ */
+export default class Role {
+  /**
+   * @param {Object} message The message object instantiated by the user.
+   */
+  constructor(message) {
+    this.message = message;
+  }
+
+  /**
+   * The main function to run.
+   */
+  async execute() {
     try {
       const {
         content,
         guild,
         member,
         author
-      } = message;
+      } = this.message;
 
-      const command = content.slice(0, 1).toLowerCase(); // get first part of string (command)
-      let selectedRole = content.slice(1).trim().toLowerCase(); // get the rest of the string
+      // get first part of string (command)
+      const command = content.slice(0, 1).toLowerCase();
+      // get the rest of the string
+      let selectedRole = content.slice(1).trim().toLowerCase();
 
+      // replace dash with space if contained.
       if (selectedRole.includes('-')) {
-        selectedRole = selectedRole.replace(/-/g, ' '); // replace dash with space if contained.
+        selectedRole = selectedRole.replace(/-/g, ' ');
       }
 
       // Run through roles and check stipulations
@@ -27,8 +42,10 @@ module.exports = {
             color
           } = role;
 
+          // Ignore case
           const roleName = name.toLowerCase();
 
+          // Check for valid roles
           if (selectedRole === roleName
             && (color === 9807270 // subject roles
             || roleName === 'post graduate'
@@ -40,13 +57,13 @@ module.exports = {
             if (command === '+'
               && selectedRole === name.toLowerCase()) {
               if (member.roles.has(id)) {
-                await message
+                await this.message
                   .reply(`error! You are already in the **${name}** role!`);
               } else {
                 await guild.member(author.id)
                   .addRole(id);
 
-                await message
+                await this.message
                   .reply(`you have added the **${name}** role!`);
               }
             } else if (command === '-'
@@ -55,10 +72,10 @@ module.exports = {
                 await guild.member(author.id)
                   .removeRole(id);
 
-                await message
+                await this.message
                   .reply(`you have removed the **${name}** role!`);
               } else {
-                await message
+                await this.message
                   .reply(`error! You are not in the **${name}** role!`);
               }
             }
@@ -68,11 +85,11 @@ module.exports = {
         }));
 
       if (!validRole.includes(true)) { // If role exists
-        await message
+        await this.message
           .reply('invalid role. See the pins for a comprehensive list.');
       }
     } catch (err) {
       Raven.captureException(err);
     }
   }
-};
+}

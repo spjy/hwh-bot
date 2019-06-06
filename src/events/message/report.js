@@ -1,8 +1,32 @@
-const Raven = require('raven');
+import Raven from 'raven';
+import Embed from '../../embed';
 
-module.exports = {
-  description: 'On @Staff, delete msg and send message in private channel.',
-  async execute(message, reportsChannel, staffRoleId) {
+/**
+ * Detect when a user includes the @Staff ping, generate a report in the
+ * specified reports channel.
+ */
+export default class Report extends Embed {
+  /**
+   * @param {Object} message The message object.
+   * @param {String} reportsChannel The reports channel ID.
+   * @param {String} staffRoleId The staff role ID.
+   */
+  constructor(message, reportsChannel, staffRoleId) {
+    super({
+      message,
+      color: 16645888,
+      title: 'Report'
+    });
+
+    this.message = message;
+    this.reportsChannel = reportsChannel;
+    this.staffRoleId = staffRoleId;
+  }
+
+  /**
+  * The main function to run.
+  */
+  async execute() {
     try {
       const {
         content,
@@ -10,18 +34,21 @@ module.exports = {
         guild,
         channel,
         client
-      } = message;
+      } = this.message;
 
-      const report = message.mentions.roles // Extract roles in message
+      // Extract roles in message
+      const report = this.message.mentions.roles
         .map(role => role.id);
 
-      if (report.includes(staffRoleId)) { // If mentions includes @Staff
+      // If mentions includes @Staff
+      if (report.includes(this.staffRoleId)) {
         const reportMessage = await guild.channels
           .get(channel.id)
           .send('Thank you for your report. We will review it shortly.');
 
-        const m = await message.guild.channels
-          .get(reportsChannel) // Send information to report channel
+        // Send information to report channel in an embed
+        const m = await this.message.guild.channels
+          .get(this.reportsChannel)
           .send(
             '',
             {
@@ -60,14 +87,15 @@ module.exports = {
             }
           );
 
+        // React with a grin
         await m
           .react('😁');
 
-        await message
+        await this.message
           .delete();
       }
     } catch (err) {
       Raven.captureException(err);
     }
   }
-};
+}

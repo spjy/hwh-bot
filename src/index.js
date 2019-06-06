@@ -1,6 +1,6 @@
 require('dotenv-extended').load();
-const Discord = require('discord.js');
-const Raven = require('raven');
+import Discord from 'discord.js';
+import Raven from 'raven';
 
 // Instantiations of Discord.js, Discord Collection, Sentry
 const client = new Discord.Client();
@@ -73,17 +73,19 @@ client.on('message', (message) => {
       // Reports are separate since stipulations are too general
       if (mentions.roles
         && channel.id !== reportsChannel) {
-        client.events
-          .get('message::report')
-          .execute(message, reportsChannel, staffRoleId);
+        const Report = client.events
+          .get('message::report').default;
+
+        new Report(message, reportsChannel, staffRoleId).execute();
       }
 
       // Commands
       if ((operator === '+' || operator === '-')
         && channel.id === changeRoleChannel) {
-        client.events
-          .get('message::role')
-          .execute(message);
+        const Role = client.events
+          .get('message::role').default;
+
+        new Role(message).execute();
       } else if (operator === '&'
         && channel.id === suggestRoleChannel) {
         client.events
