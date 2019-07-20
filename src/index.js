@@ -12,6 +12,8 @@ Raven.config(process.env.SENTRY_DSN).install();
 const ownerUserId = '74576452854480896';
 // Staff member role ID (@Staff)
 const staffRoleId = '276969339901444096';
+// Study Group Mentor role ID (@Study Group Mentor)
+const studyGroupMentorId = '588998000395812874';
 
 // Channel IDs
 const changeRoleChannel = '275071813992710144'; // #change-role
@@ -130,6 +132,13 @@ client.on('message', (message) => {
           .get('message::mention').default;
 
         new Mention(message, helpMentions, mentionLogChannel).execute();
+      } else if (command === '?sg'
+        && (member.roles.has(studyGroupMentorId)
+        || member.roles.has(staffRoleId))) {
+        const PingSg = client.events
+          .get('message::pingSg').default;
+
+        new PingSg(message).execute();
       }
     }
   } catch (err) {
