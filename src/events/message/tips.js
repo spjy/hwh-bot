@@ -41,8 +41,12 @@ export default class Tips extends Embed {
         },
         {
           name: '4. Contributing',
-          value: '**A) Valued Contributor** — If you display considerable knowledge, activity and maturity in the help channels, you will be recognized as a valued contributor.\n'
-            + '**B) Event Contributor** — If you have contributed a prompt to one of the Homework Help Events, you will receive this role.\n\u200b'
+          value: '**A) Valued Contributor** — The following are rough requirements for striving to become a Valued Contributor. Additionally, achieving the title implies that you must maintain the said requirements if you would like to also maintain the role.\n'
+            + '• __Knowledge__: You must demonstrate extensive knowledge within a certain field of study, to a point such that you make minimal mistakes when assisting others in help channels.\n'
+            + '• __Activity__: You must be an active member by contributing meaningfully in help channels.\n'
+            + '• __Maturity__: You must maintain a professional demeanor in help channels; this means encouraging learning, contributing quality answers and the like.\n'
+            + '**B) Event Contributor** — If you have contributed a prompt to one of the Homework Help Events, you will receive this role.\n'
+            + '** These are __rough__ requirements. The staff review potential candidates individually, thus even if you meet all of the above requirements does not mean you will receive it.\n\u200b'
         },
         {
           name: '5. Staff Positions',
