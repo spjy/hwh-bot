@@ -105,7 +105,7 @@ client.on('message', (message) => {
           .get('message::warning').default;
 
         new Warning(message).execute();
-      } else if (command === '?t1e') {
+      } else if (command === '?t1e' || command === '?ask') {
         const Tip1E = client.events
           .get('message::tip1e').default;
 
