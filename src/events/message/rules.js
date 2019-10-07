@@ -36,7 +36,7 @@ export default class Rules extends Embed {
           value: '**A) Seriousness and encouragement** — We want to promote a sense of credibility when receiving help; therefore, remain serious when answering questions. Additionally, be encouraging to others, as they are merely trying to learn new things.\n'
             + '**B) Cheating** — Academic integrity is an ideology we uphold seriously, so do not attempt to encourage cheating. Do not give answers; instead, guide the person through the problem to gain intuition on how to solve it.\n'
             + '**C) Only post one instance of your question** — (ex. if you post your question in #math, you cannot post it in any other channel). This is to avoid double helping.\n\u200b'
-            + '**D) Mentioning** — If you use a help mention, you must include the majority of the question in the ping message.\n\u200b'
+            + '**D) Mentioning** — If you use a help mention, you must include the majority of the question in the ping message. Include only specific, actionable questions that can be answered upon without further messaging.\n\u200b'
         },
         {
           name: '4. Voice Channels',
