@@ -26,6 +26,7 @@ export default class Warning extends Embed {
     try {
       const {
         content,
+        mentions,
         channel
       } = this.message;
 
@@ -33,15 +34,16 @@ export default class Warning extends Embed {
       let reason;
 
       // Get mention included in warning
-      const warnee = content[1];
+      const warned = mentions.members
+        .map(m => m.id);
 
       // Check if mention was included
-      if (warnee) {
+      if (warned && warned[0]) {
         warn = content.split(' ');
         // Get the message included by staff
         reason = warn.slice(2, warn.length);
 
-        super.setDescription(`<@!${warnee}> was warned by a staff member.`);
+        super.setDescription(`<@!${warned[0]}> was warned by a staff member.`);
         super.setFields(
           [
             {
