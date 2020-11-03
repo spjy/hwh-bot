@@ -13,7 +13,7 @@ module.exports = {
       const suggestion = content.slice(1); // get first part of string (command)
 
       // Check if the role exists
-      const validRole = guild.roles
+      const validRole = guild.roles.cache
         .map(async (role) => {
           const {
             name
@@ -21,6 +21,7 @@ module.exports = {
 
           if (suggestion.toLowerCase() === name.toLowerCase()) {
             await member.guild.channels
+              .cache
               .get(suggestRoleChannel)
               .send(`Role already exists. You can add it in <#${changeRoleChannel}>.`);
             return true;
@@ -34,6 +35,7 @@ module.exports = {
           .reply(`suggested role ${suggestion} received.`);
 
         const m = await guild.channels
+          .cache
           .get(roleRequestChannel)
           .send(suggestion);
 

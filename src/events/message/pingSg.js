@@ -27,7 +27,7 @@ export default class PingSg {
       const sgRole = content.split(' ').slice(1, content.length - 1).join(' ');
 
       if (sgRole.startsWith('SG')) {
-        Promise.all(guild.roles
+        Promise.all(guild.roles.cache
           .map(async (role) => {
             const {
               name

@@ -56,11 +56,13 @@ export default class Mention {
 
             // Send help mention
             await guild.channels
+              .cache
               .get(helpChannel)
               .send(`**Mention**: ${helpUserMentions.join(' ')} <@${author.id}> ${helpMessage}`);
 
             if (helpAttachment) {
               await guild.channels
+                .cache
                 .get(helpChannel)
                 .send(`**Attachment**: ${helpAttachment}`);
             }
@@ -85,7 +87,7 @@ export default class Mention {
         error = await this.message.reply('your previously generated key has been cancelled.');
       } else { // creating a mention
         // fetch last 50 messages in the channel with the message was sent
-        const messages = await channel.fetchMessages();
+        const messages = await channel.messages.fetch();
 
         // get second oldest message from user
         const question = messages.filter(m => m.author.id === author.id).array()[1];
@@ -99,7 +101,7 @@ export default class Mention {
           const rolesToMention = [];
 
           mentions.forEach((m) => {
-            guild.roles
+            guild.roles.cache
               .forEach((r) => {
                 const {
                   name,
@@ -125,7 +127,7 @@ export default class Mention {
             });
 
             await question
-              .react(guild.emojis.get('558963509077999637'));
+              .react(guild.emojis.cache.get('558963509077999637'));
 
             await this.message.reply('you have generated a key for the message indicated by <:thonk_cool:558963509077999637>. '
             + `It'll mention ${rolesToMention[0] ? rolesToMention[0].name : ''}${rolesToMention[1] ? ` and ${rolesToMention[1].name}` : ''}. `

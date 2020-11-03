@@ -11,7 +11,7 @@ module.exports = {
 
       const option = content.split(' ')[1];
 
-      Promise.all(guild.roles
+      Promise.all(guild.roles.cache
         .map(async (role) => {
           const {
             color,

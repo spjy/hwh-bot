@@ -34,7 +34,7 @@ export default class Role {
       }
 
       // Run through roles and check stipulations
-      const validRole = await Promise.all(guild.roles
+      const validRole = await Promise.all(guild.roles.cache
         .map(async (role) => {
           const {
             id,
@@ -56,21 +56,21 @@ export default class Role {
             || roleName === 'independent')) {
             if (command === '+'
               && selectedRole === name.toLowerCase()) {
-              if (member.roles.has(id)) {
+              if (member.roles.cache.has(id)) {
                 await this.message
                   .reply(`error! You are already in the **${name}** role!`);
               } else {
                 await guild.member(author.id)
-                  .addRole(id);
+                  .roles.add(id);
 
                 await this.message
                   .reply(`you have added the **${name}** role!`);
               }
             } else if (command === '-'
               && selectedRole === name.toLowerCase()) {
-              if (member.roles.has(id)) {
+              if (member.roles.cache.has(id)) {
                 await guild.member(author.id)
-                  .removeRole(id);
+                  .roles.remove(id);
 
                 await this.message
                   .reply(`you have removed the **${name}** role!`);

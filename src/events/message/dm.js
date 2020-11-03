@@ -13,6 +13,7 @@ module.exports = {
 
       if (content.startsWith(`${operator}challenge`) || content.startsWith(`${operator}c`)) {
         await client.channels
+          .cache
           .get(botMessagesChannel)
           .send(`*Challenge Entry* from **${channel.recipient}**: ${content}`);
 

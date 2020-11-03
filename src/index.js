@@ -73,7 +73,7 @@ client.on('message', (message) => {
       //   .execute(message);
 
       // Reports are separate since stipulations are too general
-      if (mentions.roles
+      if (mentions.roles.cache
         && channel.id !== reportsChannel) {
         const Report = client.events
           .get('message::report').default;
@@ -100,7 +100,7 @@ client.on('message', (message) => {
           );
       } else if (command === '?gwarn'
         && mentions.members
-        && member.roles.has(staffRoleId)) {
+        && member.roles.cache.has(staffRoleId)) {
         const Warning = client.events
           .get('message::warning').default;
 
@@ -123,7 +123,7 @@ client.on('message', (message) => {
 
         new Rules(message).execute();
       } else if (command === '!mentionable'
-        && member.roles.has(staffRoleId)) {
+        && member.roles.cache.has(staffRoleId)) {
         client.events
           .get('message::mentionable')
           .execute(message);
@@ -133,8 +133,8 @@ client.on('message', (message) => {
 
         new Mention(message, helpMentions, mentionLogChannel).execute();
       } else if (command === '?sg'
-        && (member.roles.has(studyGroupMentorId)
-        || member.roles.has(staffRoleId))) {
+        && (member.roles.cache.has(studyGroupMentorId)
+        || member.roles.cache.has(staffRoleId))) {
         const PingSg = client.events
           .get('message::pingSg').default;
 

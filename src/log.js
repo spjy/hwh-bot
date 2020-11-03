@@ -50,6 +50,7 @@ export default class Log {
       const { username, discriminator } = this.user;
 
       await channels
+        .cache
         .get(this.channel)
         .send(`${this.prefix ? this.prefix : ''}${this.user} (${username}#${discriminator}) ${this.message}.`);
     } catch (err) {

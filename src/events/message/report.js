@@ -43,11 +43,13 @@ export default class Report extends Embed {
       // If mentions includes @Staff
       if (report.includes(this.staffRoleId)) {
         const reportMessage = await guild.channels
+          .cache
           .get(channel.id)
           .send('Thank you for your report. We will review it shortly.');
 
         // Send information to report channel in an embed
         const m = await this.message.guild.channels
+          .cache
           .get(this.reportsChannel)
           .send(
             '',

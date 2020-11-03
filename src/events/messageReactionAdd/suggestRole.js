@@ -28,10 +28,12 @@ module.exports = {
             .delete();
 
           await channels
+            .cache
             .get(roleRequestChannel)
             .send(`Added ${content} role.`);
 
           await channels
+            .cache
             .get(suggestRoleChannel)
             .send(`Suggested role ${content} was approved.`);
         } else if (emoji.name === '❌') {
@@ -39,10 +41,12 @@ module.exports = {
             .delete();
 
           await channels
+            .cache
             .get(roleRequestChannel)
             .send(`Rejected '${content}' role.`);
 
           await channels
+            .cache
             .get(suggestRoleChannel)
             .send(`Suggested role ${content} was not approved.`);
         }
