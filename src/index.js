@@ -73,7 +73,7 @@ client.on('message', (message) => {
       //   .execute(message);
 
       // Reports are separate since stipulations are too general
-      if (mentions.roles.cache
+      if (mentions.roles
         && channel.id !== reportsChannel) {
         const Report = client.events
           .get('message::report').default;

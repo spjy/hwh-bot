@@ -117,6 +117,7 @@ export default class Embed {
   async sendToDifferentChannel() {
     try {
       await this.guild.channels
+        .cache
         .get(this.channelToSend)
         .send(
           this.preembed,
