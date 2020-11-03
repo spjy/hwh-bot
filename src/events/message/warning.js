@@ -15,7 +15,7 @@ export default class Warning extends Embed {
       message,
       color: 16645888,
       title: 'Warning',
-      footer: 'NOTE: If you wish to clarify or contest this warning, please contact a staff member via direct message (not in channel).'
+      footer: 'To clarify or contest this warning, contact us via ModMail.'
     });
   }
 
