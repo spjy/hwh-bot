@@ -12,6 +12,8 @@ Raven.config(process.env.SENTRY_DSN).install();
 const ownerUserId = '74576452854480896';
 // Staff member role ID (@Staff)
 const staffRoleId = '276969339901444096';
+// Staff member role ID (@Staff)
+const staffReportRoleId = '776950066198872065';
 // Study Group Mentor role ID (@Study Group Mentor)
 const studyGroupMentorId = '588998000395812874';
 
@@ -78,7 +80,7 @@ client.on('message', (message) => {
         const Report = client.events
           .get('message::report').default;
 
-        new Report(message, reportsChannel, staffRoleId).execute();
+        new Report(message, reportsChannel, staffReportRoleId).execute();
       }
 
       // Commands
