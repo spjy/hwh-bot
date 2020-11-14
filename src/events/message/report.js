@@ -100,7 +100,7 @@ export default class Report extends Embed {
           .awaitReactions((reaction, user) => reaction.emoji.name === '😁', { max: 1 });
 
         await reportMessage
-          .edit('A staff member has reviewed your report. If you think there was a mistake, please contact us via ModMail (see the top of the user list).')
+          .edit('A staff member has reviewed your report. If you think there was a mistake, please contact us via <@575252669443211264>.')
       }
     } catch (err) {
       Raven.captureException(err);
