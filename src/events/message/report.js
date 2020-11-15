@@ -54,14 +54,14 @@ export default class Report extends Embed {
                 fields: [
                   {
                     name: 'Report',
-                    value: `Thank you for the report. We will review it shortly.`,
+                    value: 'Thank you for the report. We will review it shortly.',
                     inline: true
                   },
                   {
                     name: 'Info',
                     value: '-',
                     inline: true
-                  },
+                  }
                 ],
                 timestamp: new Date(),
                 footer: {
@@ -124,14 +124,14 @@ export default class Report extends Embed {
                 fields: [
                   {
                     name: 'Report',
-                    value: `Thank you for the report. We will review it shortly.`,
+                    value: 'Thank you for the report. We will review it shortly.',
                     inline: true
                   },
                   {
                     name: 'Staff Link',
                     value: `[Case](${m.url})`,
                     inline: true
-                  },
+                  }
                 ],
                 timestamp: new Date(),
                 footer: {
@@ -166,10 +166,10 @@ export default class Report extends Embed {
                     inline: true
                   },
                   {
-                    name: 'Staff View',
+                    name: 'Staff Link',
                     value: `[Case](${m.url})`,
                     inline: true
-                  },
+                  }
                 ],
                 timestamp: new Date(),
                 footer: {
