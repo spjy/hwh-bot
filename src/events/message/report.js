@@ -45,7 +45,32 @@ export default class Report extends Embed {
         const reportMessage = await guild.channels
           .cache
           .get(channel.id)
-          .send('Thank you for your report. We will review it shortly.');
+          .send(
+            '',
+            {
+              embed: {
+                color: 16645888,
+                description: '',
+                fields: [
+                  {
+                    name: 'Report',
+                    value: `Thank you for the report. We will review it shortly.`,
+                    inline: true
+                  },
+                  {
+                    name: 'Info',
+                    value: '-',
+                    inline: true
+                  },
+                ],
+                timestamp: new Date(),
+                footer: {
+                  icon_url: client.user.avatarURL,
+                  text: 'Homework Help'
+                }
+              }
+            }
+          );
 
         // Send information to report channel in an embed
         const m = await this.message.guild.channels
@@ -77,8 +102,36 @@ export default class Report extends Embed {
                   },
                   {
                     name: 'Jump to report',
-                    value: `https://discordapp.com/channels/${guild.id}/${reportMessage.channel.id}/${reportMessage.id}`
+                    value: reportMessage.url
                   }
+                ],
+                timestamp: new Date(),
+                footer: {
+                  icon_url: client.user.avatarURL,
+                  text: 'Homework Help'
+                }
+              }
+            }
+          );
+
+        await reportMessage
+          .edit(
+            '',
+            {
+              embed: {
+                color: 16645888,
+                description: '',
+                fields: [
+                  {
+                    name: 'Report',
+                    value: `Thank you for the report. We will review it shortly.`,
+                    inline: true
+                  },
+                  {
+                    name: 'Staff Link',
+                    value: `[Case](${m.url})`,
+                    inline: true
+                  },
                 ],
                 timestamp: new Date(),
                 footer: {
@@ -100,7 +153,32 @@ export default class Report extends Embed {
           .awaitReactions((reaction, user) => reaction.emoji.name === '😁', { max: 1 });
 
         await reportMessage
-          .edit('A staff member has reviewed your report. If you think there was a mistake, please contact us via <@575252669443211264>.')
+          .edit(
+            '',
+            {
+              embed: {
+                color: 1441536,
+                description: '',
+                fields: [
+                  {
+                    name: 'Report',
+                    value: 'A staff member has reviewed your report. If you think there was a mistake, please contact us via <@575252669443211264>.',
+                    inline: true
+                  },
+                  {
+                    name: 'Staff View',
+                    value: `[Case](${m.url})`,
+                    inline: true
+                  },
+                ],
+                timestamp: new Date(),
+                footer: {
+                  icon_url: client.user.avatarURL,
+                  text: 'Homework Help'
+                }
+              }
+            }
+          );
       }
     } catch (err) {
       Raven.captureException(err);
