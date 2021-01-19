@@ -22,7 +22,8 @@ export default class Embed {
     fields,
     footer = 'Homework Help Bot',
     channelToSend = '',
-    preembed = ''
+    preembed = '',
+    timestamp = new Date()
   } = {}) {
     const {
       channel,
@@ -39,7 +40,7 @@ export default class Embed {
         },
         description: description,
         fields: fields,
-        timestamp: new Date(),
+        timestamp: timestamp,
         footer: {
           icon_url: message.client.user.avatarURL,
           text: footer
@@ -83,6 +84,14 @@ export default class Embed {
    */
   setFields(fields) {
     this.content.embed.fields = fields;
+  }
+
+  /**
+   * Sets the timestamp value.
+   * @param {Date} timestamp
+   */
+  setTimestamp(timestamp) {
+    this.content.embed.timestamp = timestamp;
   }
 
   /**
