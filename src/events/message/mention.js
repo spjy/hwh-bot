@@ -93,7 +93,7 @@ export default class Mention extends Embed {
 
         await super.sendToCurrentChannel();
       } else {
-        await this.message.reply('the role(s) you have included are invalid. See #change-role for a list of mentionable roles.');
+        await this.message.reply('the role(s) you have included are invalid. See <#774013957635440690> for a list of mentionable roles.');
       }
     } else {
       // nothing provided
@@ -155,7 +155,7 @@ export default class Mention extends Embed {
 
       // Check if has ?mention ban role. If so, error.
       if (member.roles.cache.has(this.mentionBanId)) {
-        await this.message.reply('you are banned from using the ?mention command.');
+        await this.message.reply('you are banned from using the `?mention` command.');
 
         return;
       }
@@ -200,7 +200,7 @@ export default class Mention extends Embed {
 
         await this.execute();
       } else { // mention doesn't exist
-        await this.message.reply('you do not have a key generated. Use `?mention role1 [role2]` to do so. See section six (6) in #tips for more information.');
+        await this.message.reply('you do not have a key generated. Use `?mention [role/channel]` to do so. See section six (6) in <#427771420190441472> for more information.');
       }
     } catch (err) {
       Raven.captureException(err);
