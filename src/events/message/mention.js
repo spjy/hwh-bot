@@ -180,7 +180,7 @@ export default class Mention extends Embed {
         await this.createMention(mention);
       } else if (!helpMention && !mention) {
         // If general category ping
-        mention = channel.parent.name; // get category name
+        mention = channel.name; // get category name
 
         await this.createMention(mention);
       } else if (mention && mention === 'cancel') {
