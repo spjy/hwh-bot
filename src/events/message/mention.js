@@ -160,6 +160,13 @@ export default class Mention extends Embed {
         return;
       }
 
+      // Allow mentions in help categories
+      if (channel.parent.name.split(' ')[1].toLowerCase() === 'help') {
+        await this.message.reply('you can only use mentions in help channels.');
+
+        return;
+      }
+
       // Retrieve stored helpMention according to user ID
       const helpMention = this.helpMentions.get(author.id);
 
