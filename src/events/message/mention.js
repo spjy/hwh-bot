@@ -53,7 +53,9 @@ export default class Mention extends Embed {
             color
           } = r;
 
-          if (mention.toLowerCase().replace(/-/g, ' ') === name.toLowerCase()
+          // Remove number in channel name (e.g. math-2)
+          // and replace dashes with spaces to get role name
+          if (mention.toLowerCase().replace(/-\d/g).replace(/-/g, ' ') === name.toLowerCase()
               && color === 9807270) {
             roleToMention = r;
 
@@ -130,6 +132,11 @@ export default class Mention extends Embed {
 
       // Reset collection
       this.helpMentions.set(author.id, undefined);
+
+      await guild.channels
+        .cache
+        .get(this.mentionLogChannel)
+        .send(`<@${author}> sent mention in <#${helpChannel}>`);
     } else if (Date.now() <= helpDate) {
       await this.message.reply('the cooldown time (10 minutes) has not elapsed yet.');
     }
