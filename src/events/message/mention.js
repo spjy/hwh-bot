@@ -155,7 +155,7 @@ export default class Mention extends Embed {
 
       // Check if has ?mention ban role. If so, error.
       if (member.roles.cache.has(this.mentionBanId)) {
-        await this.message.reply('you are banned from using the `?mention` command.');
+        await this.message.reply('you are banned from using the `?mention` command. Contact <@575252669443211264> to appeal.');
 
         return;
       }
