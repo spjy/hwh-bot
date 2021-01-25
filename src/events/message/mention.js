@@ -55,7 +55,7 @@ export default class Mention extends Embed {
 
           // Remove number in channel name (e.g. math-2)
           // and replace dashes with spaces to get role name
-          if (mention.toLowerCase().replace(/-\d/g).replace(/-/g, ' ') === name.toLowerCase()
+          if (mention.toLowerCase().replace(/-\d/g, '').replace(/-/g, ' ') === name.toLowerCase()
               && color === 9807270) {
             roleToMention = r;
 
@@ -69,7 +69,7 @@ export default class Mention extends Embed {
       if (roleToMention) {
         this.helpMentions.set(author.id, {
           channel: channel.id,
-          cooldownDate: Date.now() + 600000,
+          cooldownDate: Date.now() + 1,
           mention: roleToMention,
           message: text,
           attachment: attachment.length === 1 ? attachment[0].url : null
@@ -89,7 +89,7 @@ export default class Mention extends Embed {
         this.setDescription(`Successfully generated a key for [this message](${question.url}).\n\n`
           + 'Type `?mention` in ten (10) minutes to mention <@&' + roleToMention + '>.');
 
-        this.setTimestamp(Date.now() + 600000);
+        this.setTimestamp(Date.now() + 1);
 
         this.setFooter('Mentionable at');
 
@@ -121,14 +121,14 @@ export default class Mention extends Embed {
 
       this.setDescription(`<@${author}>: ${helpMessage}`);
 
+      super.sendToCurrentChannel();
+
       if (helpAttachment) {
         await guild.channels
           .cache
           .get(helpChannel)
           .send(`**Attachment**: ${helpAttachment}`);
       }
-
-      super.sendToCurrentChannel();
 
       // Reset collection
       this.helpMentions.set(author.id, undefined);
