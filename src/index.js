@@ -16,6 +16,8 @@ const staffRoleId = '276969339901444096';
 const staffReportRoleId = '776950066198872065';
 // Study Group Mentor role ID (@Study Group Mentor)
 const studyGroupMentorId = '588998000395812874';
+// Mention Ban role ID
+const mentionBanId = '798287748259381359';
 
 // Channel IDs
 const changeRoleChannel = '275071813992710144'; // #change-role
@@ -124,16 +126,11 @@ client.on('message', (message) => {
           .get('message::rules').default;
 
         new Rules(message).execute();
-      } else if (command === '!mentionable'
-        && member.roles.cache.has(staffRoleId)) {
-        client.events
-          .get('message::mentionable')
-          .execute(message);
       } else if (command === '?mention') {
         const Mention = client.events
           .get('message::mention').default;
 
-        new Mention(message, helpMentions, mentionLogChannel).execute();
+        new Mention(message, helpMentions, mentionLogChannel, mentionBanId).execute();
       } else if (command === '?sg'
         && (member.roles.cache.has(studyGroupMentorId)
         || member.roles.cache.has(staffRoleId))) {
