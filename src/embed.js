@@ -103,6 +103,14 @@ export default class Embed {
   }
 
   /**
+   * Sets the channel to send value.
+   * @param {string} channel
+   */
+  setChannelToSend(channel) {
+    this.channelToSend = channel;
+  }
+
+  /**
    * Method to send the embed to the current channel of instantiation.
    */
   async sendToCurrentChannel() {
