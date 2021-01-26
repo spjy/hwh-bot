@@ -168,7 +168,7 @@ export default class Mention extends Embed {
       }
 
       // Allow mentions in help categories
-      if (channel.parent.name.split(' ')[1].toLowerCase() === 'help') {
+      if (channel.parent.name.endsWith().toLowerCase() === 'help') {
         await this.message.reply('you can only use mentions in help channels.');
 
         return;
