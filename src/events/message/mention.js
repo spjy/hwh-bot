@@ -69,7 +69,7 @@ export default class Mention extends Embed {
       if (roleToMention) {
         this.helpMentions.set(author.id, {
           channel: channel.id,
-          cooldownDate: Date.now() + 600000,
+          cooldownDate: Date.now() + 1,
           mention: roleToMention,
           message: text,
           attachment: attachment.length === 1 ? attachment[0].url : null
@@ -89,13 +89,13 @@ export default class Mention extends Embed {
         this.setDescription(`Successfully generated a key for [this message](${question.url}).\n\n`
           + 'Type `?mention` in ten (10) minutes to mention <@&' + roleToMention + '>.');
 
-        this.setTimestamp(Date.now() + 600000);
+        this.setTimestamp(Date.now() + 1);
 
         this.setFooter('Mentionable at');
 
         await super.sendToCurrentChannel();
       } else {
-        await this.message.reply('the role(s) you have included are invalid. See <#774013957635440690> for a list of mentionable roles.');
+        await this.message.reply('the role(s) you have included are invalid. See <#275071813992710144> for a list of mentionable roles.');
       }
     } else {
       // nothing provided
@@ -121,7 +121,9 @@ export default class Mention extends Embed {
 
       this.setDescription(`<@${author}>: ${helpMessage}`);
 
-      super.sendToCurrentChannel();
+      this.setChannelToSend(helpChannel);
+
+      super.sendToDifferentChannel();
 
       if (helpAttachment) {
         await guild.channels
@@ -131,7 +133,7 @@ export default class Mention extends Embed {
       }
 
       // Reset collection
-      this.helpMentions.set(author.id, undefined);
+      this.helpMentions.set(author, undefined);
 
       await guild.channels
         .cache
