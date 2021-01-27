@@ -69,7 +69,7 @@ export default class Mention extends Embed {
       if (roleToMention) {
         this.helpMentions.set(author.id, {
           channel: channel.id,
-          cooldownDate: Date.now() + 1,
+          cooldownDate: Date.now() + 600000,
           mention: roleToMention,
           message: text,
           attachment: attachment.length === 1 ? attachment[0].url : null
@@ -87,9 +87,9 @@ export default class Mention extends Embed {
         await confirm.delete();
 
         this.setDescription(`Successfully generated a key for [this message](${question.url}).\n\n`
-          + 'Type `?mention` in ten (10) minutes to mention <@&' + roleToMention + '>.');
+          + 'Type `?mention` in ten (10) minutes to mention <@&' + roleToMention + '> in <#' + channel.id + '>.');
 
-        this.setTimestamp(Date.now() + 1);
+        this.setTimestamp(Date.now() + 600000);
 
         this.setFooter('Mentionable at');
 
