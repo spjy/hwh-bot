@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node build/",
-    "dev": "nodemon --exec npx babel-node src/index.js",
+    "dev": "nodemon --exec npx babel-node --extensions \".ts\" src/index.ts",
     "postinstall": "./node_modules/.bin/babel src --out-dir build"
   },
   "author": "Spencer Young",
@@ -25,6 +25,7 @@
     "@babel/core": "^7.12.3",
     "@babel/node": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.7",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.4",
     "eslint": "^7.12.1",
