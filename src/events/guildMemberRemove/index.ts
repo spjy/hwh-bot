@@ -6,7 +6,7 @@ import path from 'path';
 export default function (collection: Discord.Collection<string, any>) {
   // Get all of the scripts in directory and add it to a Discord collection
   fs.readdirSync(__dirname).forEach((file) => {
-    if (file === 'index.js') return; // ignore index.js file
+    if (file === 'index.ts') return; // ignore index.js file
 
     if (fs.lstatSync(path.format({ dir: __dirname, base: file })).isFile()
       && file.endsWith('.ts')) {
