@@ -1,13 +1,17 @@
 /* eslint "import/no-dynamic-require": "off", "global-require": "off" */
-const fs = require('fs');
+import Discord from 'discord.js';
+import fs from 'fs';
 
-module.exports = (collection) => {
+export default function (collection: Discord.Collection<string, any>) {
   // require and export all .js files in same directory as this file
   fs.readdirSync(__dirname).forEach((file) => {
     if (file === 'index.js') return; // ignore index.js file
 
     if (fs.lstatSync(`${__dirname}/${file}`).isDirectory()) {
-      require(`./${file}`)(collection); // Get all folders and require them
+      import(`./${file}`)
+      .then((f) => {
+        f.default(collection)
+      }); // Get all folders and require them
     }
   });
 };

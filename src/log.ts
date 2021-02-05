@@ -1,9 +1,16 @@
-const Raven = require('raven');
+import Discord from 'discord.js'
+import Raven from 'raven';
 
 /**
  * Log an action to a specified channel.
  */
 export default class Log {
+  guild: Discord.Guild
+  user: Discord.User
+  channel: string
+  message: string
+  prefix: string
+
   /**
    * @param {Object} guild - The guild where the event was fired.
    * @param {Object} user - The user instantiating the event.
@@ -12,9 +19,9 @@ export default class Log {
    * @param {string} [message = ''] - A message describing the log, to be appended at the end.
    */
   constructor({
-    guild,
-    user,
-    channel,
+    guild = undefined,
+    user = undefined,
+    channel = undefined,
     prefix = '',
     message = ''
   } = {}) {
@@ -29,7 +36,7 @@ export default class Log {
    * Sets the main message to convey in the log.
    * @param {String} message 
    */
-  setMessage(message) {
+  setMessage(message: string): void {
     this.message = message;
   }
 
@@ -37,21 +44,21 @@ export default class Log {
    * Sets the prefix text.
    * @param {String} prefix 
    */
-  setPrefix(prefix) {
+  setPrefix(prefix: string): void {
     this.prefix = prefix;
   }
 
   /**
    * Send the log message to a certain channel. 
    */
-  async logAction() {
+  async logAction(): Promise<void> {
     try {
       const { channels } = this.guild;
       const { username, discriminator } = this.user;
 
-      await channels
+      await (<Discord.TextChannel>(channels
         .cache
-        .get(this.channel)
+        .get(this.channel)))
         .send(`${this.prefix ? this.prefix : ''}${this.user} (${username}#${discriminator}) ${this.message}.`);
     } catch (err) {
       Raven.captureException(err);

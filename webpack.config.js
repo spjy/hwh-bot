@@ -1,4 +1,4 @@
-const path = require('path');
+import path from 'path';
 const nodeExternals = require('webpack-node-externals');
 require('babel-polyfill');
 
