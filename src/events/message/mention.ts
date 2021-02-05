@@ -1,16 +1,29 @@
-const Raven = require('raven');
+import Discord from 'discord.js';
+import Raven from 'raven';
 import Embed from '../../embed';
+
+interface MentionStore {
+  channel: string,
+  cooldownDate: Date,
+  mention: string,
+  message: string,
+  attachment: string
+}
 
 /**
 * Sends a log in #server-log advising when a member left the server.
 */
 export default class Mention extends Embed {
+  helpMentions: Discord.Collection<string, MentionStore>
+  mentionLogChannel: string
+  mentionBanId: string
   /**
-   * @param {Object} message - The message being sent.
-   * @param {Collection} helpMentions - The collection of help mentions stored.
-   * @param {String} mentionLogChannel - The mention log channel ID.
+   * @param message - The message being sent.
+   * @param helpMentions - The collection of help mentions stored.
+   * @param mentionLogChannel - The mention log channel ID.
+   * @param mentionBanId - Id of the mention banned role
    */
-  constructor(message, helpMentions, mentionLogChannel, mentionBanId) {
+  constructor(message: Discord.Message, helpMentions: Discord.Collection<string, MentionStore>, mentionLogChannel: string, mentionBanId: string) {
     super({
       message,
       color: 16645888,
@@ -69,7 +82,7 @@ export default class Mention extends Embed {
       if (roleToMention) {
         this.helpMentions.set(author.id, {
           channel: channel.id,
-          cooldownDate: Date.now() + 600000,
+          cooldownDate: new Date(Date.now() + 600000),
           mention: roleToMention,
           message: text,
           attachment: attachment.length === 1 ? attachment[0].url : null
@@ -89,7 +102,7 @@ export default class Mention extends Embed {
         this.setDescription(`Successfully generated a key for [this message](${question.url}).\n\n`
           + 'Type `?mention` in ten (10) minutes to mention <@&' + roleToMention + '> in <#' + channel.id + '>.');
 
-        this.setTimestamp(Date.now() + 600000);
+        this.setTimestamp(new Date(Date.now() + 600000));
 
         this.setFooter('Mentionable at');
 
@@ -126,18 +139,18 @@ export default class Mention extends Embed {
       super.sendToDifferentChannel();
 
       if (helpAttachment) {
-        await guild.channels
+        await (<Discord.TextChannel>guild.channels
           .cache
-          .get(helpChannel)
+          .get(helpChannel))
           .send(`**Attachment**: ${helpAttachment}`);
       }
 
       // Reset collection
       this.helpMentions.set(author, undefined);
 
-      await guild.channels
+      await (<Discord.TextChannel>guild.channels
         .cache
-        .get(this.mentionLogChannel)
+        .get(this.mentionLogChannel))
         .send(`<@${author}> sent mention in <#${helpChannel}>`);
     } else if (Date.now() <= helpDate) {
       await this.message.reply('the cooldown time (10 minutes) has not elapsed yet.');
@@ -151,10 +164,12 @@ export default class Mention extends Embed {
     try {
       const {
         cleanContent: content,
-        channel,
+        channel: textChannel,
         author,
         member
       } = this.message;
+
+      const channel = <Discord.TextChannel>textChannel;
 
       // ?mention [channel/role] - role optional, if not provided, use category mention
       // Check if user already has mention pending.

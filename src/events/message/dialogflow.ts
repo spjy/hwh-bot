@@ -1,8 +1,8 @@
 require('dotenv-extended').load();
-const Raven = require('raven');
+import Raven from 'raven';
 const dialogflow = require('dialogflow');
 
-module.exports = {
+export default {
   description: 'DialogFlow',
   async execute(message) {
     try {
