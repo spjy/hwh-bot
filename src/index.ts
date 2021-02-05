@@ -1,14 +1,13 @@
-require('dotenv-extended').load();
+import dotenv from 'dotenv-extended';
 import Discord from 'discord.js';
 import Raven from 'raven';
 
 import aggregateEvents from './events';
 
-class DiscordClient extends Discord.Client {
-}
+dotenv.load();
 
 // Instantiations of Discord.js, Discord Collection, Sentry
-const client = new DiscordClient();
+const client = new Discord.Client();
 const events: Discord.Collection<string, any> = new Discord.Collection();
 const helpMentions: Discord.Collection<string, any> = new Discord.Collection();
 Raven.config(process.env.SENTRY_DSN).install();
