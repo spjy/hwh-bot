@@ -1,10 +1,8 @@
-import dotenv from 'dotenv-extended';
+require('dotenv-extended').load();
 import Discord from 'discord.js';
 import Raven from 'raven';
 
 import aggregateEvents from './events';
-
-dotenv.load();
 
 // Instantiations of Discord.js, Discord Collection, Sentry
 const client = new Discord.Client();
