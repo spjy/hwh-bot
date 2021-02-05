@@ -80,16 +80,6 @@ client.on('message', (message) => {
           .get('message::role').default;
 
         new Role(message).execute();
-      } else if (operator === '&'
-        && channel.id === suggestRoleChannel) {
-        events
-          .get('message::suggestRole')
-          .execute(
-            message,
-            suggestRoleChannel,
-            changeRoleChannel,
-            roleRequestChannel
-          );
       } else if (command === '?gwarn'
         && mentions.members
         && member.roles.cache.has(staffRoleId)) {
