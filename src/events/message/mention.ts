@@ -139,8 +139,6 @@ export default class Mention extends Embed {
       super.sendToDifferentChannel();
 
       if (helpAttachment) {
-        const hc = 
-
         await (<Discord.TextChannel>guild.channels
           .cache
           .get(helpChannel))
@@ -149,8 +147,6 @@ export default class Mention extends Embed {
 
       // Reset collection
       this.helpMentions.set(author, undefined);
-
-      const mlc = 
 
       await (<Discord.TextChannel>guild.channels
         .cache
