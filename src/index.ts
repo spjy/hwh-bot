@@ -28,8 +28,6 @@ const mentionLogChannel: string = '482699744305741834'; // #mention-log
 const serverLogChannel: string = '302333358078427136'; // #server-log
 const botMessagesChannel: string = '298286259028361218'; // #bot-messages
 const reportsChannel: string = '446051447226761216'; // #reports
-const suggestRoleChannel: string = '425573787950514177'; // #suggest-role
-const roleRequestChannel: string = '411828103321485313'; // #role-request
 
 aggregateEvents(events); // Require all events
 
