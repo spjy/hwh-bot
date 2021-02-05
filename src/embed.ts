@@ -141,8 +141,6 @@ export default class Embed {
    */
   async sendToDifferentChannel(): Promise<void> {
     try {
-      const channel = 
-
       await (<Discord.TextChannel>this.guild.channels
         .cache
         .get(this.channelToSend))
