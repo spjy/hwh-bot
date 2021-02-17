@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node build/",
     "dev": "nodemon --exec npx babel-node --extensions \".ts\" src/index.ts",
-    "postinstall": "./node_modules/.bin/babel src --extensions \".ts\" --out-dir build"
+    "postinstall": "babel src --extensions \".ts\" --out-dir build",
+    "prod": "yarn postinstall && yarn start"
   },
   "author": "Spencer Young",
   "license": "MIT",
