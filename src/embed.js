@@ -1,5 +1,4 @@
-import Discord from 'discord.js'
-import Raven from 'raven';
+const Raven = require('raven');
 
 /**
  * Send an embed to a specified channel.
@@ -15,19 +14,12 @@ import Raven from 'raven';
  */
 
 export default class Embed {
-  message: Discord.Message
-  content: Discord.MessageOptions
-  channel: Discord.TextChannel
-  guild: Discord.Guild
-  channelToSend: string
-  preembed: string
-
   constructor({
-    message = undefined,
-    color = undefined,
-    title = undefined,
+    message,
+    color,
+    title,
     description = '',
-    fields = undefined,
+    fields,
     footer = 'Homework Help Bot',
     channelToSend = '',
     preembed = '',
@@ -41,7 +33,7 @@ export default class Embed {
     this.message = message;
 
     this.content = {
-      embed: new Discord.MessageEmbed({
+      embed: {
         color: color,
         author: {
           name: title
@@ -53,7 +45,7 @@ export default class Embed {
           icon_url: message.client.user.avatarURL,
           text: footer
         }
-      })
+      }
     };
 
     this.channel = channel;
@@ -66,7 +58,7 @@ export default class Embed {
    * Sets the preembed value.
    * @param {string} preembed
    */
-  setPreembed(preembed: string) {
+  setPreembed(preembed) {
     this.preembed = preembed;
   }
 
@@ -74,7 +66,7 @@ export default class Embed {
    * Sets the title value.
    * @param {string} title
    */
-  setTitle(title: string) {
+  setTitle(title) {
     this.content.embed.author.name = title;
   }
 
@@ -82,7 +74,7 @@ export default class Embed {
    * Sets the description value.
    * @param {string} description
    */
-  setDescription(description: string) {
+  setDescription(description) {
     this.content.embed.description = description;
   }
 
@@ -90,7 +82,7 @@ export default class Embed {
    * Sets the fields value.
    * @param {Array} fields
    */
-  setFields(fields: Discord.EmbedField[]) {
+  setFields(fields) {
     this.content.embed.fields = fields;
   }
 
@@ -98,7 +90,7 @@ export default class Embed {
    * Sets the timestamp value.
    * @param {Date} timestamp
    */
-  setTimestamp(timestamp: Date) {
+  setTimestamp(timestamp) {
     this.content.embed.timestamp = timestamp;
   }
 
@@ -106,7 +98,7 @@ export default class Embed {
    * Sets the footer value.
    * @param {string} footer
    */
-  setFooter(footer: string) {
+  setFooter(footer) {
     this.content.embed.footer.text = footer;
   }
 
@@ -114,14 +106,14 @@ export default class Embed {
    * Sets the channel to send value.
    * @param {string} channel
    */
-  setChannelToSend(channel: string) {
+  setChannelToSend(channel) {
     this.channelToSend = channel;
   }
 
   /**
    * Method to send the embed to the current channel of instantiation.
    */
-  async sendToCurrentChannel(): Promise<void> {
+  async sendToCurrentChannel() {
     try {
       await this.channel
         .send(
@@ -139,11 +131,11 @@ export default class Embed {
   /**
    * Method to send the embed to a specified channel.
    */
-  async sendToDifferentChannel(): Promise<void> {
+  async sendToDifferentChannel() {
     try {
-      await (<Discord.TextChannel>this.guild.channels
+      await this.guild.channels
         .cache
-        .get(this.channelToSend))
+        .get(this.channelToSend)
         .send(
           this.preembed,
           this.content

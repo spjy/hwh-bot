@@ -1,6 +1,6 @@
-import Raven from 'raven';
+const Raven = require('raven');
 
-export default {
+module.exports = {
   description: 'DM Commands (>h, >c, ?ta5)',
   async execute(message, client, botMessagesChannel) {
     try {

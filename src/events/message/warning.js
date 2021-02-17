@@ -1,4 +1,3 @@
-import Discord from 'discord.js';
 import Raven from 'raven';
 import Embed from '../../embed';
 
@@ -11,7 +10,7 @@ export default class Warning extends Embed {
   /**
    * @param {Object} message - The message object instantiating `?gwarn`.
    */
-  constructor(message: Discord.Message) {
+  constructor(message) {
     super({
       message,
       color: 16645888,
@@ -51,8 +50,7 @@ export default class Warning extends Embed {
               name: 'Reason',
               value: warn[2] === undefined
                 ? 'No reason provided.'
-                : reason.join(' '),
-              inline: false
+                : reason.join(' ')
             }
           ],
         );
