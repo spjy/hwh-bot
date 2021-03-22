@@ -67,7 +67,7 @@ client.on('message', (message) => {
     }
 
     if (member) {
-      const command = content.split(' ').shift().toLowerCase(); // Get first word of string
+      const command = content.split(/\s+/).shift().toLowerCase(); // Get first word of string
       const operator = content.slice(0, 1); // Get first letter of string
 
       if (author.id === client.user.id) return; // Ignore own bot's messages
