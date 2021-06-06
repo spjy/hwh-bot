@@ -1,25 +1,24 @@
-import path from 'path';
+const path = require('path');
 const nodeExternals = require('webpack-node-externals');
-require('babel-polyfill');
 
 module.exports = {
-  entry: ['@babel/polyfill', './src/index.js'],
+  entry: ['./src/index.ts'],
   target: 'node',
   output: {
     filename: 'index.js',
     path: path.join(__dirname, 'build')
   },
   externals: [nodeExternals()],
+  resolve: {
+    extensions: ['.ts']
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.ts$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
+          loader: 'babel-loader'
         }
       }
     ]
