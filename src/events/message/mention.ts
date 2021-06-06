@@ -68,7 +68,7 @@ export default class Mention extends Embed {
 
           // Remove number in channel name (e.g. math-2)
           // and replace dashes with spaces to get role name
-          if (mention.toLowerCase().replace(/-\d/g, '').replace(/-/g, ' ') === name.toLowerCase()
+          if (mention.toLowerCase().replace(/-[a-z]$/, '').replace(/-/g, ' ') === name.toLowerCase()
               && color === 9807270) {
             roleToMention = r;
 
