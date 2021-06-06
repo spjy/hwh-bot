@@ -1,3 +1,4 @@
+import Discord from 'discord.js'
 import Raven from 'raven';
 import Embed from '../../embed';
 
@@ -6,12 +7,16 @@ import Embed from '../../embed';
  * specified reports channel.
  */
 export default class Report extends Embed {
+  message: Discord.Message
+  reportsChannel: string
+  staffRoleId: string
+
   /**
    * @param {Object} message The message object.
    * @param {String} reportsChannel The reports channel ID.
    * @param {String} staffRoleId The staff role ID.
    */
-  constructor(message, reportsChannel, staffRoleId) {
+  constructor(message: Discord.Message, reportsChannel: string, staffRoleId: string) {
     super({
       message,
       color: 16645888,
@@ -42,13 +47,13 @@ export default class Report extends Embed {
 
       // If mentions includes @Staff
       if (report.includes(this.staffRoleId)) {
-        const reportMessage = await guild.channels
+        const reportMessage = await (<Discord.TextChannel>guild.channels
           .cache
-          .get(channel.id)
+          .get(channel.id))
           .send(
             '',
             {
-              embed: {
+              embed: new Discord.MessageEmbed({
                 color: 16645888,
                 description: '',
                 fields: [
@@ -65,21 +70,21 @@ export default class Report extends Embed {
                 ],
                 timestamp: new Date(),
                 footer: {
-                  icon_url: client.user.avatarURL,
+                  icon_url: client.user.avatarURL(),
                   text: 'Homework Help'
                 }
-              }
+              })
             }
           );
 
         // Send information to report channel in an embed
-        const m = await this.message.guild.channels
+        const m = await (<Discord.TextChannel>this.message.guild.channels
           .cache
-          .get(this.reportsChannel)
+          .get(this.reportsChannel))
           .send(
             '',
             {
-              embed: {
+              embed: new Discord.MessageEmbed({
                 color: 16645888,
                 author: {
                   name: 'Report'
@@ -107,10 +112,10 @@ export default class Report extends Embed {
                 ],
                 timestamp: new Date(),
                 footer: {
-                  icon_url: client.user.avatarURL,
+                  icon_url: client.user.avatarURL(),
                   text: 'Homework Help'
                 }
-              }
+              })
             }
           );
 
@@ -135,7 +140,7 @@ export default class Report extends Embed {
                 ],
                 timestamp: new Date(),
                 footer: {
-                  icon_url: client.user.avatarURL,
+                  icon_url: client.user.avatarURL(),
                   text: 'Homework Help'
                 }
               }
@@ -173,7 +178,7 @@ export default class Report extends Embed {
                 ],
                 timestamp: new Date(),
                 footer: {
-                  icon_url: client.user.avatarURL,
+                  icon_url: client.user.avatarURL(),
                   text: 'Homework Help'
                 }
               }

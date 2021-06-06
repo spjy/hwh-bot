@@ -10,8 +10,8 @@ https://discord.gg/YudDZtb - Discord
 Any concerns, feedback or suggestions should be directed to @spencer#6388 on Discord.
 
 ## Requirements
-- Node.js >= 8
-- Discord.js >= 11.3.2
+- Node.js >= 14
+- Discord.js >= 12
 
 ## Installing
 1. Clone respository `git clone https://github.com/spjy/hwh-bot.git`
