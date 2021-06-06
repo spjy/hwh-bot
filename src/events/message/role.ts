@@ -1,9 +1,11 @@
-const Raven = require('raven');
+import Discord from 'discord.js';
+import Raven from 'raven';
 
 /**
  * Handles role additions or subtractions for members.
  */
 export default class Role {
+  message: Discord.Message
   /**
    * @param {Object} message The message object instantiated by the user.
    */
