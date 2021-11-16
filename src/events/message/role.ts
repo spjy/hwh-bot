@@ -55,7 +55,8 @@ export default class Role {
             || roleName === 'undergraduate'
             || roleName === 'high school'
             || roleName === 'pre high school'
-            || roleName === 'independent')) {
+            || roleName === 'independent'
+            || roleName === 'advanced math')) {
             if (command === '+'
               && selectedRole === name.toLowerCase()) {
               if (member.roles.cache.has(id)) {
