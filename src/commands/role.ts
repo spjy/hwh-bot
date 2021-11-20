@@ -12,22 +12,22 @@ export default class Role {
   }
 
   async execute(interaction) {
-    const { client } = interaction;
+    const { client, guild } = interaction;
 
 		const row = new MessageActionRow()
 			.addComponents(
 				new MessageSelectMenu()
-					.setCustomId('select')
+					.setCustomId('role')
 					.setPlaceholder('Nothing selected')
 					.addOptions([
 						{
-              emoji: client.emojis.cache.get('910763444213542923'),
+              emoji: '1️⃣',
 							label: 'Pre High School',
 							description: 'Before high school',
 							value: 'first_option',
 						},
 						{
-              emoji: client.emojis.cache.get('910763444213542923'),
+              emoji: '2️⃣',
 							label: 'High School',
 							description: 'High school',
 							value: 'high_school',
@@ -35,6 +35,18 @@ export default class Role {
 					]),
 			);
 
-		await interaction.reply({ content: 'Pong!', components: [row] });
+    const r = await (<Discord.TextChannel>guild.channels
+      .cache
+      .get(process.env.CHANGE_ROLE_CHANNEL_ID))
+      .send({
+        content: 'k',
+        components: [row]
+      });
+
+		await interaction.reply({ content: 'hath been senterino' });
+  }
+
+  async executeMenu(interaction: Discord.MessageComponentInteraction, id: Number) {
+    console.log(interaction.values);
   }
 }

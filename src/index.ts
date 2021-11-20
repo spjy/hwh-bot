@@ -88,4 +88,44 @@ client.on('interactionCreate', async interaction => {
   }
 });
 
+client.on('interactionCreate', async interaction => {
+	if (!interaction.isButton()) return;
+
+  // format: interaction::[0-infty], e.g. report::0, report::1, report::2
+  const [action, id] = interaction.customId.split('::');
+
+  if (!client.commands.has(action)) return;
+
+  const command = client.commands.get(action);
+
+  if (!command) return;
+
+  try {
+    await command.executeButton(interaction, Number(id));
+  } catch (error) {
+    console.error(error);
+    await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+  }
+});
+
+client.on('interactionCreate', async interaction => {
+	if (!interaction.isSelectMenu()) return;
+
+  // format: interaction::[0-infty], e.g. report::0, report::1, report::2
+  const [action, id] = interaction.customId.split('::');
+
+  if (!client.commands.has(action)) return;
+
+  const command = client.commands.get(action);
+
+  if (!command) return;
+
+  try {
+    await command.executeMenu(interaction, Number(id));
+  } catch (error) {
+    console.error(error);
+    await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+  }
+});
+
 client.login(process.env.DISCORD_TOKEN);
