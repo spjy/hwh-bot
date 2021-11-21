@@ -1,13 +1,14 @@
 import Raven from 'raven';
 
-export default {
-  description: 'DM Commands (>h, >c, ?ta5)',
+export default class DM {
   async execute(message, client, botMessagesChannel) {
     try {
       const {
         cleanContent: content,
         channel
       } = message;
+
+      console.log('dn')
 
       const operator = '>';
 
