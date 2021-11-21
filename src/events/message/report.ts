@@ -6,7 +6,7 @@ import Embed from '../../embed';
  * Detect when a user includes the @Staff ping, generate a report in the
  * specified reports channel.
  */
-export default class Report extends Embed {
+export default class Report {
   message: Discord.Message
   reportsChannel: string
   staffRoleId: string
@@ -17,12 +17,6 @@ export default class Report extends Embed {
    * @param {String} staffRoleId The staff role ID.
    */
   constructor(message: Discord.Message, reportsChannel: string, staffRoleId: string) {
-    super({
-      message,
-      color: 16645888,
-      title: 'Report'
-    });
-
     this.message = message;
     this.reportsChannel = reportsChannel;
     this.staffRoleId = staffRoleId;
@@ -50,10 +44,9 @@ export default class Report extends Embed {
         const reportMessage = await (<Discord.TextChannel>guild.channels
           .cache
           .get(channel.id))
-          .send(
-            '',
-            {
-              embed: new Discord.MessageEmbed({
+          .send({
+            embeds: [
+              new Discord.MessageEmbed({
                 color: 16645888,
                 description: '',
                 fields: [
@@ -74,17 +67,16 @@ export default class Report extends Embed {
                   text: 'Homework Help'
                 }
               })
-            }
-          );
+            ]
+          });
 
         // Send information to report channel in an embed
         const m = await (<Discord.TextChannel>this.message.guild.channels
           .cache
           .get(this.reportsChannel))
-          .send(
-            '',
-            {
-              embed: new Discord.MessageEmbed({
+          .send({
+            embeds: [
+              new Discord.MessageEmbed({
                 color: 16645888,
                 author: {
                   name: 'Report'
@@ -116,14 +108,13 @@ export default class Report extends Embed {
                   text: 'Homework Help'
                 }
               })
-            }
-          );
+            ]
+          });
 
         await reportMessage
-          .edit(
-            '',
-            {
-              embed: {
+          .edit({
+            embeds: [
+              new Discord.MessageEmbed({
                 color: 16645888,
                 description: '',
                 fields: [
@@ -143,9 +134,9 @@ export default class Report extends Embed {
                   icon_url: client.user.avatarURL(),
                   text: 'Homework Help'
                 }
-              }
-            }
-          );
+              })
+            ]
+          });
 
         // React with a grin
         await m
@@ -155,13 +146,12 @@ export default class Report extends Embed {
           .delete();
 
         await m
-          .awaitReactions((reaction, user) => reaction.emoji.name === '😁', { max: 1 });
+          .awaitReactions({ filter: (reaction, user) => reaction.emoji.name === '😁', max: 1 });
 
         await reportMessage
-          .edit(
-            '',
-            {
-              embed: {
+          .edit({
+            embeds: [
+              new Discord.MessageEmbed({
                 color: 1441536,
                 description: '',
                 fields: [
@@ -181,9 +171,9 @@ export default class Report extends Embed {
                   icon_url: client.user.avatarURL(),
                   text: 'Homework Help'
                 }
-              }
-            }
-          );
+              })
+            ]
+        });
       }
     } catch (err) {
       Raven.captureException(err);
