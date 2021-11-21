@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node build/",
     "dev": "nodemon --exec npx babel-node --extensions \".ts\" src/index.ts",
+    "deploy": "npx babel-node --extensions \".ts\" src/deploy_commands.ts",
     "postinstall": "babel src --extensions \".ts\" --out-dir build"
   },
   "author": "Spencer Young",

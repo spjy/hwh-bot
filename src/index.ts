@@ -1,9 +1,6 @@
 require('dotenv-extended').load();
-import Discord, { MessageActionRow, MessageSelectMenu, MessageButton } from 'discord.js';
+import Discord from 'discord.js';
 import Raven from 'raven';
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { REST } from '@discordjs/rest';
-import { Routes } from 'discord-api-types/v9';
 import fs from 'fs';
 
 import aggregateEvents from './events';
@@ -41,10 +38,7 @@ const serverLogChannel: string = '302333358078427136'; // #server-log
 const botMessagesChannel: string = '298286259028361218'; // #bot-messages
 const reportsChannel: string = '446051447226761200'; // #reports
 
-const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
-
 client.commands = new Discord.Collection();
-const commands = [];
 const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.ts'));
 
 function instantiate(constructor, args) {
@@ -59,12 +53,7 @@ for (const file of commandFiles) {
   const c = instantiate(command.default, null);
 
   client.commands.set(c.data.name, c);
-  commands.push(c.data.toJSON());
 }
-
-rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
-  .then(() => console.log('Successfully registered application commands.'))
-  .catch(console.error);
 
 aggregateEvents(events); // Require all events
 
