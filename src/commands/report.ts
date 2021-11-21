@@ -23,7 +23,7 @@ export default class Report {
       );
   }
     
-    async execute(interaction: Discord.MessageComponentInteraction) {
+    async execute(interaction: Discord.CommandInteraction) {
       const { guild, client, user, channelId, options } = interaction;
       
       const report = new Discord.MessageEmbed({
@@ -114,7 +114,7 @@ export default class Report {
     })
   }
 
-  async executeButton(interaction: Discord.MessageComponentInteraction, id: Number) {
+  async executeButton(interaction: Discord.ButtonInteraction, id: Number) {
     const { guild, message } = interaction;
 
     if (id === actions.RESOLVE_REPORT) {
