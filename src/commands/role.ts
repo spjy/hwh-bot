@@ -67,7 +67,7 @@ export default class Role {
     }
   }
 
-  async executeMenu(interaction: Discord.MessageComponentInteraction, id: Number) {
+  async executeMenu(interaction: Discord.SelectMenuInteraction, id: Number) {
     const { component, guild, user, values } = interaction;
 
     const addedRoles = [];
