@@ -39,39 +39,39 @@ export default class Report {
       const report = this.message.mentions.roles
         .map(role => role.id);
 
+      const indicator = new Discord.MessageEmbed({
+        color: 16645888,
+        description: '',
+        fields: [
+          {
+            name: 'Report',
+            value: 'Thank you for the report. We will review it shortly.',
+            inline: true
+          },
+          {
+            name: 'Staff Link',
+            value: '-',
+            inline: true
+          }
+        ],
+        timestamp: new Date(),
+        footer: {
+          icon_url: client.user.avatarURL(),
+          text: 'Homework Help'
+        }
+      })
+
       // If mentions includes @Staff
       if (report.includes(this.staffRoleId)) {
         const reportMessage = await (<Discord.TextChannel>guild.channels
           .cache
           .get(channel.id))
           .send({
-            embeds: [
-              new Discord.MessageEmbed({
-                color: 16645888,
-                description: '',
-                fields: [
-                  {
-                    name: 'Report',
-                    value: 'Thank you for the report. We will review it shortly.',
-                    inline: true
-                  },
-                  {
-                    name: 'Info',
-                    value: '-',
-                    inline: true
-                  }
-                ],
-                timestamp: new Date(),
-                footer: {
-                  icon_url: client.user.avatarURL(),
-                  text: 'Homework Help'
-                }
-              })
-            ]
+            embeds: [indicator]
           });
 
         // Send information to report channel in an embed
-        const m = await (<Discord.TextChannel>this.message.guild.channels
+        const m = await (<Discord.TextChannel>guild.channels
           .cache
           .get(this.reportsChannel))
           .send({
@@ -111,31 +111,11 @@ export default class Report {
             ]
           });
 
+        indicator.fields[1].value = `[Case](${m.url})`;
+
         await reportMessage
           .edit({
-            embeds: [
-              new Discord.MessageEmbed({
-                color: 16645888,
-                description: '',
-                fields: [
-                  {
-                    name: 'Report',
-                    value: 'Thank you for the report. We will review it shortly.',
-                    inline: true
-                  },
-                  {
-                    name: 'Staff Link',
-                    value: `[Case](${m.url})`,
-                    inline: true
-                  }
-                ],
-                timestamp: new Date(),
-                footer: {
-                  icon_url: client.user.avatarURL(),
-                  text: 'Homework Help'
-                }
-              })
-            ]
+            embeds: [indicator]
           });
 
         // React with a grin

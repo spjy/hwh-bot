@@ -50,7 +50,7 @@ export default class Mention extends Embed {
     const messages = await this.message.channel.messages.fetch();
 
     // get second oldest message from user
-    const question = messages.filter(m => m.author.id === author.id).array()[1];
+    const question = messages.filter(m => m.author.id === author.id).values[1];
 
     // If message is found, put a checkmark to confirm
     if (question) {
