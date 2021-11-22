@@ -28,9 +28,6 @@ const events: Discord.Collection<string, any> = new Discord.Collection();
 const helpMentions: Discord.Collection<string, any> = new Discord.Collection();
 Raven.config(process.env.SENTRY_DSN).install();
 
-const guildId: string = process.env.GUILD_ID;
-const clientId: string = process.env.APPLICATION_ID;
-
 // Guild owner user ID (@spencer#6388)
 const ownerUserId: string = '74576452854480900';
 // Staff member role ID (@Staff)
@@ -60,6 +57,12 @@ for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
 
   const c = instantiate(command.default, null);
+
+  if (c.permissions !== undefined) {
+    console.log(c.permissions)
+    const cmd = client.guilds.cache.get(process.env.GUILD_ID)?.commands.cache.find((cmd) => cmd.name === c.data.name);
+    cmd.permissions.add(c.permissions);
+  }
 
   client.commands.set(c.data.name, c);
 }
