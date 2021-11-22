@@ -5,13 +5,18 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 import roles from '../../roles';
 
 export default class Role {
-	data: any 
-    
-  constructor() {
-    this.data = new SlashCommandBuilder()
+	data: any = new SlashCommandBuilder()
+    .setDefaultPermission(false)
     .setName('role')
-      .setDescription('role')
-  }
+    .setDescription('role')
+    
+  permissions: Discord.ApplicationCommandPermissionData[] = [
+    {
+      id: process.env.ADMIN_ROLE_ID,
+      type: 'ROLE',
+      permission: true
+    }
+  ]
 
   async execute(interaction) {
     const { guild } = interaction;
