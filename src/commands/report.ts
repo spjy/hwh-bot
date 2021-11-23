@@ -7,22 +7,18 @@ enum actions {
 }
 
 export default class Report {
-	data: any 
+	data: any = new SlashCommandBuilder()
+    .setName('report')
+    .setDescription('Report an incident to a staff member.')
+    .addStringOption(
+      option => option.setName('details')
+      .setDescription('Details describing what you are reporting')
+    )
+    .addUserOption(
+      option => option.setName('user')
+      .setDescription('User to be reported')
+    );
   permissions: Discord.ApplicationCommandPermissionData[]
-    
-  constructor() {
-    this.data = new SlashCommandBuilder()
-      .setName('report')
-      .setDescription('Report an incident to a staff member.')
-      .addStringOption(
-        option => option.setName('details')
-        .setDescription('Details describing what you are reporting')
-      )
-      .addUserOption(
-        option => option.setName('user')
-        .setDescription('User to be reported')
-      );
-  }
     
     async execute(interaction: Discord.CommandInteraction) {
       const { guild, client, user, channelId, options } = interaction;
