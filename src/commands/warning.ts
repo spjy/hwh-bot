@@ -16,7 +16,7 @@ export default class Report {
     this.data = new SlashCommandBuilder()
       .setDefaultPermission(false)
       .setName('warning')
-      .setDescription('Warning')
+      .setDescription('Warn user to deter undesirable behaviors')
       .addUserOption(option => option.setName('user').setDescription('The user to be warned').setRequired(true))
       .addStringOption(option => option.setName('reason').setDescription('The reason for the user to be warned').setRequired(true))
   }
