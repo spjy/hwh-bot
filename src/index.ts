@@ -44,6 +44,7 @@ const serverLogChannel: string = '302333358078427136'; // #server-log
 const botMessagesChannel: string = '298286259028361218'; // #bot-messages
 const reportsChannel: string = '446051447226761200'; // #reports
 
+client.login(process.env.DISCORD_TOKEN);
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.ts'));
 
@@ -53,25 +54,25 @@ function instantiate(constructor, args) {
   return instance;
 }
 
-for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
-
-  const c = instantiate(command.default, null);
-
-  if (c.permissions !== undefined) {
-    console.log(c.permissions)
-    const cmd = client.guilds.cache.get(process.env.GUILD_ID)?.commands.cache.find((cmd) => cmd.name === c.data.name);
-    cmd.permissions.add(c.permissions);
-  }
-
-  client.commands.set(c.data.name, c);
-}
-
 aggregateEvents(events); // Require all events
 
-client.on('ready', () => {
+client.on('ready', async () => {
   // eslint-disable-next-line
   console.log('I\'m ready!');
+  
+  const commands = await client.guilds.cache.get(process.env.GUILD_ID)?.commands.fetch();
+
+  for (const file of commandFiles) {
+    const command = require(`./commands/${file}`);
+  
+    const c = instantiate(command.default, null);
+  
+    if (c.permissions !== undefined) { 
+      commands.find(({ name }) => name === c.data.name).permissions.add({ permissions: c.permissions });
+    }
+  
+    client.commands.set(c.data.name, c);
+  }
 });
 
 client.on('interactionCreate', async interaction => {
@@ -208,5 +209,3 @@ client.on('messageCreate', async (message) => {
     Raven.captureException(err);
   }
 });
-
-client.login(process.env.DISCORD_TOKEN);

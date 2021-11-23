@@ -8,6 +8,7 @@ enum actions {
 
 export default class Report {
 	data: any 
+  permissions: Discord.ApplicationCommandPermissionData[]
     
   constructor() {
     this.data = new SlashCommandBuilder()

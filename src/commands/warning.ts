@@ -3,10 +3,18 @@ import Discord, { MessageEmbed } from 'discord.js';
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 export default class Report {
-	data: any 
+	data: any
+  permissions: Discord.ApplicationCommandPermissionData[] = [
+    {
+      id: process.env.STAFF_ROLE_ID,
+      type: 'ROLE',
+      permission: true,
+    }
+  ]
     
   constructor() {
     this.data = new SlashCommandBuilder()
+      .setDefaultPermission(false)
       .setName('warning')
       .setDescription('Warning')
       .addUserOption(option => option.setName('user').setDescription('The user to be warned').setRequired(true))
