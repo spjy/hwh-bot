@@ -1,14 +1,14 @@
+import Discord from 'discord.js';
 import Raven from 'raven';
 
 export default class DM {
-  async execute(message, client, botMessagesChannel) {
+  async execute(message: Discord.Message, client, botMessagesChannel) {
     try {
       const {
         cleanContent: content,
-        channel
+        channel,
+        attachments,
       } = message;
-
-      console.log('dn')
 
       const operator = '>';
 
@@ -16,7 +16,10 @@ export default class DM {
         await client.channels
           .cache
           .get(botMessagesChannel)
-          .send(`*Challenge Entry* from **${channel.recipient}**: ${content}`);
+          .send({
+            content: `*Challenge Entry* from **${channel.recipient}**: ${content}`,
+            files: attachments.map((a) => a.url)
+          });
 
         await message
           .reply('Successfully sent!');
