@@ -114,6 +114,11 @@ export default class Report {
   async executeButton(interaction: Discord.ButtonInteraction, id: Number) {
     const { guild, message } = interaction;
 
+    await interaction.reply({
+      content: 'Thank you for your hard work!',
+      ephemeral: true
+    });
+
     if (id === actions.RESOLVE_REPORT) {
       // Report URL - get channel and message id from url
       const [,,,,, c, m] = message.embeds[0].fields[4].value.split('/');
