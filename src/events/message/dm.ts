@@ -6,9 +6,11 @@ export default class DM {
     try {
       const {
         cleanContent: content,
-        channel,
+        channel: dmChannel,
         attachments,
       } = message;
+
+      const channel = <Discord.DMChannel>dmChannel;
 
       const operator = '>';
 
