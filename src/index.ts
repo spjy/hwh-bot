@@ -171,13 +171,7 @@ client.on('messageCreate', async (message) => {
       }
 
       // Commands
-      if ((operator === '+' || operator === '-')
-        && channel.id === changeRoleChannel) {
-        const Role = events
-          .get('message::role').default;
-
-        new Role(message).execute();
-      } else if (command === '?gwarn'
+      if (command === '?gwarn'
         && mentions.members
         && member.roles.cache.has(staffRoleId)) {
         const Warning = events
@@ -189,18 +183,6 @@ client.on('messageCreate', async (message) => {
           .get('message::tip1e').default;
 
         new Tip1E(message).execute();
-      } else if (command === '?tips'
-        && author.id === ownerUserId) {
-        const Tips = events
-          .get('message::tips').default;
-
-        new Tips(message).execute();
-      } else if (command === '?rules'
-        && author.id === ownerUserId) {
-        const Rules = events
-          .get('message::rules').default;
-
-        new Rules(message).execute();
       } else if (command === '?mention') {
         const Mention = events
           .get('message::mention').default;
