@@ -108,7 +108,7 @@ export default class Report {
   
     await interaction.editReply({
       embeds: [report]
-    })
+    });
   }
 
   async executeButton(interaction: Discord.ButtonInteraction, id: Number) {
