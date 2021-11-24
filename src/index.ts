@@ -18,6 +18,7 @@ const client = new DiscordClient({
   intents: [
     Discord.Intents.FLAGS.GUILDS,
     Discord.Intents.FLAGS.GUILD_MESSAGES,
+    Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
     Discord.Intents.FLAGS.DIRECT_MESSAGES
   ],
   partials: [
@@ -40,9 +41,8 @@ const mentionBanId: string = '798287748259381359';
 // Channel IDs
 const changeRoleChannel: string = '275071813992710144'; // #change-role
 const mentionLogChannel: string = '482699744305741834'; // #mention-log
-const serverLogChannel: string = '302333358078427136'; // #server-log
 const botMessagesChannel: string = '298286259028361218'; // #bot-messages
-const reportsChannel: string = '446051447226761200'; // #reports
+const reportsChannel: string = '446051447226761216'; // #reports
 
 client.login(process.env.DISCORD_TOKEN);
 client.commands = new Discord.Collection();
@@ -75,6 +75,7 @@ client.on('ready', async () => {
   }
 });
 
+// Slash commands
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
 
@@ -90,6 +91,7 @@ client.on('interactionCreate', async interaction => {
   }
 });
 
+// Buttons
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isButton()) return;
 
@@ -110,6 +112,7 @@ client.on('interactionCreate', async interaction => {
   }
 });
 
+// Select menu
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isSelectMenu()) return;
 
@@ -130,6 +133,7 @@ client.on('interactionCreate', async interaction => {
   }
 });
 
+// Messages
 client.on('messageCreate', async (message) => {
   try {
     const {
@@ -140,10 +144,9 @@ client.on('messageCreate', async (message) => {
       mentions
     } = message;
 
-    
     if (channel.type === 'DM') {
       const DM = events
-        .get('message::dm')
+        .get('message::dm').default
       
       await new DM().execute(message, client, botMessagesChannel);
     }
