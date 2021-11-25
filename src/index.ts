@@ -29,20 +29,17 @@ const events: Discord.Collection<string, any> = new Discord.Collection();
 const helpMentions: Discord.Collection<string, any> = new Discord.Collection();
 Raven.config(process.env.SENTRY_DSN).install();
 
-// Guild owner user ID (@spencer#6388)
-const ownerUserId: string = '74576452854480900';
 // Staff member role ID (@Staff)
-const staffRoleId: string = '276969339901444096';
+const staffRoleId: string = process.env.STAFF_ROLE_ID;
 // Staff member role ID (@Staff)
-const staffReportRoleId: string = '776950066198872065';
+const staffReportRoleId: string = process.env.STAFF_REPORT_ROLE_ID;
 // Mention Ban role ID
-const mentionBanId: string = '798287748259381359';
+const mentionBanId: string = process.env.MENTION_BAN_ROLE_ID;
 
 // Channel IDs
-const changeRoleChannel: string = '275071813992710144'; // #change-role
-const mentionLogChannel: string = '482699744305741834'; // #mention-log
-const botMessagesChannel: string = '298286259028361218'; // #bot-messages
-const reportsChannel: string = '446051447226761216'; // #reports
+const mentionLogChannel: string = process.env.MENTION_LOG_CHANNEL_ID; // #mention-log
+const botMessagesChannel: string = process.env.BOT_MESSAGES_CHANNEL_ID; // #bot-messages
+const reportsChannel: string = process.env.REPORTS_CHANNEL_ID; // #reports
 
 client.login(process.env.DISCORD_TOKEN);
 client.commands = new Discord.Collection();
