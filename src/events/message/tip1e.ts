@@ -1,44 +1,48 @@
-import Embed from '../../embed';
+import Discord from 'discord.js';
 
 /**
  * Sends Tip1E in an embed to the current channel. Triggered by `?t1e`.
  */
-export default class Tip1E extends Embed {
+export default class Tip1E {
+  message: Discord.Message
   /**
    * @param {Object} message - The message object instantiating `?t1e`.
    */
   constructor(message) {
-    super({
-      message,
-      color: 1441536,
-      title: 'Tip',
-      description: 'If you have a question, don\'t hesitate to ask it. To save time, '
-      + 'post it instead of asking "Does anyone know X?" or "Can someone help with Y?"',
-      footer: 'Homework Help Bot'
-    });
-
     this.message = message;
   }
+    
+    /**
+     * The main function to run.
+     */
+    execute() {
+      const {
+        client,
+        mentions,
+        channel
+      } = this.message;
+      
+      let mention;
+      
+      // Get mentions in message
+      mention = mentions.members
+        .map(m => m.id);
 
-  /**
-   * The main function to run.
-   */
-  execute() {
-    const {
-      mentions
-    } = this.message;
+      const tip = new Discord.MessageEmbed({
+        color: 1441536,
+        title: 'Tip',
+        description: 'If you have a question, don\'t hesitate to ask it. To save time, '
+        + 'post it instead of asking "Does anyone know X?" or "Can someone help with Y?"',
+        timestamp: new Date(),
+        footer: {
+          icon_url: client.user.avatarURL(),
+          text: 'Homework Help Bot' 
+        }
+      })
 
-    let mention;
-
-    // Get mentions in message
-    mention = mentions.members
-      .map(m => m.id);
-
-    // Check if any mentions exist
-    if (mention.length > 0) {
-      super.setPreembed(`<@!${mention[0]}>`);
-    }
-
-    super.sendToCurrentChannel();
+      channel.send({
+        content: mention.length > 0 ? `<@!${mention[0]}>` : null,
+        embeds: [tip]
+      })
   }
 }

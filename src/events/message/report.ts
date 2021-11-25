@@ -1,12 +1,11 @@
 import Discord from 'discord.js'
 import Raven from 'raven';
-import Embed from '../../embed';
 
 /**
  * Detect when a user includes the @Staff ping, generate a report in the
  * specified reports channel.
  */
-export default class Report extends Embed {
+export default class Report {
   message: Discord.Message
   reportsChannel: string
   staffRoleId: string
@@ -17,12 +16,6 @@ export default class Report extends Embed {
    * @param {String} staffRoleId The staff role ID.
    */
   constructor(message: Discord.Message, reportsChannel: string, staffRoleId: string) {
-    super({
-      message,
-      color: 16645888,
-      title: 'Report'
-    });
-
     this.message = message;
     this.reportsChannel = reportsChannel;
     this.staffRoleId = staffRoleId;
@@ -38,53 +31,61 @@ export default class Report extends Embed {
         author,
         guild,
         channel,
-        client
+        client,
+        mentions
       } = this.message;
 
       // Extract roles in message
-      const report = this.message.mentions.roles
+      const report = mentions.roles
         .map(role => role.id);
 
-      // If mentions includes @Staff
+        // If mentions includes @Staff
       if (report.includes(this.staffRoleId)) {
+        const indicator = new Discord.MessageEmbed({
+          color: 16645888,
+          description: "",
+          fields: [
+            {
+              name: "Report",
+              value: "Thank you for the report. We will review it shortly.",
+              inline: true,
+            },
+            {
+              name: "Staff Link",
+              value: "-",
+              inline: true,
+            },
+          ],
+          timestamp: new Date(),
+          footer: {
+            icon_url: client.user.avatarURL(),
+            text: "Homework Help",
+          },
+        });
+
         const reportMessage = await (<Discord.TextChannel>guild.channels
           .cache
           .get(channel.id))
-          .send(
-            '',
-            {
-              embed: new Discord.MessageEmbed({
-                color: 16645888,
-                description: '',
-                fields: [
-                  {
-                    name: 'Report',
-                    value: 'Thank you for the report. We will review it shortly.',
-                    inline: true
-                  },
-                  {
-                    name: 'Info',
-                    value: '-',
-                    inline: true
-                  }
-                ],
-                timestamp: new Date(),
-                footer: {
-                  icon_url: client.user.avatarURL(),
-                  text: 'Homework Help'
-                }
-              })
-            }
+          .send({
+            embeds: [indicator]
+          });
+
+        const resolve = new Discord.MessageActionRow()
+          .addComponents(
+            new Discord.MessageButton()
+              .setCustomId('report::0')
+              .setLabel('Resolve Report')
+              .setStyle('DANGER'),
           );
 
         // Send information to report channel in an embed
-        const m = await (<Discord.TextChannel>this.message.guild.channels
+        const m = await (<Discord.TextChannel>guild.channels
           .cache
           .get(this.reportsChannel))
-          .send(
-            '',
-            {
-              embed: new Discord.MessageEmbed({
+          .send({
+            components: [resolve],
+            embeds: [
+              new Discord.MessageEmbed({
                 color: 16645888,
                 author: {
                   name: 'Report'
@@ -102,6 +103,10 @@ export default class Report extends Embed {
                     inline: true
                   },
                   {
+                    name: 'Offender',
+                    value: 'No offender provided.'
+                  },
+                  {
                     name: 'Message',
                     value: `${content}`
                   },
@@ -116,76 +121,18 @@ export default class Report extends Embed {
                   text: 'Homework Help'
                 }
               })
-            }
-          );
+            ]
+          });
+
+        indicator.fields[1].value = `[Case](${m.url})`;
 
         await reportMessage
-          .edit(
-            '',
-            {
-              embed: {
-                color: 16645888,
-                description: '',
-                fields: [
-                  {
-                    name: 'Report',
-                    value: 'Thank you for the report. We will review it shortly.',
-                    inline: true
-                  },
-                  {
-                    name: 'Staff Link',
-                    value: `[Case](${m.url})`,
-                    inline: true
-                  }
-                ],
-                timestamp: new Date(),
-                footer: {
-                  icon_url: client.user.avatarURL(),
-                  text: 'Homework Help'
-                }
-              }
-            }
-          );
-
-        // React with a grin
-        await m
-          .react('😁');
-
-        await this.message
-          .delete();
-
-        await m
-          .awaitReactions((reaction, user) => reaction.emoji.name === '😁', { max: 1 });
-
-        await reportMessage
-          .edit(
-            '',
-            {
-              embed: {
-                color: 1441536,
-                description: '',
-                fields: [
-                  {
-                    name: 'Report',
-                    value: 'A staff member has reviewed your report. If you think there was a mistake, please contact us via <@575252669443211264>.',
-                    inline: true
-                  },
-                  {
-                    name: 'Staff Link',
-                    value: `[Case](${m.url})`,
-                    inline: true
-                  }
-                ],
-                timestamp: new Date(),
-                footer: {
-                  icon_url: client.user.avatarURL(),
-                  text: 'Homework Help'
-                }
-              }
-            }
-          );
+          .edit({
+            embeds: [indicator]
+          });
       }
     } catch (err) {
+      console.log(err)
       Raven.captureException(err);
     }
   }

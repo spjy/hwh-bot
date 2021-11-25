@@ -39,23 +39,24 @@ export default class Mention extends Embed {
 
   async createMention(helpMention) {
     const {
-      channel,
+      channel: textChannel,
       author,
       guild
     } = this.message;
 
     let mention = helpMention;
+    const channel = <Discord.TextChannel>textChannel;
 
     // fetch last 50 messages in the channel with the message was sent
-    const messages = await this.message.channel.messages.fetch();
+    const messages = await channel.messages.fetch();
 
     // get second oldest message from user
-    const question = messages.filter(m => m.author.id === author.id).array()[1];
+    const question = messages.filter(m => m.author.id === author.id).toJSON()[1];
 
     // If message is found, put a checkmark to confirm
     if (question) {
       const text = question.content; // get second oldest message content
-      const attachment = question.attachments.array(); // get attachments if there are any
+      const attachment = question.attachments.toJSON(); // get attachments if there are any
 
       let roleToMention = null;
 
@@ -95,7 +96,7 @@ export default class Mention extends Embed {
           .reply('HWH Bot has reacted to the message that will be mentioned. Once you confirm that it includes a specific, answerable question, react with the checkmark to generate the key.');
 
         await question
-          .awaitReactions((reaction, user) => reaction.emoji.name === '✅' && user.id === author.id, { max: 1 });
+          .awaitReactions({ filter: (reaction, user) => reaction.emoji.name === '✅' && user.id === author.id, max: 1 });
 
         await confirm.delete();
 
@@ -234,6 +235,7 @@ export default class Mention extends Embed {
         await this.message.reply('you do not have a key generated. Use `?mention [role/channel]` to do so. See section six (6) in <#427771420190441472> for more information.');
       }
     } catch (err) {
+      console.log(err)
       Raven.captureException(err);
     }
   }

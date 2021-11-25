@@ -16,7 +16,7 @@ import Raven from 'raven';
 
 export default class Embed {
   message: Discord.Message
-  content: Discord.MessageOptions
+  content: Discord.MessageEmbedOptions
   channel: Discord.TextChannel
   guild: Discord.Guild
   channelToSend: string
@@ -35,25 +35,24 @@ export default class Embed {
   } = {}) {
     const {
       channel,
-      guild
+      guild,
+      client
     } = message;
 
     this.message = message;
 
     this.content = {
-      embed: new Discord.MessageEmbed({
-        color: color,
-        author: {
-          name: title
-        },
-        description: description,
-        fields: fields,
-        timestamp: timestamp,
-        footer: {
-          icon_url: message.client.user.avatarURL,
-          text: footer
-        }
-      })
+      color: color,
+      author: {
+        name: title
+      },
+      description: description,
+      fields: fields,
+      timestamp: timestamp,
+      footer: {
+        icon_url: client.user.avatarURL(),
+        text: footer
+      }
     };
 
     this.channel = channel;
@@ -75,7 +74,7 @@ export default class Embed {
    * @param {string} title
    */
   setTitle(title: string) {
-    this.content.embed.author.name = title;
+    this.content.author.name = title;
   }
 
   /**
@@ -83,7 +82,7 @@ export default class Embed {
    * @param {string} description
    */
   setDescription(description: string) {
-    this.content.embed.description = description;
+    this.content.description = description;
   }
 
   /**
@@ -91,7 +90,7 @@ export default class Embed {
    * @param {Array} fields
    */
   setFields(fields: Discord.EmbedField[]) {
-    this.content.embed.fields = fields;
+    this.content.fields = fields;
   }
 
   /**
@@ -99,7 +98,7 @@ export default class Embed {
    * @param {Date} timestamp
    */
   setTimestamp(timestamp: Date) {
-    this.content.embed.timestamp = timestamp;
+    this.content.timestamp = timestamp;
   }
 
   /**
@@ -107,7 +106,7 @@ export default class Embed {
    * @param {string} footer
    */
   setFooter(footer: string) {
-    this.content.embed.footer.text = footer;
+    this.content.footer.text = footer;
   }
 
   /**
@@ -124,10 +123,10 @@ export default class Embed {
   async sendToCurrentChannel(): Promise<void> {
     try {
       await this.channel
-        .send(
-          this.preembed,
-          this.content
-        );
+        .send({
+          content: this.preembed,
+          embeds: [new Discord.MessageEmbed(this.content)]
+        });
 
       await this.message
         .delete();
@@ -144,10 +143,10 @@ export default class Embed {
       await (<Discord.TextChannel>this.guild.channels
         .cache
         .get(this.channelToSend))
-        .send(
-          this.preembed,
-          this.content
-        );
+        .send({
+          content: this.preembed,
+          embeds: [new Discord.MessageEmbed(this.content)]
+        });
 
       await this.message
         .delete();

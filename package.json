@@ -7,15 +7,19 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node build/",
     "dev": "nodemon --exec npx babel-node --extensions \".ts\" src/index.ts",
+    "deploy": "npx babel-node --extensions \".ts\" src/deploy_commands.ts",
     "postinstall": "babel src --extensions \".ts\" --out-dir build"
   },
   "author": "Spencer Young",
   "license": "MIT",
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "@discordjs/builders": "^0.8.2",
+    "@discordjs/rest": "^0.1.0-canary.0",
     "core-js": "^3.14.0",
     "dialogflow": "^1.2.0",
-    "discord.js": "^12.5.3",
+    "discord-api-types": "^0.24.0",
+    "discord.js": "^13.3.1",
     "dotenv-extended": "^2.9.0",
     "pm2": "^4.5.6",
     "raven": "^2.6.3"
