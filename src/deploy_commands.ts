@@ -3,7 +3,7 @@ const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const fs = require('fs');
 
-const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.ts'));
+const commandFiles = fs.readdirSync('./src/commands');
 
 const commands = [];
 
@@ -15,9 +15,10 @@ function instantiate(constructor, args) {
   return instance;
 }
 
-export default () => {
+export default function deploy() {
   for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
+    const name = file.endsWith('.ts') ? file.replace('.ts', '') : file.replace('.js', '');
+    const command = require(`./commands/${name}`);
   
     const c = instantiate(command.default, null);
   
@@ -28,3 +29,5 @@ export default () => {
     .then(() => console.log('Successfully registered application commands.'))
     .catch(console.error);
 }
+
+deploy();

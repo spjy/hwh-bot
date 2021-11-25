@@ -46,7 +46,7 @@ const reportsChannel: string = process.env.REPORTS_CHANNEL_ID; // #reports
 
 client.login(process.env.DISCORD_TOKEN);
 client.commands = new Discord.Collection();
-const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.ts'));
+const commandFiles = fs.readdirSync('./src/commands');
 
 function instantiate(constructor, args) {
   var instance = Object.create(constructor.prototype);
@@ -63,7 +63,8 @@ client.on('ready', async () => {
   const commands = await client.guilds.cache.get(process.env.GUILD_ID)?.commands.fetch();
 
   for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
+    const name = file.endsWith('.ts') ? file.replace('.ts', '') : file.replace('.js', '');
+    const command = require(`./commands/${name}`);
   
     const c = instantiate(command.default, null);
   
