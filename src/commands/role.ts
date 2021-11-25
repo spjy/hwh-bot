@@ -2,7 +2,7 @@ require('dotenv-extended').load();
 import Discord, { MessageEmbed, MessageActionRow, MessageSelectMenu } from 'discord.js';
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-import roles from '../../roles';
+import roles from '../roles';
 
 export default class Role {
 	data: any = new SlashCommandBuilder()
