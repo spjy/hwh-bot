@@ -39,7 +39,9 @@ export default class Report {
   async execute(interaction) {
     const { options, channel, message } = interaction;
 
-    interaction.reply({ content: 'Mention command not yet implemented.' });
+    await interaction.reply({
+      content: 'Mention command not yet implemented.',
+    });
 
     // Allow mentions in help categories
     // if (!channel.parent.name.toLowerCase().endsWith('help')) {
