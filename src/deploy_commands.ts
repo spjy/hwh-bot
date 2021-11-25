@@ -15,14 +15,16 @@ function instantiate(constructor, args) {
   return instance;
 }
 
-for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
-
-  const c = instantiate(command.default, null);
-
-  commands.push(c.data.toJSON());
+export default () => {
+  for (const file of commandFiles) {
+    const command = require(`./commands/${file}`);
+  
+    const c = instantiate(command.default, null);
+  
+    commands.push(c.data.toJSON());
+  }
+  
+  rest.put(Routes.applicationGuildCommands(process.env.APPLICATION_ID, process.env.GUILD_ID), { body: commands })
+    .then(() => console.log('Successfully registered application commands.'))
+    .catch(console.error);
 }
-
-rest.put(Routes.applicationGuildCommands(process.env.APPLICATION_ID, process.env.GUILD_ID), { body: commands })
-	.then(() => console.log('Successfully registered application commands.'))
-	.catch(console.error);
