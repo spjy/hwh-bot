@@ -4,9 +4,6 @@ import Raven from 'raven';
 import fs from 'fs';
 
 import aggregateEvents from './events';
-import deploy from './deploy_commands';
-
-deploy();
 
 class DiscordClient extends Discord.Client {
   constructor(s: Discord.ClientOptions) {
