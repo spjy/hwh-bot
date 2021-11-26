@@ -46,6 +46,7 @@ export default class Report {
       });
 
       await interaction.reply({
+        content: '<@&776950066198872065>',
         embeds: [report]
       })
 
