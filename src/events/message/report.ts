@@ -130,6 +130,9 @@ export default class Report {
           .edit({
             embeds: [indicator]
           });
+
+        this.message
+          .delete();
       }
     } catch (err) {
       console.log(err)

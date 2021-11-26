@@ -22,6 +22,11 @@ export default class Report {
     
     async execute(interaction: Discord.CommandInteraction) {
       const { guild, client, user, channelId, options } = interaction;
+
+      interaction.reply({
+        content: 'Thank you for helping keep Homework Help safe. Please contact us via <@575252669443211264> if the incident is not resolved.',
+        ephemeral: true
+      })
       
       const report = new Discord.MessageEmbed({
         color: 16645888,
@@ -45,13 +50,15 @@ export default class Report {
         }
       });
 
-      await interaction.reply({
-        content: '<@&776950066198872065>',
-        embeds: [report]
-      })
+      // Send report embed to channel reported in
+      const r = await (<Discord.TextChannel>guild.channels
+        .cache
+        .get(channelId))
+        .send({
+          content: '<@&776950066198872065>',
+          embeds: [report]
+        });
 
-      const r = await interaction.fetchReply();
-      
       const staff = new Discord.MessageEmbed({
         color: 16645888,
         author: {
@@ -107,7 +114,7 @@ export default class Report {
 
     report.fields[1].value = `[Case](${s.url})`
   
-    await interaction.editReply({
+    await r.edit({
       embeds: [report]
     });
   }
