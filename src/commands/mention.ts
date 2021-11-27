@@ -117,6 +117,11 @@ export default class Report {
     interaction.editReply({
       content: `Type \`/mention send\` at <t:${Math.round((mentionCooldown).getTime() / 1000)}:t> to use this mention.`
     })
+
+    await (<Discord.TextChannel>guild.channels
+      .cache
+      .get(process.env.MENTION_LOG_CHANNEL_ID))
+      .send(`<@${user.id}> created mention for ${mentionMessage.url}`);
   }
 
   async sendMention(interaction: Discord.CommandInteraction, helpMentions: Discord.Collection<string, MentionStore>, helpMention: MentionStore) {
