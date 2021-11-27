@@ -2,12 +2,12 @@ import Discord from 'discord.js';
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 export default class Ask {
-	data: any = new SlashCommandBuilder()
+	command: any = new SlashCommandBuilder()
     .setName('ask')
     .setDescription('Send tip letting users know to just ask their question')
 
   async execute(interaction: Discord.CommandInteraction) {
-    const { client, channel } = interaction;
+    const { client } = interaction;
 
     const tip = new Discord.MessageEmbed({
       color: 1441536,
@@ -21,7 +21,7 @@ export default class Ask {
       }
     })
 
-    channel.send({
+    interaction.reply({
       embeds: [tip]
     })
   }
