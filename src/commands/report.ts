@@ -29,6 +29,7 @@ export default class Report {
       ephemeral: true
     })
     
+    // Report indicator in channel where report was created
     const report = new Discord.MessageEmbed({
       color: 16645888,
       description: '',
@@ -60,6 +61,7 @@ export default class Report {
         embeds: [report]
       });
 
+    // Embed for staff channel
     const staff = new Discord.MessageEmbed({
       color: 16645888,
       fields: [
@@ -103,6 +105,7 @@ export default class Report {
 					.setStyle('DANGER'),
 			);
 
+    // Send staff embed
     const s = await (<Discord.TextChannel>guild.channels
       .cache
       .get(process.env.REPORTS_CHANNEL_ID))
@@ -111,6 +114,7 @@ export default class Report {
         components: [resolve]
       });
 
+    // Add URL for staff to jump to staff channel
     report.fields[1].value = `[Case](${s.url})`
   
     await r.edit({
@@ -141,6 +145,7 @@ export default class Report {
         embeds: [reportEmbed]
       });
       
+      // Set resolve button to green, set who resolved it. Also add cancel button if there was an error
       const button = new MessageActionRow()
         .addComponents(
           new MessageButton()
@@ -174,6 +179,7 @@ export default class Report {
           embeds: [reportEmbed]
         });
   
+        // Reset buttons to unresolved state
         const button = new MessageActionRow()
           .addComponents(
             new MessageButton()

@@ -23,6 +23,7 @@ export default class Role {
 
     await interaction.reply({ content: 'hath been senterino' });
 
+    // Send roles based on structure from src/roles.ts
     for (let role in roles) {
       let row;
 
