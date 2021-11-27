@@ -1,14 +1,14 @@
 require('dotenv-extended').load();
-import Discord, { MessageEmbed, MessageActionRow, MessageSelectMenu } from 'discord.js';
+import Discord, { MessageActionRow, MessageSelectMenu } from 'discord.js';
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 import roles from '../roles';
 
 export default class Role {
-	data: any = new SlashCommandBuilder()
+	command: any = new SlashCommandBuilder()
     .setDefaultPermission(false)
     .setName('role')
-    .setDescription('role')
+    .setDescription('Send available select menus for role selection')
     
   permissions: Discord.ApplicationCommandPermissionData[] = [
     {
@@ -19,7 +19,7 @@ export default class Role {
   ]
 
   async execute(interaction) {
-    const { guild } = interaction;
+    const { channel } = interaction;
 
     await interaction.reply({ content: 'hath been senterino' });
 
@@ -62,9 +62,7 @@ export default class Role {
           );
       }
 
-      await (<Discord.TextChannel>guild.channels
-        .cache
-        .get(process.env.CHANGE_ROLE_CHANNEL_ID))
+      await (<Discord.TextChannel>channel)
         .send({
           content: `**${role}**`,
           components: [row]
@@ -74,6 +72,10 @@ export default class Role {
 
   async executeMenu(interaction: Discord.SelectMenuInteraction, id: Number) {
     const { component, guild, user, values } = interaction;
+
+    interaction.deferReply({
+      ephemeral: true
+    });
 
     const addedRoles = [];
     const removedRoles = [];
@@ -113,9 +115,8 @@ export default class Role {
       message += `You have **removed** the following roles:\n${removedRoles.join('\n')}`
     }
 
-    interaction.reply({
+    interaction.editReply({
       content: message,
-      ephemeral: true,
-    })
+    });
   }
 }
