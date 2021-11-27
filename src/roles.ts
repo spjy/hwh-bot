@@ -2,40 +2,58 @@ export default {
   Education: [
     {
       emoji: "<:edone:799921598025957386>",
+      description: 'Education before high school, such as middle school, junior high school, or grade nine generally',
       label: "Pre-High School",
-      description: 'Education before high school, such as middle school, junior high school, or grade nine generally.',
       value: "Pre-High School"
     },
     {
       emoji: "<:edtwo:799921598055579668>",
+      description: 'Secondary/upper secondary education, or grades 9-12 generally',
       label: "High School",
       value: "High School"
     },
     {
       emoji: "<:edthree:799921598043521054>",
+      description: 'Post-secondary education comprising associate, bachelor\'s degrees, or licentiate degree programs',
       label: "Undergraduate",
       value: "Undergraduate"
     },
     {
       emoji: "<:edfour:799921598043521024>",
+      description: 'Higher education comprising specialist, master\'s, doctoral, or professional degrees or equivalents',
       label: "Graduate",
       value: "Graduate"
     },
     {
       emoji: "<:edfive:799921598051516426>",
+      description: 'Any program of study or research taken after the completion of a graduate program',
       label: "Postgraduate",
       value: "Postgraduate"
     },
     {
       emoji: "<:edsix:799921598093983744>",
+      description: 'Working within or applying your areas of study in academia, industry, government, or other settings',
       label: "Professional",
       value: "Professional"
     },
     {
       emoji: "<:edseven:911788768535654483>",
+      description: 'Pursuing alternative education or otherwise not falling into the other education roles',
       label: "Independent",
       value: "Independent"
     },
+  ],
+  'Contact Status': [
+    {
+      emoji: "<:pingsock:707338597656821891>",
+      label: "Pingable",
+      value: "Pingable"
+    },
+    {
+      emoji: "📥",
+      label: "DMable",
+      value: "DMable"
+    }
   ],
   Event: [
     {
