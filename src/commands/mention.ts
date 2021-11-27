@@ -1,11 +1,9 @@
 require('dotenv-extended').load();
 import Discord, { MessageEmbed } from 'discord.js';
-import Mention from '../events/message/mention';
 import { SlashCommandBuilder, ContextMenuCommandBuilder } from "@discordjs/builders";
 import { ApplicationCommandType } from 'discord-api-types/v9';
 
 import { MentionStore } from '../typedefs';
-import message from '../events/message';
 
 export default class Report {
   command: any = new SlashCommandBuilder()
@@ -14,7 +12,7 @@ export default class Report {
     .addSubcommand(subcommand =>
       subcommand
         .setName('create')
-        .setDescription('Create a mention key to use in 15 minutes')
+        .setDescription('Create a mention key to use in 10 minutes')
         .addRoleOption(option => option.setName('role').setDescription('Role to be mentioned')))
     .addSubcommand(subcommand =>
       subcommand
@@ -24,11 +22,11 @@ export default class Report {
     .addSubcommand(subcommand =>
       subcommand
         .setName('send')
-        .setDescription('Mention your selected message'))
+        .setDescription('Send your created mention in your specified channel'))
     .addSubcommand(subcommand =>
       subcommand
         .setName('cancel')
-        .setDescription('Cancel current mention'));
+        .setDescription('Cancel currently created mention'));
 
   context: ContextMenuCommandBuilder = new ContextMenuCommandBuilder()
     .setName('mention')
@@ -53,9 +51,9 @@ export default class Report {
     const channel = <Discord.TextChannel>textChannel;
     const helpMention = helpMentions.get(user.id);
 
-    let mentionChannel: string, mentionMessage: Discord.Message, mentionCooldown: Date = new Date(Date.now() + 1);
+    let mentionChannel: string, mentionMessage: Discord.Message, mentionCooldown: Date = new Date(Date.now() + 600000);
 
-    // If channel and message already selected with select menu
+    // If channel and message already selected with select menu.
     if (helpMention && helpMention.channel && helpMention.message) {
       mentionChannel = helpMention.channel;
       mentionMessage = helpMention.message;
@@ -220,7 +218,7 @@ export default class Report {
     }
 
     interaction.reply({
-      content: `Selected [this message](${message.url}) to be mentioned. Use \`/mention create\` in this channel to specify role.`,
+      content: `Selected [this message](${message.url}) to be mentioned.\n\nAfter confirming that it includes a specific, answerable question, use \`/mention create\` in this channel to specify role.`,
       ephemeral: true
     })
 
