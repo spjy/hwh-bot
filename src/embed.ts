@@ -124,7 +124,7 @@ export default class Embed {
     try {
       await this.channel
         .send({
-          content: this.preembed,
+          ...(this.preembed !== '') && { content: this.preembed },
           embeds: [new Discord.MessageEmbed(this.content)]
         });
 
