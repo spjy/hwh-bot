@@ -1,14 +1,8 @@
 import Discord from 'discord.js';
 import Raven from 'raven';
-import Embed from '../../embed';
 
-interface MentionStore {
-  channel: string,
-  cooldownDate: Date,
-  mention: string,
-  message: string,
-  attachment: string
-}
+import Embed from '../../embed';
+import { MentionStore } from '../../typedefs';
 
 /**
 * Sends a log in #server-log advising when a member left the server.

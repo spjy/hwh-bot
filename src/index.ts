@@ -82,7 +82,12 @@ client.on('interactionCreate', async interaction => {
   if (!command) return;
 
   try {
-    await command.execute(interaction);
+    // Mention command needs Discord collection
+    if (interaction.commandName !== 'mention') {
+      await command.execute(interaction);
+    } else {
+      await command.execute(interaction, helpMentions);
+    }
   } catch (error) {
     console.error(error);
     await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
@@ -103,7 +108,12 @@ client.on('interactionCreate', async interaction => {
   if (!command) return;
 
   try {
-    await command.executeButton(interaction, Number(id));
+    // Mention command needs Discord collection
+    if (action !== 'mention') {
+      await command.executeButton(interaction, Number(id));
+    } else {
+      await command.executeButton(interaction, Number(id), helpMentions);
+    }
   } catch (error) {
     console.error(error);
     await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
@@ -124,7 +134,12 @@ client.on('interactionCreate', async interaction => {
   if (!command) return;
 
   try {
-    await command.executeMenu(interaction, Number(id));
+    // Mention command needs Discord collection
+    if (action !== 'mention') {
+      await command.executeMenu(interaction, Number(id));
+    } else {
+      await command.executeMenu(interaction, Number(id), helpMentions);
+    }
   } catch (error) {
     console.error(error);
     await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
@@ -176,11 +191,6 @@ client.on('messageCreate', async (message) => {
           .get('message::warning').default;
 
         new Warning(message).execute();
-      } else if (command === '?t1e' || command === '?ask') {
-        const Tip1E = events
-          .get('message::tip1e').default;
-
-        new Tip1E(message).execute();
       } else if (command === '?mention') {
         const Mention = events
           .get('message::mention').default;
