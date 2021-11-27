@@ -215,11 +215,6 @@ client.on('messageCreate', async (message) => {
           .get('message::warning').default;
 
         new Warning(message).execute();
-      } else if (command === '?mention') {
-        const Mention = events
-          .get('message::mention').default;
-
-        new Mention(message, helpMentions, mentionLogChannel, mentionBanId).execute();
       }
     }
   } catch (err) {
