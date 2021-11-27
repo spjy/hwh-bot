@@ -22,7 +22,13 @@ export default function deploy() {
   
     const c = instantiate(command.default, null);
   
-    commands.push(c.data.toJSON());
+    if (c.command) {
+      commands.push(c.command.toJSON());
+    }
+
+    if (c.context) {
+      commands.push(c.context.toJSON())
+    }
   }
   
   rest.put(Routes.applicationGuildCommands(process.env.APPLICATION_ID, process.env.GUILD_ID), { body: commands })
