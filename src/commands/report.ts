@@ -8,7 +8,7 @@ enum actions {
 }
 
 export default class Report {
-	data: any = new SlashCommandBuilder()
+	command: any = new SlashCommandBuilder()
     .setName('report')
     .setDescription('Report an incident to a staff member.')
     .addStringOption(
@@ -24,7 +24,7 @@ export default class Report {
   async execute(interaction: Discord.CommandInteraction) {
     const { guild, client, user, channelId, options } = interaction;
 
-    interaction.reply({
+    await interaction.reply({
       content: 'Thank you for helping keep Homework Help safe. Please contact us via <@575252669443211264> if the incident does not get resolved in a timely manner.',
       ephemeral: true
     })
@@ -56,16 +56,12 @@ export default class Report {
       .cache
       .get(channelId))
       .send({
-        content: '<@&776950066198872065>',
+        content: `<@&${process.env.STAFF_REPORT_ROLE_ID}>`,
         embeds: [report]
       });
 
     const staff = new Discord.MessageEmbed({
       color: 16645888,
-      author: {
-        name: 'Report'
-      },
-      description: '',
       fields: [
         {
           name: 'Reporter',
@@ -79,7 +75,8 @@ export default class Report {
         },
         {
           name: 'Offender',
-          value: options.getUser('user') !== null ? `${options.getUser('user')}` : 'No offender provided.'
+          value: options.getUser('user') !== null ? `${options.getUser('user')}` : 'No offender provided.',
+          inline: true
         },
         {
           name: 'Message',
@@ -122,15 +119,13 @@ export default class Report {
   }
 
   async executeButton(interaction: Discord.ButtonInteraction, id: Number) {
-    const { guild, message } = interaction;
+    const { guild, message, user } = interaction;
 
-    await interaction.reply({
-      content: 'Thank you for keeping Homework Help safe!'
-    });
-
+    await interaction.deferReply();
+    
     // Report URL - get channel and message id from url
     const [,,,,, c, m] = message.embeds[0].fields[4].value.split('/');
-
+    
     // Copy embed and edit to reflect resolved
     const reportChannel = await <Discord.TextChannel>(guild.channels.cache.get(c))
     const reportMessage = await reportChannel.messages.fetch(m);
@@ -141,16 +136,16 @@ export default class Report {
       reportEmbed.color = 1441536;
       reportEmbed.fields[0].value = 'A staff member has reviewed your report. If you think there was a mistake, please contact us via <@575252669443211264>.',
       reportEmbed.fields[1].value = `[Case](${message.url})`;
-
+      
       reportMessage.edit({
         embeds: [reportEmbed]
       });
-
+      
       const button = new MessageActionRow()
         .addComponents(
           new MessageButton()
             .setCustomId('report::0')
-            .setLabel(`Resolved by ${interaction.user.username}#${interaction.user.discriminator}`)
+            .setLabel(`${user.username}#${user.discriminator}`)
             .setStyle('SUCCESS')
             .setDisabled(),
           new MessageButton()
@@ -158,31 +153,48 @@ export default class Report {
             .setLabel('Cancel')
             .setStyle('SECONDARY')
         );
-
+        
       await message.edit({
         components: [button]
-      })
-    } else if (id === actions.CANCEL_REPORT) {
-      // Modify report embed
-      reportEmbed.color = 16645888;
-      reportEmbed.fields[0].value = 'Thank you for the report. We will review it shortly.',
-      reportEmbed.fields[1].value = `[Case](${message.url})`;
-
-      reportMessage.edit({
-        embeds: [reportEmbed]
       });
 
-      const button = new MessageActionRow()
-        .addComponents(
-          new MessageButton()
-            .setCustomId('report::0')
-            .setLabel('Resolve Report')
-            .setStyle('DANGER'),
-        );
+      await interaction.editReply({
+        content: 'Report resolved.'
+      });
+    } else if (id === actions.CANCEL_REPORT) {
+      const [username, discriminator] = message.components[0].components[0].label.split('#');
 
-      await message.edit({
-        components: [button]
-      })
+      if (username === user.username && discriminator === user.discriminator) {
+        // Modify report embed
+        reportEmbed.color = 16645888;
+        reportEmbed.fields[0].value = 'Thank you for the report. We will review it shortly.',
+        reportEmbed.fields[1].value = `[Case](${message.url})`;
+  
+        await reportMessage.edit({
+          embeds: [reportEmbed]
+        });
+  
+        const button = new MessageActionRow()
+          .addComponents(
+            new MessageButton()
+              .setCustomId('report::0')
+              .setLabel('Resolve Report')
+              .setStyle('DANGER'),
+          );
+  
+        await message.edit({
+          components: [button]
+        })
+
+        await interaction.editReply({
+          content: 'Cancelled resolve.'
+        })
+
+      } else {
+        await interaction.editReply({
+          content: 'You cannot cancel since you are not the resolver!'
+        });
+      }
     }
 
     setTimeout(async () => {
