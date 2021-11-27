@@ -66,10 +66,10 @@ client.on('ready', async () => {
     const c = instantiate(command.default, null);
   
     if (c.permissions !== undefined) { 
-      commands.find(({ name }) => name === c.data.name).permissions.add({ permissions: c.permissions });
+      commands.find(({ name }) => name === c.command.name).permissions.add({ permissions: c.permissions });
     }
   
-    client.commands.set(c.data.name, c);
+    client.commands.set(c.command.name, c);
   }
 });
 
@@ -139,6 +139,30 @@ client.on('interactionCreate', async interaction => {
       await command.executeMenu(interaction, Number(id));
     } else {
       await command.executeMenu(interaction, Number(id), helpMentions);
+    }
+  } catch (error) {
+    console.error(error);
+    await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+  }
+});
+
+// Context menu
+client.on('interactionCreate', async interaction => {
+	if (!interaction.isContextMenu()) return;
+
+  // format: interaction::[0-infty], e.g. report::0, report::1, report::2
+  if (!client.commands.has(interaction.commandName)) return;
+
+  const command = client.commands.get(interaction.commandName);
+
+  if (!command) return;
+
+  try {
+    // Mention command needs Discord collection
+    if (interaction.commandName !== 'mention') {
+      await command.executeContextMenu(interaction);
+    } else {
+      await command.executeContextMenu(interaction, helpMentions);
     }
   } catch (error) {
     console.error(error);
