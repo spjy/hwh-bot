@@ -1,6 +1,6 @@
 require('dotenv-extended').load();
 import Discord, { MessageEmbed } from 'discord.js';
-import { SlashCommandBuilder, ContextMenuCommandBuilder } from "@discordjs/builders";
+import { SlashCommandBuilder, ContextMenuCommandBuilder, channelMention } from "@discordjs/builders";
 import { ApplicationCommandType } from 'discord-api-types/v9';
 
 import { MentionStore } from '../typedefs';
@@ -204,7 +204,18 @@ export default class Report {
   }
 
   async executeContextMenu(interaction: Discord.ContextMenuInteraction, helpMentions: Discord.Collection<string, MentionStore>) {
-    const { channel, options, user } = interaction;
+    const { channel: textChannel, options, user } = interaction;
+
+    const channel = <Discord.TextChannel>textChannel;
+
+    // Allow mentions only in help categories
+    if (!channel.parent.name.toLowerCase().endsWith('help')) {
+      await interaction.editReply({
+        content: 'You can only use mentions in help channels.',
+      });
+
+      return;
+    }
 
     const message = options.getMessage('message');
 
@@ -241,7 +252,7 @@ export default class Report {
     // Retrieve stored helpMention according to user ID
     const helpMention: MentionStore = helpMentions.get(user.id);
 
-    // Allow mentions in help categories
+    // Allow mentions only in help categories
     if (!channel.parent.name.toLowerCase().endsWith('help')) {
       await interaction.editReply({
         content: 'You can only use mentions in help channels.',
