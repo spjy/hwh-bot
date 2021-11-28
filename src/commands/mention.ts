@@ -210,7 +210,7 @@ export default class Report {
 
     // Allow mentions only in help categories
     if (!channel.parent.name.toLowerCase().endsWith('help')) {
-      await interaction.editReply({
+      await interaction.reply({
         content: 'You can only use mentions in help channels.',
       });
 
