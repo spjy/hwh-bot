@@ -212,6 +212,7 @@ export default class Report {
     if (!channel.parent.name.toLowerCase().endsWith('help')) {
       await interaction.reply({
         content: 'You can only use mentions in help channels.',
+        ephemeral: true,
       });
 
       return;
