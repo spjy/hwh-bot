@@ -5,9 +5,10 @@ export default class Ask {
 	command: any = new SlashCommandBuilder()
     .setName('ask')
     .setDescription('Send tip letting users know to just ask their question')
+    .addUserOption(option => option.setName('user').setDescription('The user to be notified'))
 
   async execute(interaction: Discord.CommandInteraction) {
-    const { client } = interaction;
+    const { client, options } = interaction;
 
     const tip = new Discord.MessageEmbed({
       color: 1441536,
@@ -22,6 +23,7 @@ export default class Ask {
     })
 
     interaction.reply({
+      content: options.getUser('user') ? `${options.getUser('user')}` : null,
       embeds: [tip]
     })
   }
