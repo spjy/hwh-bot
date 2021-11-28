@@ -43,7 +43,6 @@ export default class Report {
       if (report.includes(this.staffRoleId)) {
         const indicator = new Discord.MessageEmbed({
           color: 16645888,
-          description: "",
           fields: [
             {
               name: "Report",
@@ -87,9 +86,6 @@ export default class Report {
             embeds: [
               new Discord.MessageEmbed({
                 color: 16645888,
-                author: {
-                  name: 'Report'
-                },
                 description: '',
                 fields: [
                   {
@@ -104,7 +100,8 @@ export default class Report {
                   },
                   {
                     name: 'Offender',
-                    value: 'No offender provided.'
+                    value: 'No offender provided.',
+                    inline: true
                   },
                   {
                     name: 'Message',

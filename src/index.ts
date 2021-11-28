@@ -66,10 +66,10 @@ client.on('ready', async () => {
     const c = instantiate(command.default, null);
   
     if (c.permissions !== undefined) { 
-      commands.find(({ name }) => name === c.data.name).permissions.add({ permissions: c.permissions });
+      commands.find(({ name }) => name === c.command.name).permissions.add({ permissions: c.permissions });
     }
   
-    client.commands.set(c.data.name, c);
+    client.commands.set(c.command.name, c);
   }
 });
 
@@ -82,7 +82,12 @@ client.on('interactionCreate', async interaction => {
   if (!command) return;
 
   try {
-    await command.execute(interaction);
+    // Mention command needs Discord collection
+    if (interaction.commandName !== 'mention') {
+      await command.execute(interaction);
+    } else {
+      await command.execute(interaction, helpMentions);
+    }
   } catch (error) {
     console.error(error);
     await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
@@ -103,7 +108,12 @@ client.on('interactionCreate', async interaction => {
   if (!command) return;
 
   try {
-    await command.executeButton(interaction, Number(id));
+    // Mention command needs Discord collection
+    if (action !== 'mention') {
+      await command.executeButton(interaction, Number(id));
+    } else {
+      await command.executeButton(interaction, Number(id), helpMentions);
+    }
   } catch (error) {
     console.error(error);
     await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
@@ -124,7 +134,36 @@ client.on('interactionCreate', async interaction => {
   if (!command) return;
 
   try {
-    await command.executeMenu(interaction, Number(id));
+    // Mention command needs Discord collection
+    if (action !== 'mention') {
+      await command.executeMenu(interaction, Number(id));
+    } else {
+      await command.executeMenu(interaction, Number(id), helpMentions);
+    }
+  } catch (error) {
+    console.error(error);
+    await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+  }
+});
+
+// Context menu
+client.on('interactionCreate', async interaction => {
+	if (!interaction.isContextMenu()) return;
+
+  // format: interaction::[0-infty], e.g. report::0, report::1, report::2
+  if (!client.commands.has(interaction.commandName)) return;
+
+  const command = client.commands.get(interaction.commandName);
+
+  if (!command) return;
+
+  try {
+    // Mention command needs Discord collection
+    if (interaction.commandName !== 'mention') {
+      await command.executeContextMenu(interaction);
+    } else {
+      await command.executeContextMenu(interaction, helpMentions);
+    }
   } catch (error) {
     console.error(error);
     await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
@@ -176,16 +215,6 @@ client.on('messageCreate', async (message) => {
           .get('message::warning').default;
 
         new Warning(message).execute();
-      } else if (command === '?t1e' || command === '?ask') {
-        const Tip1E = events
-          .get('message::tip1e').default;
-
-        new Tip1E(message).execute();
-      } else if (command === '?mention') {
-        const Mention = events
-          .get('message::mention').default;
-
-        new Mention(message, helpMentions, mentionLogChannel, mentionBanId).execute();
       }
     }
   } catch (err) {
