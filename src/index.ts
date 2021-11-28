@@ -19,7 +19,6 @@ const client = new DiscordClient({
     Discord.Intents.FLAGS.GUILDS,
     Discord.Intents.FLAGS.GUILD_MESSAGES,
     Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    Discord.Intents.FLAGS.DIRECT_MESSAGES
   ],
   partials: [
     'CHANNEL'
@@ -180,13 +179,6 @@ client.on('messageCreate', async (message) => {
       channel,
       mentions
     } = message;
-
-    if (channel.type === 'DM') {
-      const DM = events
-        .get('message::dm').default
-      
-      await new DM().execute(message, client, botMessagesChannel);
-    }
 
     if (member) {
       const command = content.split(' ').shift().toLowerCase(); // Get first word of string
