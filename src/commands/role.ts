@@ -74,7 +74,7 @@ export default class Role {
   async executeMenu(interaction: Discord.SelectMenuInteraction, id: Number) {
     const { component, guild, user, values } = interaction;
 
-    interaction.deferReply({
+    await interaction.deferReply({
       ephemeral: true
     });
 
@@ -116,7 +116,7 @@ export default class Role {
       message += `You have **removed** the following roles:\n${removedRoles.join('\n')}`
     }
 
-    interaction.editReply({
+    await interaction.editReply({
       content: message,
     });
   }
