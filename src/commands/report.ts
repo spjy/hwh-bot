@@ -141,7 +141,7 @@ export default class Report {
       reportEmbed.fields[0].value = 'A staff member has reviewed your report. If you think there was a mistake, please contact us via <@575252669443211264>.',
       reportEmbed.fields[1].value = `[Case](${message.url})`;
       
-      reportMessage.edit({
+      await reportMessage.edit({
         embeds: [reportEmbed]
       });
       
