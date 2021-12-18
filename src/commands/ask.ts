@@ -22,7 +22,7 @@ export default class Ask {
       }
     })
 
-    interaction.reply({
+    await interaction.reply({
       content: options.getUser('user') ? `${options.getUser('user')}` : null,
       embeds: [tip]
     })
