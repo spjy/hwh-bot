@@ -22,7 +22,7 @@ export default class Submit {
         // files: attachments.map((a) => a.url)
       });
 
-    interaction.reply({
+    await interaction.reply({
       content: `Thank you for participating in our event! You have submitted <${url}> for challenge ${challengeId}.`,
       ephemeral: true
     })

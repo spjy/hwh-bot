@@ -20,7 +20,7 @@ export default class Report {
   async execute(interaction) {
     const { client, options } = interaction;
 
-    interaction.reply('Not yet implemented.')
+    await interaction.reply('Not yet implemented.')
 
     // const warning = new MessageEmbed()
     //   .setTitle('Warning')

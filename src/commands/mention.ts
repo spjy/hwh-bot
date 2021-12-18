@@ -80,7 +80,7 @@ export default class Report {
         mentionChannel = question.channelId;
         mentionMessage = question;
       } else {
-        interaction.editReply({
+        await interaction.editReply({
           content: 'You have not sent a message recently. Try send your question and re-try this command.'
         });
 
@@ -112,7 +112,7 @@ export default class Report {
         embeds: [success]
       });
 
-    interaction.editReply({
+    await interaction.editReply({
       content: `Type \`/mention send\` at <t:${Math.round((mentionCooldown).getTime() / 1000)}:t> to use this mention.`
     })
 
@@ -221,7 +221,7 @@ export default class Report {
     const message = options.getMessage('message');
 
     if (!(user.id === message.author.id)) {
-      interaction.reply({
+      await interaction.reply({
         content: `You must select a message that you sent. [This message](${message.url}) was not sent by you.`,
         ephemeral: true
       });
@@ -229,7 +229,7 @@ export default class Report {
       return;
     }
 
-    interaction.reply({
+    await interaction.reply({
       content: `Selected [this message](${message.url}) to be mentioned.\n\nAfter confirming that it includes a specific, answerable question, use \`/mention create\` in this channel to specify role.`,
       ephemeral: true
     })
