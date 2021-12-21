@@ -55,6 +55,33 @@ export default {
       value: "DMable"
     }
   ],
+  'Pronoun': [
+    {
+      emoji: "1️⃣",
+      label: "He/Him",
+      value: "He/Him",
+    },
+    {
+      emoji: "2️⃣",
+      label: "She/Her",
+      value: "She/Her"
+    },
+    {
+      emoji: "3️⃣",
+      label: "They/Them",
+      value: "They/Them"
+    },
+    {
+      emoji: "4️⃣",
+      label: "Any Pronouns",
+      value: "Any Pronouns"
+    },
+    {
+      emoji: "❓",
+      label: "Pronouns: Ask me",
+      value: "Pronouns: Ask me"
+    }
+  ],
   Event: [
     {
       emoji: "<:evOne:799303021087555595>",
