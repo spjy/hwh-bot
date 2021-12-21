@@ -20,11 +20,11 @@ export default class Ask {
         icon_url: client.user.avatarURL(),
         text: 'Homework Help Bot' 
       }
-    })
+    });
 
     await interaction.reply({
       content: options.getUser('user') ? `${options.getUser('user')}` : null,
       embeds: [tip]
-    })
+    });
   }
 }
