@@ -56,20 +56,20 @@ client.on('ready', async () => {
   // eslint-disable-next-line
   console.log('I\'m ready!');
   
-  const commands = await client.guilds.cache.get(process.env.GUILD_ID)?.commands.fetch();
+  // const commands = await client.guilds.cache.get(process.env.GUILD_ID)?.commands.fetch();
 
-  for (const file of commandFiles) {
-    const name = file.endsWith('.ts') ? file.replace('.ts', '') : file.replace('.js', '');
-    const command = require(`./commands/${name}`);
+  // for (const file of commandFiles) {
+  //   const name = file.endsWith('.ts') ? file.replace('.ts', '') : file.replace('.js', '');
+  //   const command = require(`./commands/${name}`);
   
-    const c = instantiate(command.default, null);
+  //   const c = instantiate(command.default, null);
   
-    if (c.permissions !== undefined) { 
-      commands.find(({ name }) => name === c.command.name).permissions.add({ permissions: c.permissions });
-    }
+  //   if (c.permissions !== undefined) { 
+  //     commands.find(({ name }) => name === c.command.name).permissions.add({ permissions: c.permissions });
+  //   }
   
-    client.commands.set(c.command.name, c);
-  }
+  //   client.commands.set(c.command.name, c);
+  // }
 });
 
 // Slash commands
