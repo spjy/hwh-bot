@@ -10,14 +10,6 @@ export default class Role {
     .setName('role')
     .setDescription('Send available select menus for role selection')
     
-  permissions: Discord.ApplicationCommandPermissionData[] = [
-    {
-      id: process.env.ADMIN_ROLE_ID,
-      type: 'ROLE',
-      permission: true
-    }
-  ]
-
   async execute(interaction) {
     const { channel } = interaction;
 

@@ -19,7 +19,6 @@ export default class Report {
       option => option.setName('user')
       .setDescription('User to be reported')
     );
-  permissions: Discord.ApplicationCommandPermissionData[]
     
   async execute(interaction: Discord.CommandInteraction) {
     const { guild, client, user, channelId, options } = interaction;

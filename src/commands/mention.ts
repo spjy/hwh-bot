@@ -32,14 +32,6 @@ export default class Report {
     .setName('mention')
     .setType(ApplicationCommandType.Message);
 
-  permissions: Discord.ApplicationCommandPermissionData[] = [
-    {
-      id: process.env.MENTION_BAN_ROLE_ID,
-      type: 'ROLE',
-      permission: false,
-    }
-  ]
-
   async createMention(interaction: Discord.CommandInteraction, helpMentions: Discord.Collection<string, MentionStore>, mention: Discord.Role) {
     const {
       channel: textChannel,

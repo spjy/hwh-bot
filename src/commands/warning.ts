@@ -9,13 +9,6 @@ export default class Report {
     .setDescription('Warn user to deter undesirable behaviors')
     .addUserOption(option => option.setName('user').setDescription('The user to be warned').setRequired(true))
     .addStringOption(option => option.setName('reason').setDescription('The reason for the user to be warned').setRequired(true))
-  permissions: Discord.ApplicationCommandPermissionData[] = [
-    {
-      id: process.env.STAFF_ROLE_ID,
-      type: 'ROLE',
-      permission: true,
-    }
-  ]
     
   async execute(interaction) {
     const { client, options } = interaction;
