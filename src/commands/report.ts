@@ -128,6 +128,9 @@ export default class Report {
     
     // Report URL - get channel and message id from url
     const [,,,,, c, m] = message.embeds[0].fields[4].value.split('/');
+
+    // Report message log
+    const reportLogEmbed = message.embeds[0];
     
     // Copy embed and edit to reflect resolved
     const reportChannel = await <Discord.TextChannel>(guild.channels.cache.get(c))
@@ -135,7 +138,7 @@ export default class Report {
     const reportEmbed = reportMessage.embeds[0];
 
     if (id === actions.RESOLVE_REPORT) {
-      // Modify report embed
+      // Modify report embed in channel where report was generated
       reportEmbed.color = 1441536;
       reportEmbed.fields[0].value = 'A staff member has reviewed your report. If you think there was a mistake, please contact us via <@575252669443211264>.',
       reportEmbed.fields[1].value = `[Case](${message.url})`;
@@ -144,6 +147,7 @@ export default class Report {
         embeds: [reportEmbed]
       });
       
+      // Delete report and move into archive channel once resolved
       // Set resolve button to green, set who resolved it. Also add cancel button if there was an error
       const button = new MessageActionRow()
         .addComponents(
@@ -158,10 +162,16 @@ export default class Report {
             .setStyle('SECONDARY')
         );
         
-      await message.edit({
-        components: [button]
-      });
+      await guild.channels
+        .cache
+        .get(process.env.REPORTS_ARCHIVE_CHANNEL_ID)
+        .send({
+          embeds: [reportLogEmbed],
+          components: [button]
+        });
 
+      await message.delete();
+      
       await interaction.editReply({
         content: 'Report resolved.'
       });
@@ -169,7 +179,7 @@ export default class Report {
       const [username, discriminator] = message.components[0].components[0].label.split('#');
 
       if (username === user.username && discriminator === user.discriminator) {
-        // Modify report embed
+        // Modify report embed in channel where report was generated
         reportEmbed.color = 16645888;
         reportEmbed.fields[0].value = 'Thank you for the report. We will review it shortly.',
         reportEmbed.fields[1].value = `[Case](${message.url})`;
@@ -178,6 +188,7 @@ export default class Report {
           embeds: [reportEmbed]
         });
   
+        // Delete message in reports archive and send back to regular reports channel
         // Reset buttons to unresolved state
         const button = new MessageActionRow()
           .addComponents(
@@ -187,9 +198,15 @@ export default class Report {
               .setStyle('DANGER'),
           );
   
-        await message.edit({
-          components: [button]
-        })
+        await guild.channels
+          .cache
+          .get(process.env.REPORTS_CHANNEL_ID)
+          .send({
+            embeds: [reportLogEmbed],
+            components: [button]
+          });
+
+        await message.delete();
 
         await interaction.editReply({
           content: 'Cancelled resolve.'
