@@ -1,8 +1,10 @@
-import Discord from 'discord.js'
+import Discord, { MessageSelectMenu }from 'discord.js'
 import Raven from 'raven';
 
+import { dispositions } from '../../typedefs'
+
 /**
- * Detect when a user includes the @Staff ping, generate a report in the
+ * Detect when a user includes the @Staff Report ping, generate a report in the
  * specified reports channel.
  */
 export default class Report {
@@ -58,7 +60,7 @@ export default class Report {
           timestamp: new Date(),
           footer: {
             icon_url: client.user.avatarURL(),
-            text: "Homework Help",
+            text: "Reported",
           },
         });
 
@@ -71,10 +73,46 @@ export default class Report {
 
         const resolve = new Discord.MessageActionRow()
           .addComponents(
-            new Discord.MessageButton()
+            new MessageSelectMenu()
               .setCustomId('report::0')
-              .setLabel('Resolve Report')
-              .setStyle('DANGER'),
+              .setPlaceholder('Select disposition')
+              .addOptions([
+                {
+                  emoji: '<:EverythingIsFine:266216698451853324>',
+                  label: 'No action',
+                  value: dispositions.NO_ACTION
+                },
+                {
+                  emoji: '<:YellingWoman:809187855804006410>',
+                  label: 'Verbal warning',
+                  value: dispositions.VERBAL_WARN
+                },
+                {
+                  emoji: '✍️',
+                  label: 'Formal warning',
+                  value: dispositions.FORMAL_WARN
+                },
+                {
+                  emoji: '🙊',
+                  label: 'Mute',
+                  value: dispositions.MUTE
+                },
+                {
+                  emoji: '🦶',
+                  label: 'Kick',
+                  value: dispositions.KICK
+                },
+                {
+                  emoji: '<:blanketblob:821415890628902953>',
+                  label: 'Softban',
+                  value: dispositions.SOFTBAN
+                },
+                {
+                  emoji: '<:feelsbanman:716743099413561426>',
+                  label: 'Ban',
+                  value: dispositions.BAN
+                },
+              ])
           );
 
         // Send information to report channel in an embed
@@ -115,7 +153,7 @@ export default class Report {
                 timestamp: new Date(),
                 footer: {
                   icon_url: client.user.avatarURL(),
-                  text: 'Homework Help'
+                  text: 'Created'
                 }
               })
             ]
