@@ -10,19 +10,17 @@ class DiscordClient extends Discord.Client {
     super(s);
   }
 
-  commands: Discord.Collection<string, any>
+  commands: Discord.Collection<string, any>;
 }
 
 // Instantiations of Discord.js, Discord Collection, Sentry
-const client = new DiscordClient({ 
+const client = new DiscordClient({
   intents: [
     Discord.Intents.FLAGS.GUILDS,
     Discord.Intents.FLAGS.GUILD_MESSAGES,
     Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
   ],
-  partials: [
-    'CHANNEL'
-  ]
+  partials: ['CHANNEL'],
 });
 const events: Discord.Collection<string, any> = new Discord.Collection();
 const helpMentions: Discord.Collection<string, any> = new Discord.Collection();
@@ -54,25 +52,27 @@ aggregateEvents(events); // Require all events
 
 client.on('ready', async () => {
   // eslint-disable-next-line
-  console.log('I\'m ready!');
-  
+  console.log("I'm ready!");
+
   for (const file of commandFiles) {
-    const name = file.endsWith('.ts') ? file.replace('.ts', '') : file.replace('.js', '');
+    const name = file.endsWith('.ts')
+      ? file.replace('.ts', '')
+      : file.replace('.js', '');
     const command = require(`./commands/${name}`);
-  
+
     const c = instantiate(command.default, null);
-  
+
     client.commands.set(c.command.name, c);
   }
 });
 
 // Slash commands
-client.on('interactionCreate', async interaction => {
+client.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) return;
 
   const command = client.commands.get(interaction.commandName);
   if (!command) return;
-  
+
   try {
     // Mention command needs Discord collection
     if (interaction.commandName !== 'mention') {
@@ -86,8 +86,8 @@ client.on('interactionCreate', async interaction => {
 });
 
 // Buttons
-client.on('interactionCreate', async interaction => {
-	if (!interaction.isButton()) return;
+client.on('interactionCreate', async (interaction) => {
+  if (!interaction.isButton()) return;
 
   // format: interaction::[0-infty], e.g. report::0, report::1, report::2
   const [action, id] = interaction.customId.split('::');
@@ -111,8 +111,8 @@ client.on('interactionCreate', async interaction => {
 });
 
 // Select menu
-client.on('interactionCreate', async interaction => {
-	if (!interaction.isSelectMenu()) return;
+client.on('interactionCreate', async (interaction) => {
+  if (!interaction.isSelectMenu()) return;
 
   // format: interaction::[0-infty], e.g. report::0, report::1, report::2
   const [action, id] = interaction.customId.split('::');
@@ -136,8 +136,8 @@ client.on('interactionCreate', async interaction => {
 });
 
 // Context menu
-client.on('interactionCreate', async interaction => {
-	if (!interaction.isContextMenu()) return;
+client.on('interactionCreate', async (interaction) => {
+  if (!interaction.isContextMenu()) return;
 
   // format: interaction::[0-infty], e.g. report::0, report::1, report::2
   if (!client.commands.has(interaction.commandName)) return;
@@ -166,7 +166,7 @@ client.on('messageCreate', async (message) => {
       member,
       author,
       channel,
-      mentions
+      mentions,
     } = message;
 
     if (member) {
@@ -180,20 +180,19 @@ client.on('messageCreate', async (message) => {
       //   .execute(message);
 
       // Reports are separate since stipulations are too general
-      if (mentions.roles
-        && channel.id !== reportsChannel) {
-        const Report = events
-          .get('message::report').default;
+      if (mentions.roles && channel.id !== reportsChannel) {
+        const Report = events.get('message::report').default;
 
         new Report(message, reportsChannel, staffReportRoleId).execute();
       }
 
       // Commands
-      if (command === '?gwarn'
-        && mentions.members
-        && member.roles.cache.has(staffRoleId)) {
-        const Warning = events
-          .get('message::warning').default;
+      if (
+        command === '?gwarn' &&
+        mentions.members &&
+        member.roles.cache.has(staffRoleId)
+      ) {
+        const Warning = events.get('message::warning').default;
 
         new Warning(message).execute();
       }
