@@ -1,6 +1,7 @@
 import {
   ContextMenuCommandBuilder,
   SlashCommandBuilder,
+  SlashCommandSubcommandsOnlyBuilder,
 } from '@discordjs/builders';
 import Discord from 'discord.js';
 
@@ -22,18 +23,22 @@ export enum dispositions {
   BAN = 'ban',
 }
 
+export type SlashCommand =
+  | Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
+  | SlashCommandSubcommandsOnlyBuilder;
+
 /* Slash Command Interface */
 export interface ICommand {
-  readonly command: SlashCommandBuilder;
-  execute(interaction: Discord.BaseCommandInteraction): Promise<void>;
+  readonly command: SlashCommand;
+  execute(interaction: Discord.CommandInteraction): Promise<void>;
   execute(
-    interaction: Discord.BaseCommandInteraction,
+    interaction: Discord.CommandInteraction,
     helpMentions: Discord.Collection<string, MentionStore>
   ): Promise<void>;
 }
 
 /* Context Menu Interface */
-export interface IContextMenu extends ICommand {
+export interface IContextMenu {
   readonly context: ContextMenuCommandBuilder;
   executeContextMenu(
     interaction: Discord.ContextMenuInteraction,

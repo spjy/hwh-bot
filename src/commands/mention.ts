@@ -7,10 +7,15 @@ import {
 } from '@discordjs/builders';
 import { ApplicationCommandType } from 'discord-api-types/v9';
 
-import { ICommand, IContextMenu, MentionStore } from '../types/typedefs';
+import {
+  ICommand,
+  IContextMenu,
+  MentionStore,
+  SlashCommand,
+} from '../types/typedefs';
 
 export default class Report implements ICommand, IContextMenu {
-  readonly command: SlashCommandBuilder = new SlashCommandBuilder()
+  readonly command: SlashCommand = new SlashCommandBuilder()
     .setName('mention')
     .setDescription('Attract attention to your question to receive help')
     .addSubcommand((subcommand) =>
@@ -146,7 +151,7 @@ export default class Report implements ICommand, IContextMenu {
       message: helpMessage,
     } = helpMention;
 
-    if (Date.now() >= helpDate) {
+    if (new Date(Date.now()) >= helpDate) {
       // cooldown has elapsed
       // Create message embed
       const fields = [];
@@ -210,7 +215,7 @@ export default class Report implements ICommand, IContextMenu {
       await interaction.editReply({
         content: 'Sent!',
       });
-    } else if (Date.now() <= helpDate) {
+    } else if (new Date(Date.now()) <= helpDate) {
       // Send error
       await interaction.editReply({
         content: `The cooldown time (10 minutes) has not elapsed yet.\n\nTry at <t:${Math.round(
@@ -238,7 +243,9 @@ export default class Report implements ICommand, IContextMenu {
       return;
     }
 
-    const message = options.getMessage('message');
+    const message: Discord.Message = <Discord.Message>(
+      options.getMessage('message')
+    );
 
     if (!(user.id === message.author.id)) {
       await interaction.reply({

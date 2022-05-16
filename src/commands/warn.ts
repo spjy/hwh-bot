@@ -54,7 +54,9 @@ export default class Warn {
   async executeContextMenu(interaction: Discord.ContextMenuInteraction) {
     const { channel: textChannel, options, user } = interaction;
 
-    const warnee = options.getMember('user');
+    const warnee: Discord.GuildMember = <Discord.GuildMember>(
+      options.getMember('user')
+    );
 
     const modal = this.modal.setTitle(`Warn ${warnee.user.tag}`);
 
@@ -79,7 +81,7 @@ export default class Warn {
       })
       .setTimestamp();
 
-    guild.channels.cache.get(channel.id).send({
+    await (<Discord.TextChannel>guild.channels.cache.get(channel.id)).send({
       embeds: [warning],
     });
 

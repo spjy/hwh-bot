@@ -1,9 +1,9 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import Discord from 'discord.js';
-import { ICommand } from '../types/typedefs';
+import { ICommand, SlashCommand } from '../types/typedefs';
 
 export default class Ask implements ICommand {
-  readonly command: SlashCommandBuilder = new SlashCommandBuilder()
+  readonly command: SlashCommand = new SlashCommandBuilder()
     .setName('ask')
     .setDescription('Send tip letting users know to just ask their question')
     .addUserOption((option) =>

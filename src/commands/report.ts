@@ -6,7 +6,7 @@ import Discord, {
   MessageSelectMenu,
 } from 'discord.js';
 
-import { dispositions, ICommand } from '../types/typedefs';
+import { dispositions, ICommand, SlashCommand } from '../types/typedefs';
 
 enum actions {
   RESOLVE_REPORT = 0,
@@ -14,7 +14,7 @@ enum actions {
 }
 
 export default class Report implements ICommand {
-  readonly command: SlashCommandBuilder = new SlashCommandBuilder()
+  readonly command: SlashCommand = new SlashCommandBuilder()
     .setName('report')
     .setDescription('Report an incident to a staff member.')
     .addUserOption((option) =>
@@ -195,8 +195,9 @@ export default class Report implements ICommand {
       const reportMessage = await reportChannel.messages.fetch(m);
       const reportEmbed = reportMessage.embeds[0];
 
-      const [username, discriminator] =
-        message.components[0].components[0].label.split('#');
+      const [username, discriminator] = (<Discord.MessageButton>(
+        message.components[0].components[0]
+      )).label.split('#');
 
       if (username === user.username && discriminator === user.discriminator) {
         // Delete message in reports archive and send back to regular reports channel
@@ -252,12 +253,12 @@ export default class Report implements ICommand {
 
         reportLogEmbed.color = 16645888;
 
-        const report = await guild.channels.cache
-          .get(process.env.REPORTS_CHANNEL_ID)
-          .send({
-            embeds: [reportLogEmbed],
-            components: [resolve],
-          });
+        const report = await (<Discord.TextChannel>(
+          guild.channels.cache.get(process.env.REPORTS_CHANNEL_ID)
+        )).send({
+          embeds: [reportLogEmbed],
+          components: [resolve],
+        });
 
         // Modify report embed in channel where report was generated
         reportEmbed.color = 16645888;
@@ -269,7 +270,7 @@ export default class Report implements ICommand {
           embeds: [reportEmbed],
         });
 
-        await message.delete();
+        await (<Discord.Message>message).delete();
 
         await interaction.editReply({
           content: `Reverted report resolve. See ${report.url}`,
@@ -343,13 +344,13 @@ export default class Report implements ICommand {
           break;
       }
 
-      const archived = await guild.channels.cache
-        .get(process.env.REPORTS_ARCHIVE_CHANNEL_ID)
-        .send({
-          content: `**Disposition**: ${disposition}`,
-          embeds: [reportLogEmbed],
-          components: [button],
-        });
+      const archived = await (<Discord.TextChannel>(
+        guild.channels.cache.get(process.env.REPORTS_ARCHIVE_CHANNEL_ID)
+      )).send({
+        content: `**Disposition**: ${disposition}`,
+        embeds: [reportLogEmbed],
+        components: [button],
+      });
 
       // Modify report embed in channel where report was generated
       reportEmbed.color = 1441536;
@@ -361,7 +362,7 @@ export default class Report implements ICommand {
         embeds: [reportEmbed],
       });
 
-      await message.delete();
+      await (<Discord.Message>message).delete();
 
       await interaction.editReply({
         content: `Report resolved. See ${archived.url}`,
