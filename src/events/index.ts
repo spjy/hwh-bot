@@ -8,10 +8,9 @@ export default function (collection: Discord.Collection<string, any>) {
     if (file === 'index.ts' || file === 'index.js') return; // ignore index.js file
 
     if (fs.lstatSync(`${__dirname}/${file}`).isDirectory()) {
-      import(`./${file}`)
-      .then((f) => {
-        f.default(collection)
+      import(`./${file}`).then((f) => {
+        f.default(collection);
       }); // Get all folders and require them
     }
   });
-};
+}
