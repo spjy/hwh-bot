@@ -16,7 +16,7 @@ export default class Warning extends Embed {
       message,
       color: 16645888,
       title: 'Warning',
-      footer: 'To clarify or contest this warning, contact us via ModMail.'
+      footer: 'To clarify or contest this warning, contact us via ModMail.',
     });
   }
 
@@ -25,18 +25,13 @@ export default class Warning extends Embed {
    */
   async execute() {
     try {
-      const {
-        content,
-        mentions,
-        channel
-      } = this.message;
+      const { content, mentions, channel } = this.message;
 
       let warn;
       let reason;
 
       // Get mention included in warning
-      const warned = mentions.members
-        .map(m => m.id);
+      const warned = mentions.members.map((m) => m.id);
 
       // Check if mention was included
       if (warned && warned[0]) {
@@ -45,17 +40,14 @@ export default class Warning extends Embed {
         reason = warn.slice(2, warn.length);
 
         super.setDescription(`<@!${warned[0]}> was warned by a staff member.`);
-        super.setFields(
-          [
-            {
-              name: 'Reason',
-              value: warn[2] === undefined
-                ? 'No reason provided.'
-                : reason.join(' '),
-              inline: false
-            }
-          ],
-        );
+        super.setFields([
+          {
+            name: 'Reason',
+            value:
+              warn[2] === undefined ? 'No reason provided.' : reason.join(' '),
+            inline: false,
+          },
+        ]);
 
         super.sendToCurrentChannel();
       } else {

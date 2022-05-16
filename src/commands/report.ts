@@ -1,20 +1,20 @@
 require('dotenv-extended').load();
+import { SlashCommandBuilder } from '@discordjs/builders';
 import Discord, {
   MessageActionRow,
   MessageButton,
   MessageSelectMenu,
 } from 'discord.js';
-const { SlashCommandBuilder } = require('@discordjs/builders');
 
-import { dispositions } from '../typedefs';
+import { dispositions, ICommand } from '../types/typedefs';
 
 enum actions {
   RESOLVE_REPORT = 0,
   CANCEL_REPORT = 1,
 }
 
-export default class Report {
-  command: any = new SlashCommandBuilder()
+export default class Report implements ICommand {
+  readonly command: SlashCommandBuilder = new SlashCommandBuilder()
     .setName('report')
     .setDescription('Report an incident to a staff member.')
     .addUserOption((option) =>

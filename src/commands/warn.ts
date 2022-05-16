@@ -4,16 +4,12 @@ import Discord, {
   Modal,
   TextInputComponent,
   MessageActionRow,
-  Message,
 } from 'discord.js';
 import {
   SlashCommandBuilder,
   ContextMenuCommandBuilder,
-  channelMention,
 } from '@discordjs/builders';
 import { ApplicationCommandType } from 'discord-api-types/v9';
-
-import { MentionStore } from '../typedefs';
 
 export default class Warn {
   command: any = new SlashCommandBuilder()
