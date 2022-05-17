@@ -17,7 +17,7 @@ interface disciplinaryAction {
 }
 
 export default abstract class IDisciplinaryAction {
-  abstract save(): Promise<void>;
+  abstract save(action: disciplinaryAction): Promise<void>;
   abstract modify(): Promise<void>;
   abstract delete(): Promise<void>;
   abstract log(): Promise<void>;

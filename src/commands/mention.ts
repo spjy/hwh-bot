@@ -3,18 +3,17 @@ import Discord, { MessageEmbed } from 'discord.js';
 import {
   SlashCommandBuilder,
   ContextMenuCommandBuilder,
-  channelMention,
 } from '@discordjs/builders';
 import { ApplicationCommandType } from 'discord-api-types/v9';
 
 import {
-  ICommand,
-  IContextMenu,
+  ICommandMention,
+  IContextMenuMention,
   MentionStore,
   SlashCommand,
 } from '../types/typedefs';
 
-export default class Report implements ICommand, IContextMenu {
+export default class Mention implements ICommandMention, IContextMenuMention {
   readonly command: SlashCommand = new SlashCommandBuilder()
     .setName('mention')
     .setDescription('Attract attention to your question to receive help')

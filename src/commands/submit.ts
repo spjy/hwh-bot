@@ -1,8 +1,10 @@
 import Discord from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 
-export default class Submit {
-  command: any = new SlashCommandBuilder()
+import { SlashCommand, ICommand } from '../types/typedefs';
+
+export default class Submit implements ICommand {
+  readonly command: SlashCommand = new SlashCommandBuilder()
     .setName('submit')
     .setDescription('Submit')
     .addStringOption((option) =>

@@ -11,8 +11,10 @@ import {
 } from '@discordjs/builders';
 import { ApplicationCommandType } from 'discord-api-types/v9';
 
+import { SlashCommand } from '../types/typedefs';
+
 export default class Warn {
-  command: any = new SlashCommandBuilder()
+  readonly command: SlashCommand = new SlashCommandBuilder()
     .setName('warn')
     .setDescription('Attract attention to your question to receive help')
     .addUserOption((option) =>
@@ -28,7 +30,7 @@ export default class Warn {
         .setRequired(true)
     );
 
-  context: ContextMenuCommandBuilder = new ContextMenuCommandBuilder()
+  readonly context: ContextMenuCommandBuilder = new ContextMenuCommandBuilder()
     .setName('warn')
     .setType(ApplicationCommandType.User);
 

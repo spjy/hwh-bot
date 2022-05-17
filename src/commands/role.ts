@@ -4,8 +4,10 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 
 import roles from '../roles';
 
-export default class Role {
-  command: any = new SlashCommandBuilder()
+import { SlashCommand, ICommand } from '../types/typedefs';
+
+export default class Role implements ICommand {
+  readonly command: SlashCommand = new SlashCommandBuilder()
     .setDefaultPermission(false)
     .setName('role')
     .setDescription('Send available select menus for role selection');
