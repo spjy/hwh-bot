@@ -1,4 +1,4 @@
-import Discord from 'discord.js'
+import Discord from 'discord.js';
 import Raven from 'raven';
 
 /**
@@ -15,12 +15,12 @@ import Raven from 'raven';
  */
 
 export default class Embed {
-  message: Discord.Message
-  content: Discord.MessageEmbedOptions
-  channel: Discord.TextChannel
-  guild: Discord.Guild
-  channelToSend: string
-  preembed: string
+  message: Discord.Message;
+  content: Discord.MessageEmbedOptions;
+  channel: Discord.TextChannel;
+  guild: Discord.Guild;
+  channelToSend: string;
+  preembed: string;
 
   constructor({
     message = undefined,
@@ -31,28 +31,24 @@ export default class Embed {
     footer = 'Homework Help Bot',
     channelToSend = '',
     preembed = '',
-    timestamp = new Date()
+    timestamp = new Date(),
   } = {}) {
-    const {
-      channel,
-      guild,
-      client
-    } = message;
+    const { channel, guild, client } = message;
 
     this.message = message;
 
     this.content = {
       color: color,
       author: {
-        name: title
+        name: title,
       },
       description: description,
       fields: fields,
       timestamp: timestamp,
       footer: {
         icon_url: client.user.avatarURL(),
-        text: footer
-      }
+        text: footer,
+      },
     };
 
     this.channel = channel;
@@ -122,14 +118,12 @@ export default class Embed {
    */
   async sendToCurrentChannel(): Promise<void> {
     try {
-      await this.channel
-        .send({
-          ...(this.preembed !== '') && { content: this.preembed },
-          embeds: [new Discord.MessageEmbed(this.content)]
-        });
+      await this.channel.send({
+        ...(this.preembed !== '' && { content: this.preembed }),
+        embeds: [new Discord.MessageEmbed(this.content)],
+      });
 
-      await this.message
-        .delete();
+      await this.message.delete();
     } catch (err) {
       Raven.captureException(err);
     }
@@ -140,16 +134,14 @@ export default class Embed {
    */
   async sendToDifferentChannel(): Promise<void> {
     try {
-      await (<Discord.TextChannel>this.guild.channels
-        .cache
-        .get(this.channelToSend))
-        .send({
-          content: this.preembed,
-          embeds: [new Discord.MessageEmbed(this.content)]
-        });
+      await (<Discord.TextChannel>(
+        this.guild.channels.cache.get(this.channelToSend)
+      )).send({
+        content: this.preembed,
+        embeds: [new Discord.MessageEmbed(this.content)],
+      });
 
-      await this.message
-        .delete();
+      await this.message.delete();
     } catch (err) {
       Raven.captureException(err);
     }

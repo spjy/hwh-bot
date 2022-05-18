@@ -60,8 +60,10 @@ client.on('ready', async () => {
       : file.replace('.js', '');
     const command = require(`./commands/${name}`);
 
+    // Instantiate class
     const c = instantiate(command.default, null);
 
+    // Save commands to an object with name of slash command
     client.commands.set(c.command.name, c);
   }
 });
@@ -153,6 +155,25 @@ client.on('interactionCreate', async (interaction) => {
     } else {
       await command.executeContextMenu(interaction, helpMentions);
     }
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+client.on('interactionCreate', async (interaction) => {
+  if (!interaction.isModalSubmit()) return;
+
+  const [action, id] = interaction.customId.split('::');
+
+  if (!client.commands.has(action)) return;
+
+  const command = client.commands.get(action);
+
+  if (!command) return;
+
+  try {
+    // Mention command needs Discord collection
+    await command.executeModalSubmit(interaction, Number(id));
   } catch (error) {
     console.error(error);
   }

@@ -1,7 +1,7 @@
 import Discord, { MessageSelectMenu } from 'discord.js';
 import Raven from 'raven';
 
-import { dispositions } from '../../typedefs';
+import { dispositions } from '../../types/typedefs';
 
 /**
  * Detect when a user includes the @Staff Report ping, generate a report in the

@@ -6,10 +6,7 @@ export default {
   description: 'DialogFlow',
   async execute(message) {
     try {
-      const {
-        cleanContent: content,
-        author
-      } = message;
+      const { cleanContent: content, author } = message;
 
       if (!process.env.DIALOGFLOW_PROJECT_ID) {
         // eslint-disable-next-line
@@ -21,12 +18,16 @@ export default {
         projectId: process.env.DIALOGFLOW_PROJECT_ID,
         credentials: {
           client_email: process.env.GOOGLE_CLOUD_CLIENT_EMAIL,
-          private_key: process.env.GOOGLE_CLOUD_PRIVATE_KEY.replace(/\\n/g, '\n')
-        }
+          private_key: process.env.GOOGLE_CLOUD_PRIVATE_KEY.replace(
+            /\\n/g,
+            '\n'
+          ),
+        },
       });
 
       const sessionPath = sessionClient.sessionPath(
-        process.env.DIALOGFLOW_PROJECT_ID, author.id
+        process.env.DIALOGFLOW_PROJECT_ID,
+        author.id
       );
 
       const request = {
@@ -34,9 +35,9 @@ export default {
         queryInput: {
           text: {
             text: String(content),
-            languageCode: 'en-US'
-          }
-        }
+            languageCode: 'en-US',
+          },
+        },
       };
 
       const responses = await sessionClient.detectIntent(request);
@@ -46,5 +47,5 @@ export default {
     } catch (err) {
       Raven.captureException(err);
     }
-  }
+  },
 };
