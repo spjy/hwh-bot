@@ -16,7 +16,7 @@ import { SlashCommand } from '../types/typedefs';
 export default class Warn {
   readonly command: SlashCommand = new SlashCommandBuilder()
     .setName('warn')
-    .setDescription('Attract attention to your question to receive help')
+    .setDescription('Warn a user')
     .addUserOption((option) =>
       option
         .setName('user')
