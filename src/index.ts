@@ -2,6 +2,7 @@ require('dotenv-extended').load();
 import Discord from 'discord.js';
 import Raven from 'raven';
 import fs from 'fs';
+import logger from './logger';
 
 import aggregateEvents from './events';
 
@@ -52,7 +53,7 @@ aggregateEvents(events); // Require all events
 
 client.on('ready', async () => {
   // eslint-disable-next-line
-  console.log("I'm ready!");
+  await logger.info("I'm ready!");
 
   for (const file of commandFiles) {
     const name = file.endsWith('.ts')
@@ -65,6 +66,8 @@ client.on('ready', async () => {
 
     // Save commands to an object with name of slash command
     client.commands.set(c.command.name, c);
+
+    await logger.debug(`Loaded command "${name}"`, command);
   }
 });
 
@@ -72,8 +75,12 @@ client.on('ready', async () => {
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) return;
 
+  await logger.trace('Retrieving slash command logic');
+
   const command = client.commands.get(interaction.commandName);
   if (!command) return;
+
+  await logger.debug(`Executing slash command "${interaction.commandName}"`);
 
   try {
     // Mention command needs Discord collection
@@ -83,7 +90,7 @@ client.on('interactionCreate', async (interaction) => {
       await command.execute(interaction, helpMentions);
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 });
 
@@ -91,8 +98,12 @@ client.on('interactionCreate', async (interaction) => {
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isButton()) return;
 
+  await logger.trace('Retrieving button logic');
+
   // format: interaction::[0-infty], e.g. report::0, report::1, report::2
   const [action, id] = interaction.customId.split('::');
+
+  await logger.debug(`Executing button ${action}::${id}`);
 
   if (!client.commands.has(action)) return;
 
@@ -108,7 +119,7 @@ client.on('interactionCreate', async (interaction) => {
       await command.executeButton(interaction, Number(id), helpMentions);
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 });
 
@@ -116,8 +127,12 @@ client.on('interactionCreate', async (interaction) => {
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isSelectMenu()) return;
 
+  await logger.trace('Retrieving select menu logic');
+
   // format: interaction::[0-infty], e.g. report::0, report::1, report::2
   const [action, id] = interaction.customId.split('::');
+
+  await logger.debug(`Executing select menu ${action}::${id}`);
 
   if (!client.commands.has(action)) return;
 
@@ -133,7 +148,7 @@ client.on('interactionCreate', async (interaction) => {
       await command.executeMenu(interaction, Number(id), helpMentions);
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 });
 
@@ -141,10 +156,14 @@ client.on('interactionCreate', async (interaction) => {
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isContextMenu()) return;
 
+  await logger.trace('Retrieving context menu logic');
+
   // format: interaction::[0-infty], e.g. report::0, report::1, report::2
   if (!client.commands.has(interaction.commandName)) return;
 
   const command = client.commands.get(interaction.commandName);
+
+  await logger.debug(`Executing slash command "${interaction.commandName}"`);
 
   if (!command) return;
 
@@ -156,16 +175,21 @@ client.on('interactionCreate', async (interaction) => {
       await command.executeContextMenu(interaction, helpMentions);
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 });
 
+// Modal
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isModalSubmit()) return;
+
+  await logger.trace('Retrieving modal logic');
 
   const [action, id] = interaction.customId.split('::');
 
   if (!client.commands.has(action)) return;
+
+  await logger.debug(`Executing select menu ${action}::${id}`);
 
   const command = client.commands.get(action);
 
@@ -175,7 +199,7 @@ client.on('interactionCreate', async (interaction) => {
     // Mention command needs Discord collection
     await command.executeModalSubmit(interaction, Number(id));
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 });
 
@@ -189,6 +213,8 @@ client.on('messageCreate', async (message) => {
       channel,
       mentions,
     } = message;
+
+    await logger.trace('Message create event triggered');
 
     if (member) {
       const command = content.split(' ').shift().toLowerCase(); // Get first word of string
@@ -218,7 +244,8 @@ client.on('messageCreate', async (message) => {
         new Warning(message).execute();
       }
     }
-  } catch (err) {
-    Raven.captureException(err);
+  } catch (error) {
+    logger.error(error);
+    Raven.captureException(error);
   }
 });

@@ -1,5 +1,6 @@
 require('dotenv-extended').load();
 import Discord, { MessageActionRow, MessageSelectMenu } from 'discord.js';
+import logger from '../logger';
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 import roles from '../roles';
@@ -55,10 +56,16 @@ export default class Role implements ICommand {
         );
       }
 
-      await (<Discord.TextChannel>channel).send({
-        content: `**${role}**`,
-        components: [row],
-      });
+      logger.trace(`/roles: Sending role select menus for ${role}`);
+
+      try {
+        await (<Discord.TextChannel>channel).send({
+          content: `**${role}**`,
+          components: [row],
+        });
+      } catch (error) {
+        logger.error(error, `/roles: Could not send select menu for ${role}`);
+      }
     }
   }
 
@@ -71,8 +78,11 @@ export default class Role implements ICommand {
 
     const addedRoles = [];
     const removedRoles = [];
+    const erroredRoles = [];
 
     const c = <Discord.MessageSelectMenu>component;
+
+    logger.debug(`Modifying roles for user ${user.id}`);
 
     // Add roles
     await Promise.all(
@@ -88,13 +98,32 @@ export default class Role implements ICommand {
           // If user doesn't have role and it's on the list to add, add it
           // If user has role and it's not on the list to add, remove it
           if (!u.roles.cache.has(r.id) && values.includes(role)) {
-            await u.roles.add(r);
+            try {
+              await u.roles.add(r);
+            } catch (error) {
+              erroredRoles.push(r);
+
+              logger.error(
+                error,
+                `Could not add role ${r} for user ${user.id}`
+              );
+            }
+
             addedRoles.push(r);
           } else if (
             u.roles.cache.has(r.id) &&
             (!values.includes(role) || values.includes('clear'))
           ) {
-            await u.roles.remove(r);
+            try {
+              await u.roles.remove(r);
+            } catch (error) {
+              erroredRoles.push(r);
+
+              logger.error(
+                error,
+                `Could not remove role ${r} for user ${user.id}`
+              );
+            }
             removedRoles.push(r);
           }
         }
@@ -116,8 +145,25 @@ export default class Role implements ICommand {
       )}`;
     }
 
-    await interaction.editReply({
-      content: message,
-    });
+    if (erroredRoles.length > 0) {
+      message += `Due to an error, could not modify the following roles:\n${erroredRoles.join(
+        '\n'
+      )}`;
+    }
+
+    try {
+      await interaction.editReply({
+        content: message,
+      });
+    } catch (error) {
+      await interaction.editReply({
+        content: 'Could not send message containing role modifications.',
+      });
+
+      logger.error(
+        error,
+        'Could not send message containing role modifications'
+      );
+    }
   }
 }

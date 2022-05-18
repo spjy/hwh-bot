@@ -5,6 +5,7 @@ import Discord, {
   MessageButton,
   MessageSelectMenu,
 } from 'discord.js';
+import logger from '../logger';
 
 import { dispositions, ICommand, SlashCommand } from '../types/typedefs';
 
@@ -33,11 +34,7 @@ export default class Report implements ICommand {
   async execute(interaction: Discord.CommandInteraction) {
     const { guild, client, user, channelId, options } = interaction;
 
-    await interaction.reply({
-      content:
-        'Thank you for helping keep Homework Help safe. Please contact us via <@575252669443211264> if the incident does not get resolved in a timely manner.',
-      ephemeral: true,
-    });
+    await logger.trace('Executing /report slash command');
 
     // Report indicator in channel where report was created
     const report = new Discord.MessageEmbed({
@@ -62,13 +59,24 @@ export default class Report implements ICommand {
       },
     });
 
+    let r;
+
     // Send report embed to channel reported in
-    const r = await (<Discord.TextChannel>(
-      guild.channels.cache.get(channelId)
-    )).send({
-      content: `<@&${process.env.STAFF_REPORT_ROLE_ID}>`,
-      embeds: [report],
-    });
+    try {
+      r = await (<Discord.TextChannel>guild.channels.cache.get(channelId)).send(
+        {
+          content: `<@&${process.env.STAFF_REPORT_ROLE_ID}>`,
+          embeds: [report],
+        }
+      );
+    } catch (error) {
+      await interaction.reply({
+        content: 'Could not record report.',
+        ephemeral: true,
+      });
+
+      logger.error(error, '/report: Could not record report');
+    }
 
     // Embed for staff channel
     const staff = new Discord.MessageEmbed({
@@ -161,18 +169,40 @@ export default class Report implements ICommand {
     );
 
     // Send staff embed
-    const s = await (<Discord.TextChannel>(
-      guild.channels.cache.get(process.env.REPORTS_CHANNEL_ID)
-    )).send({
-      embeds: [staff],
-      components: [resolve],
-    });
+    try {
+      const s = await (<Discord.TextChannel>(
+        guild.channels.cache.get(process.env.REPORTS_CHANNEL_ID)
+      )).send({
+        embeds: [staff],
+        components: [resolve],
+      });
+    } catch (error) {
+      await interaction.reply({
+        content: 'Could not record report.',
+        ephemeral: true,
+      });
+
+      logger.error(error, '/report: Could not record report');
+    }
 
     // Add URL for staff to jump to staff channel
     report.fields[1].value = `[Case](${s.url})`;
 
-    await r.edit({
-      embeds: [report],
+    try {
+      await r.edit({
+        embeds: [report],
+      });
+    } catch (error) {
+      logger.error(
+        error,
+        'Could not modify public report embed to include case url'
+      );
+    }
+
+    await interaction.reply({
+      content:
+        'Thank you for helping keep Homework Help safe. Please contact us via <@575252669443211264> if the incident does not get resolved in a timely manner.',
+      ephemeral: true,
     });
   }
 
