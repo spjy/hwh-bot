@@ -53,6 +53,12 @@ export default class Warn {
       ),
     ]);
 
+  async execute(interaction: Discord.CommandInteraction) {
+    const { client, options } = interaction;
+
+    await interaction.reply('Not yet implemented.');
+  }
+
   async executeContextMenu(interaction: Discord.ContextMenuInteraction) {
     const { channel: textChannel, options, user } = interaction;
 
