@@ -31,7 +31,7 @@ export default class Ask implements ICommand {
       },
     });
 
-    logger.debug(`/ask: Sending ask tip, pinging user "${user}"`);
+    await logger.debug(`/ask: Sending ask tip, pinging user "${user}"`);
 
     try {
       await interaction.reply({
@@ -44,7 +44,7 @@ export default class Ask implements ICommand {
         ephemeral: true,
       });
 
-      logger.error(error, '/ask: Could not send ask embed');
+      await logger.error(error, '/ask: Could not send ask embed');
     }
   }
 }

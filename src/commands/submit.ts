@@ -23,12 +23,12 @@ export default class Submit implements ICommand {
   async execute(interaction: Discord.CommandInteraction) {
     const { guild, user, options } = interaction;
 
-    logger.trace('Executing /submit slash command');
+    await logger.trace('Executing /submit slash command');
 
     const challengeId = options.getString('challenge_id');
     const url = options.getString('url');
 
-    logger.debug(
+    await logger.debug(
       `/submit: Sending challenge submission ${challengeId} with body ${url}`
     );
 
@@ -50,7 +50,7 @@ export default class Submit implements ICommand {
         ephemeral: true,
       });
 
-      logger.error(
+      await logger.error(
         error,
         '/submit: Could not send challenge submission to bot message channel.'
       );

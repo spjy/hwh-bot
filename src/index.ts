@@ -90,7 +90,7 @@ client.on('interactionCreate', async (interaction) => {
       await command.execute(interaction, helpMentions);
     }
   } catch (error) {
-    logger.error(error);
+    await logger.error(error);
   }
 });
 
@@ -119,7 +119,7 @@ client.on('interactionCreate', async (interaction) => {
       await command.executeButton(interaction, Number(id), helpMentions);
     }
   } catch (error) {
-    logger.error(error);
+    await logger.error(error);
   }
 });
 
@@ -148,7 +148,7 @@ client.on('interactionCreate', async (interaction) => {
       await command.executeMenu(interaction, Number(id), helpMentions);
     }
   } catch (error) {
-    logger.error(error);
+    await logger.error(error);
   }
 });
 
@@ -175,7 +175,7 @@ client.on('interactionCreate', async (interaction) => {
       await command.executeContextMenu(interaction, helpMentions);
     }
   } catch (error) {
-    logger.error(error);
+    await logger.error(error);
   }
 });
 
@@ -199,7 +199,7 @@ client.on('interactionCreate', async (interaction) => {
     // Mention command needs Discord collection
     await command.executeModalSubmit(interaction, Number(id));
   } catch (error) {
-    logger.error(error);
+    await logger.error(error);
   }
 });
 
@@ -245,7 +245,7 @@ client.on('messageCreate', async (message) => {
       }
     }
   } catch (error) {
-    logger.error(error);
+    await logger.error(error);
     Raven.captureException(error);
   }
 });

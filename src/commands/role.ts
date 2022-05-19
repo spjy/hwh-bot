@@ -56,7 +56,7 @@ export default class Role implements ICommand {
         );
       }
 
-      logger.trace(`/roles: Sending role select menus for ${role}`);
+      await logger.trace(`/roles: Sending role select menus for ${role}`);
 
       try {
         await (<Discord.TextChannel>channel).send({
@@ -64,7 +64,10 @@ export default class Role implements ICommand {
           components: [row],
         });
       } catch (error) {
-        logger.error(error, `/roles: Could not send select menu for ${role}`);
+        await logger.error(
+          error,
+          `/roles: Could not send select menu for ${role}`
+        );
       }
     }
   }
@@ -82,7 +85,7 @@ export default class Role implements ICommand {
 
     const c = <Discord.MessageSelectMenu>component;
 
-    logger.debug(`Modifying roles for user ${user.id}`);
+    await logger.debug(`Modifying roles for user ${user.id}`);
 
     // Add roles
     await Promise.all(
@@ -103,7 +106,7 @@ export default class Role implements ICommand {
             } catch (error) {
               erroredRoles.push(r);
 
-              logger.error(
+              await logger.error(
                 error,
                 `Could not add role ${r} for user ${user.id}`
               );
@@ -119,7 +122,7 @@ export default class Role implements ICommand {
             } catch (error) {
               erroredRoles.push(r);
 
-              logger.error(
+              await logger.error(
                 error,
                 `Could not remove role ${r} for user ${user.id}`
               );
@@ -160,7 +163,7 @@ export default class Role implements ICommand {
         content: 'Could not send message containing role modifications.',
       });
 
-      logger.error(
+      await logger.error(
         error,
         'Could not send message containing role modifications'
       );
