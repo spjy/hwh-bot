@@ -2,6 +2,7 @@ import Discord from 'discord.js';
 import { SlashCommandBuilder } from '@discordjs/builders';
 
 import { SlashCommand, ICommand } from '../types/typedefs';
+import logger from '../logger';
 
 export default class Submit implements ICommand {
   readonly command: SlashCommand = new SlashCommandBuilder()
@@ -22,15 +23,33 @@ export default class Submit implements ICommand {
   async execute(interaction: Discord.CommandInteraction) {
     const { guild, user, options } = interaction;
 
+    await logger.trace('Executing /submit slash command');
+
     const challengeId = options.getString('challenge_id');
     const url = options.getString('url');
 
-    await (<Discord.TextChannel>(
-      guild.channels.cache.get(process.env.BOT_MESSAGES_CHANNEL_ID)
-    )).send({
-      content: `[Challenge Entry for ${challengeId} from ${user}] ${url}`,
-      // files: attachments.map((a) => a.url)
-    });
+    await logger.debug(
+      `/submit: Sending challenge submission ${challengeId} with body ${url}`
+    );
+
+    try {
+      await (<Discord.TextChannel>(
+        guild.channels.cache.get(process.env.BOT_MESSAGES_CHANNEL_ID)
+      )).send({
+        content: `[Challenge Entry for ${challengeId} from ${user}] ${url}`,
+        // files: attachments.map((a) => a.url)
+      });
+    } catch (error) {
+      await interaction.reply({
+        content: 'Submission was not saved successfully. Please try again.',
+        ephemeral: true,
+      });
+
+      await logger.error(
+        error,
+        '/submit: Could not send challenge submission to bot message channel.'
+      );
+    }
 
     await interaction.reply({
       content: `Thank you for participating in our event! You have submitted <${url}> for challenge ${challengeId}.`,

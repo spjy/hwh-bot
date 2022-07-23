@@ -1,5 +1,6 @@
 import Discord, { MessageSelectMenu } from 'discord.js';
 import Raven from 'raven';
+import logger from '../../logger';
 
 import { dispositions } from '../../types/typedefs';
 
@@ -167,7 +168,7 @@ export default class Report {
         this.message.delete();
       }
     } catch (err) {
-      console.log(err);
+      logger.error(err);
       Raven.captureException(err);
     }
   }

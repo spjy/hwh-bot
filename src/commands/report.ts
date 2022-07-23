@@ -5,6 +5,7 @@ import Discord, {
   MessageButton,
   MessageSelectMenu,
 } from 'discord.js';
+import logger from '../logger';
 
 import { dispositions, ICommand, SlashCommand } from '../types/typedefs';
 
@@ -33,11 +34,7 @@ export default class Report implements ICommand {
   async execute(interaction: Discord.CommandInteraction) {
     const { guild, client, user, channelId, options } = interaction;
 
-    await interaction.reply({
-      content:
-        'Thank you for helping keep Homework Help safe. Please contact us via <@575252669443211264> if the incident does not get resolved in a timely manner.',
-      ephemeral: true,
-    });
+    await logger.trace('Executing /report slash command');
 
     // Report indicator in channel where report was created
     const report = new Discord.MessageEmbed({
@@ -62,13 +59,24 @@ export default class Report implements ICommand {
       },
     });
 
+    let r;
+
     // Send report embed to channel reported in
-    const r = await (<Discord.TextChannel>(
-      guild.channels.cache.get(channelId)
-    )).send({
-      content: `<@&${process.env.STAFF_REPORT_ROLE_ID}>`,
-      embeds: [report],
-    });
+    try {
+      r = await (<Discord.TextChannel>guild.channels.cache.get(channelId)).send(
+        {
+          content: `<@&${process.env.STAFF_REPORT_ROLE_ID}>`,
+          embeds: [report],
+        }
+      );
+    } catch (error) {
+      await interaction.reply({
+        content: 'Could not record report.',
+        ephemeral: true,
+      });
+
+      await logger.error(error, '/report: Could not record report');
+    }
 
     // Embed for staff channel
     const staff = new Discord.MessageEmbed({
@@ -160,20 +168,52 @@ export default class Report implements ICommand {
         ])
     );
 
+    let s;
     // Send staff embed
-    const s = await (<Discord.TextChannel>(
-      guild.channels.cache.get(process.env.REPORTS_CHANNEL_ID)
-    )).send({
-      embeds: [staff],
-      components: [resolve],
-    });
+    try {
+      s = await (<Discord.TextChannel>(
+        guild.channels.cache.get(process.env.REPORTS_CHANNEL_ID)
+      )).send({
+        embeds: [staff],
+        components: [resolve],
+      });
+    } catch (error) {
+      await interaction.reply({
+        content: 'Could not record report.',
+        ephemeral: true,
+      });
+
+      await logger.error(error, '/report: Could not record report');
+    }
 
     // Add URL for staff to jump to staff channel
     report.fields[1].value = `[Case](${s.url})`;
 
-    await r.edit({
-      embeds: [report],
-    });
+    try {
+      await r.edit({
+        embeds: [report],
+      });
+    } catch (error) {
+      await logger.error(
+        error,
+        'Could not modify public report embed to include case url'
+      );
+    }
+
+    try {
+      await interaction.reply({
+        content:
+          'Thank you for helping keep Homework Help safe. Please contact us via <@575252669443211264> if the incident does not get resolved in a timely manner.',
+        ephemeral: true,
+      });
+    } catch (error) {
+      await interaction.reply({
+        content: 'Error sending report confirmation message.',
+        ephemeral: true,
+      });
+
+      await logger.error(error, 'Could not send report confirmation message');
+    }
   }
 
   async executeButton(interaction: Discord.ButtonInteraction, id: Number) {
@@ -189,16 +229,29 @@ export default class Report implements ICommand {
       const reportLogEmbed = message.embeds[0];
 
       // Copy embed and edit to reflect resolved
-      const reportChannel = await (<Discord.TextChannel>(
-        guild.channels.cache.get(c)
-      ));
-      const reportMessage = await reportChannel.messages.fetch(m);
+      let reportMessage;
+
+      // Fetch report embed (created by reporter)
+      try {
+        const reportChannel = await (<Discord.TextChannel>(
+          guild.channels.cache.get(c)
+        ));
+        reportMessage = await reportChannel.messages.fetch(m);
+      } catch (error) {
+        await interaction.editReply({
+          content: 'Could not fetch original report embed.',
+        });
+
+        await logger.error(error, 'Could not fetch original report embed');
+      }
       const reportEmbed = reportMessage.embeds[0];
 
+      // Get resolver's username and discriminator
       const [username, discriminator] = (<Discord.MessageButton>(
         message.components[0].components[0]
       )).label.split('#');
 
+      // Check if resolver's name is the same as the one on the buttons
       if (username === user.username && discriminator === user.discriminator) {
         // Delete message in reports archive and send back to regular reports channel
         // Reset buttons to unresolved state
@@ -253,12 +306,26 @@ export default class Report implements ICommand {
 
         reportLogEmbed.color = 16645888;
 
-        const report = await (<Discord.TextChannel>(
-          guild.channels.cache.get(process.env.REPORTS_CHANNEL_ID)
-        )).send({
-          embeds: [reportLogEmbed],
-          components: [resolve],
-        });
+        let report;
+
+        try {
+          report = await (<Discord.TextChannel>(
+            guild.channels.cache.get(process.env.REPORTS_CHANNEL_ID)
+          )).send({
+            embeds: [reportLogEmbed],
+            components: [resolve],
+          });
+        } catch (error) {
+          await interaction.editReply({
+            content:
+              'Could not send cancelled report back to unsolved report channel',
+          });
+
+          await logger.error(
+            error,
+            'Could not send cancelled report back to unsolved report channel'
+          );
+        }
 
         // Modify report embed in channel where report was generated
         reportEmbed.color = 16645888;
@@ -266,11 +333,23 @@ export default class Report implements ICommand {
           'Thank you for the report. We will review it shortly.'),
           (reportEmbed.fields[1].value = `[Case](${report.url})`);
 
-        await reportMessage.edit({
-          embeds: [reportEmbed],
-        });
+        try {
+          await reportMessage.edit({
+            embeds: [reportEmbed],
+          });
 
-        await (<Discord.Message>message).delete();
+          await (<Discord.Message>message).delete();
+        } catch (error) {
+          await interaction.editReply({
+            content:
+              'Could not edit original report embed or delete the solved report',
+          });
+
+          await logger.error(
+            error,
+            'Could not edit original report embed or delete the solved report'
+          );
+        }
 
         await interaction.editReply({
           content: `Reverted report resolve. See ${report.url}`,
@@ -296,11 +375,21 @@ export default class Report implements ICommand {
       // Report message log
       const reportLogEmbed = message.embeds[0];
 
-      // Copy embed and edit to reflect resolved
-      const reportChannel = await (<Discord.TextChannel>(
-        guild.channels.cache.get(c)
-      ));
-      const reportMessage = await reportChannel.messages.fetch(m);
+      let reportMessage;
+
+      try {
+        // Copy embed and edit to reflect resolved
+        const reportChannel = await (<Discord.TextChannel>(
+          guild.channels.cache.get(c)
+        ));
+        reportMessage = await reportChannel.messages.fetch(m);
+      } catch (error) {
+        await interaction.editReply({
+          content: 'Could not retrieve original report embed',
+        });
+
+        await logger.error(error, 'Could not retrieve original report embed');
+      }
       const reportEmbed = reportMessage.embeds[0];
 
       // Delete report and move into archive channel once resolved
@@ -344,13 +433,22 @@ export default class Report implements ICommand {
           break;
       }
 
-      const archived = await (<Discord.TextChannel>(
-        guild.channels.cache.get(process.env.REPORTS_ARCHIVE_CHANNEL_ID)
-      )).send({
-        content: `**Disposition**: ${disposition}`,
-        embeds: [reportLogEmbed],
-        components: [button],
-      });
+      let archived;
+      try {
+        archived = await (<Discord.TextChannel>(
+          guild.channels.cache.get(process.env.REPORTS_ARCHIVE_CHANNEL_ID)
+        )).send({
+          content: `**Disposition**: ${disposition}`,
+          embeds: [reportLogEmbed],
+          components: [button],
+        });
+      } catch (error) {
+        await interaction.editReply({
+          content: 'Could not archive report',
+        });
+
+        await logger.error(error, 'Could not archive report');
+      }
 
       // Modify report embed in channel where report was generated
       reportEmbed.color = 1441536;
@@ -358,11 +456,23 @@ export default class Report implements ICommand {
         'A staff member has reviewed your report. If you think there was a mistake, please contact us via <@575252669443211264>.'),
         (reportEmbed.fields[1].value = `[Case](${archived.url})`);
 
-      await reportMessage.edit({
-        embeds: [reportEmbed],
-      });
+      try {
+        await reportMessage.edit({
+          embeds: [reportEmbed],
+        });
 
-      await (<Discord.Message>message).delete();
+        await (<Discord.Message>message).delete();
+      } catch (error) {
+        await interaction.editReply({
+          content:
+            'Could not edit original report embed or delete the unresolved report',
+        });
+
+        await logger.error(
+          error,
+          'Could not edit original report embed or delete the unresolved report'
+        );
+      }
 
       await interaction.editReply({
         content: `Report resolved. See ${archived.url}`,

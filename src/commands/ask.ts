@@ -1,7 +1,10 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import Discord from 'discord.js';
+import logger from '../logger';
 import { ICommand, SlashCommand } from '../types/typedefs';
 
+/** Upon /ask, sends an embed in the channel containing tip */
+/** Optionally can provide a user to ping with the embed */
 export default class Ask implements ICommand {
   readonly command: SlashCommand = new SlashCommandBuilder()
     .setName('ask')
@@ -13,7 +16,9 @@ export default class Ask implements ICommand {
   async execute(interaction: Discord.CommandInteraction) {
     const { client, options } = interaction;
 
-    const tip = new Discord.MessageEmbed({
+    // User to be pinged
+    const user = options.getUser('user') ? `${options.getUser('user')}` : null;
+    const tip: Discord.MessageEmbed = new Discord.MessageEmbed({
       color: 1441536,
       title: 'Tip',
       description:
@@ -26,8 +31,10 @@ export default class Ask implements ICommand {
       },
     });
 
+    await logger.debug(`/ask: Sending ask tip, pinging user "${user}"`);
+
     await interaction.reply({
-      content: options.getUser('user') ? `${options.getUser('user')}` : null,
+      content: user,
       embeds: [tip],
     });
   }
