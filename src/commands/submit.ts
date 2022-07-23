@@ -39,11 +39,6 @@ export default class Submit implements ICommand {
         content: `[Challenge Entry for ${challengeId} from ${user}] ${url}`,
         // files: attachments.map((a) => a.url)
       });
-
-      await interaction.reply({
-        content: `Thank you for participating in our event! You have submitted <${url}> for challenge ${challengeId}.`,
-        ephemeral: true,
-      });
     } catch (error) {
       await interaction.reply({
         content: 'Submission was not saved successfully. Please try again.',
@@ -55,5 +50,10 @@ export default class Submit implements ICommand {
         '/submit: Could not send challenge submission to bot message channel.'
       );
     }
+
+    await interaction.reply({
+      content: `Thank you for participating in our event! You have submitted <${url}> for challenge ${challengeId}.`,
+      ephemeral: true,
+    });
   }
 }

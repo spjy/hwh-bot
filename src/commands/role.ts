@@ -154,19 +154,8 @@ export default class Role implements ICommand {
       )}`;
     }
 
-    try {
-      await interaction.editReply({
-        content: message,
-      });
-    } catch (error) {
-      await interaction.editReply({
-        content: 'Could not send message containing role modifications.',
-      });
-
-      await logger.error(
-        error,
-        'Could not send message containing role modifications'
-      );
-    }
+    await interaction.editReply({
+      content: message,
+    });
   }
 }

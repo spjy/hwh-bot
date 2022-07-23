@@ -33,18 +33,9 @@ export default class Ask implements ICommand {
 
     await logger.debug(`/ask: Sending ask tip, pinging user "${user}"`);
 
-    try {
-      await interaction.reply({
-        content: user,
-        embeds: [tip],
-      });
-    } catch (error) {
-      await interaction.reply({
-        content: 'Failed to send /ask tip.',
-        ephemeral: true,
-      });
-
-      await logger.error(error, '/ask: Could not send ask embed');
-    }
+    await interaction.reply({
+      content: user,
+      embeds: [tip],
+    });
   }
 }
