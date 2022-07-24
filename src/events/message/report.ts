@@ -2,7 +2,7 @@ import Discord, { MessageSelectMenu } from 'discord.js';
 import Raven from 'raven';
 import logger from '../../logger';
 
-import { dispositions } from '../../types/typedefs';
+import { dispositionEntries, reportEmbedFields } from '../../types/report';
 
 /**
  * Detect when a user includes the @Staff Report ping, generate a report in the
@@ -43,18 +43,7 @@ export default class Report {
       if (report.includes(this.staffRoleId)) {
         const indicator = new Discord.MessageEmbed({
           color: 16645888,
-          fields: [
-            {
-              name: 'Report',
-              value: 'Thank you for the report. We will review it shortly.',
-              inline: true,
-            },
-            {
-              name: 'Staff Link',
-              value: '-',
-              inline: true,
-            },
-          ],
+          fields: reportEmbedFields,
           timestamp: new Date(),
           footer: {
             icon_url: client.user.avatarURL(),
@@ -72,48 +61,7 @@ export default class Report {
           new MessageSelectMenu()
             .setCustomId('report::0')
             .setPlaceholder('Select disposition')
-            .addOptions([
-              {
-                emoji: '<:EverythingIsFine:266216698451853324>',
-                label: 'No action',
-                value: dispositions.NO_ACTION,
-              },
-              {
-                emoji: '<:PeepoNote:809186638789214290>',
-                label: 'Note',
-                value: dispositions.NOTE,
-              },
-              {
-                emoji: '<:YellingWoman:809187855804006410>',
-                label: 'Verbal warning',
-                value: dispositions.VERBAL_WARN,
-              },
-              {
-                emoji: '✍️',
-                label: 'Formal warning',
-                value: dispositions.FORMAL_WARN,
-              },
-              {
-                emoji: '🙊',
-                label: 'Mute',
-                value: dispositions.MUTE,
-              },
-              {
-                emoji: '🦶',
-                label: 'Kick',
-                value: dispositions.KICK,
-              },
-              {
-                emoji: '<:blanketblob:821415890628902953>',
-                label: 'Softban',
-                value: dispositions.SOFTBAN,
-              },
-              {
-                emoji: '<:feelsbanman:716743099413561426>',
-                label: 'Ban',
-                value: dispositions.BAN,
-              },
-            ])
+            .addOptions(dispositionEntries)
         );
 
         // Send information to report channel in an embed
