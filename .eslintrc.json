@@ -5,6 +5,7 @@
     "node": true,
     "mocha": true
   },
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2017,
     "sourceType": "module",
@@ -13,5 +14,5 @@
       "experimentalObjectRestSpread": true
     }
   },
-  "extends": ["airbnb-base/legacy"]
+  "extends": ["airbnb", "airbnb-typescript", "prettier"]
 }
