@@ -4,6 +4,9 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { SlashCommand, ICommand } from '../types/typedefs';
 import logger from '../logger';
 
+/**
+ * Command to handle challenge submissions
+ */
 export default class Submit implements ICommand {
   readonly command: SlashCommand = new SlashCommandBuilder()
     .setName('submit')
