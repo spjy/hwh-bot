@@ -209,48 +209,7 @@ export default class Report implements ICommand {
             .setCustomId('report::0')
             .setMaxValues(1)
             .setPlaceholder('Select resolve disposition')
-            .addOptions([
-              {
-                emoji: '<:EverythingIsFine:266216698451853324>',
-                label: 'No action',
-                value: dispositions.NO_ACTION,
-              },
-              {
-                emoji: '<:PeepoNote:809186638789214290>',
-                label: 'Note',
-                value: dispositions.NOTE,
-              },
-              {
-                emoji: '<:YellingWoman:809187855804006410>',
-                label: 'Verbal warning',
-                value: dispositions.VERBAL_WARN,
-              },
-              {
-                emoji: '✍️',
-                label: 'Formal warning',
-                value: dispositions.FORMAL_WARN,
-              },
-              {
-                emoji: '🙊',
-                label: 'Mute',
-                value: dispositions.MUTE,
-              },
-              {
-                emoji: '🦶',
-                label: 'Kick',
-                value: dispositions.KICK,
-              },
-              {
-                emoji: '<:blanketblob:821415890628902953>',
-                label: 'Softban',
-                value: dispositions.SOFTBAN,
-              },
-              {
-                emoji: '<:feelsbanman:716743099413561426>',
-                label: 'Ban',
-                value: dispositions.BAN,
-              },
-            ])
+            .addOptions(dispositionEntries)
         );
 
         reportLogEmbed.color = 16645888;
