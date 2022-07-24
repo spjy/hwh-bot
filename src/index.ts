@@ -3,6 +3,7 @@ import Discord from 'discord.js';
 import Raven from 'raven';
 import fs from 'fs';
 import logger from './logger';
+import { instantiate } from './deploy_commands';
 
 import aggregateEvents from './events';
 
@@ -42,12 +43,6 @@ const reportsChannel: string = process.env.REPORTS_CHANNEL_ID; // #reports
 client.login(process.env.DISCORD_TOKEN);
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./src/commands');
-
-function instantiate(constructor, args) {
-  var instance = Object.create(constructor.prototype);
-  constructor.apply(instance, args);
-  return instance;
-}
 
 aggregateEvents(events); // Require all events
 

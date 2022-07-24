@@ -1,10 +1,11 @@
 require('dotenv-extended').load();
+import Discord from 'discord.js';
 import Raven from 'raven';
 const dialogflow = require('dialogflow');
 
 export default {
   description: 'DialogFlow',
-  async execute(message) {
+  async execute(message: Discord.Message) {
     try {
       const { cleanContent: content, author } = message;
 

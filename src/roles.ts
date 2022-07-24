@@ -1,4 +1,4 @@
-export default {
+const roles = {
   Education: [
     {
       emoji: '<:edone:799921598025957386>',
@@ -530,3 +530,5 @@ export default {
     },
   ],
 };
+
+export default roles;

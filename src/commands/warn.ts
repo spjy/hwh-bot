@@ -1,3 +1,4 @@
+// @ts-nocheck
 require('dotenv-extended').load();
 import Discord, {
   MessageEmbed,

@@ -3,6 +3,7 @@
     "allowSyntheticDefaultImports": true,
     "module": "commonjs",
     "moduleResolution": "node",
-    "target": "esnext"
+    "target": "esnext",
+    "sourceMap": true
   }
 }
