@@ -1,15 +1,16 @@
 require('dotenv-extended').load();
+import { ICommand } from './types/typedefs';
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const fs = require('fs');
 
 const commandFiles = fs.readdirSync('./src/commands');
 
-const commands = [];
+const commands: object[] = [];
 
 const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
 
-function instantiate(constructor, args) {
+export function instantiate(constructor: any, args: any) {
   var instance = Object.create(constructor.prototype);
   constructor.apply(instance, args);
   return instance;

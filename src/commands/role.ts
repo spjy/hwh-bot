@@ -1,3 +1,4 @@
+// @ts-nocheck
 require('dotenv-extended').load();
 import Discord, { MessageActionRow, MessageSelectMenu } from 'discord.js';
 import logger from '../logger';
@@ -13,7 +14,7 @@ export default class Role implements ICommand {
     .setName('role')
     .setDescription('Send available select menus for role selection');
 
-  async execute(interaction) {
+  async execute(interaction: Discord.CommandInteraction) {
     const { channel } = interaction;
 
     await interaction.reply({ content: 'hath been senterino' });
@@ -79,9 +80,9 @@ export default class Role implements ICommand {
       ephemeral: true,
     });
 
-    const addedRoles = [];
-    const removedRoles = [];
-    const erroredRoles = [];
+    const addedRoles: string[] = [];
+    const removedRoles: string[] = [];
+    const erroredRoles: string[] = [];
 
     const c = <Discord.MessageSelectMenu>component;
 
@@ -104,7 +105,7 @@ export default class Role implements ICommand {
             try {
               await u.roles.add(r);
             } catch (error) {
-              erroredRoles.push(r);
+              erroredRoles.push(r.name);
 
               await logger.error(
                 error,
@@ -112,7 +113,7 @@ export default class Role implements ICommand {
               );
             }
 
-            addedRoles.push(r);
+            addedRoles.push(r.name);
           } else if (
             u.roles.cache.has(r.id) &&
             (!values.includes(role) || values.includes('clear'))
@@ -120,14 +121,14 @@ export default class Role implements ICommand {
             try {
               await u.roles.remove(r);
             } catch (error) {
-              erroredRoles.push(r);
+              erroredRoles.push(r.name);
 
               await logger.error(
                 error,
                 `Could not remove role ${r} for user ${user.id}`
               );
             }
-            removedRoles.push(r);
+            removedRoles.push(r.name);
           }
         }
       })
