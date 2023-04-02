@@ -1,16 +1,16 @@
-// @ts-nocheck
 require('dotenv-extended').load();
 import Discord, {
-  MessageEmbed,
-  Modal,
-  TextInputComponent,
-  MessageActionRow,
-} from 'discord.js';
-import {
+  Embed,
+  ActionRowBuilder,
   SlashCommandBuilder,
   ContextMenuCommandBuilder,
-} from '@discordjs/builders';
-import { ApplicationCommandType } from 'discord-api-types/v9';
+  ApplicationCommandType,
+  TextInputBuilder,
+  TextInputStyle,
+  ModalBuilder,
+  EmbedBuilder,
+  TextInputComponent,
+} from 'discord.js';
 
 import { SlashCommand } from '../types/typedefs';
 
@@ -35,24 +35,24 @@ export default class Warn {
     .setName('warn')
     .setType(ApplicationCommandType.User);
 
-  modal: Modal = new Modal()
+  modal: ModalBuilder = new ModalBuilder()
     .setCustomId('warn::0')
-    .addComponents([
-      new MessageActionRow().addComponents(
-        new TextInputComponent()
+    .addComponents(
+      new ActionRowBuilder<TextInputBuilder>().addComponents(
+        new TextInputBuilder()
           .setCustomId('warn::user')
           .setLabel('User (Do not modify)')
-          .setStyle('SHORT')
+          .setStyle(TextInputStyle.Short)
           .setPlaceholder('User')
       ),
-      new MessageActionRow().addComponents(
-        new TextInputComponent()
+      new ActionRowBuilder<TextInputBuilder>().addComponents(
+        new TextInputBuilder()
           .setCustomId('warn::reason')
           .setLabel('Reason')
-          .setStyle('PARAGRAPH')
+          .setStyle(TextInputStyle.Paragraph)
           .setPlaceholder('Reason')
-      ),
-    ]);
+      )
+    );
 
   async execute(interaction: Discord.CommandInteraction) {
     const { client, options } = interaction;
@@ -60,7 +60,7 @@ export default class Warn {
     await interaction.reply('Not yet implemented.');
   }
 
-  async executeContextMenu(interaction: Discord.ContextMenuInteraction) {
+  async executeContextMenu(interaction: Discord.ContextMenuCommandInteraction) {
     const { channel: textChannel, options, user } = interaction;
 
     const warnee: Discord.GuildMember = <Discord.GuildMember>(
@@ -80,7 +80,7 @@ export default class Warn {
     const user = fields.getTextInputValue('warn::user');
     const reason = fields.getTextInputValue('warn::reason');
 
-    const warning = new MessageEmbed()
+    const warning = new EmbedBuilder()
       .setTitle('Warning')
       .setColor(16645888)
       .setDescription(`<@${user}> was warned by a staff member.`)

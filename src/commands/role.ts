@@ -1,20 +1,22 @@
-// @ts-nocheck
 require('dotenv-extended').load();
-import Discord, { MessageActionRow, MessageSelectMenu } from 'discord.js';
+import Discord, {
+  SlashCommandBuilder,
+  ActionRowBuilder,
+  StringSelectMenuBuilder,
+} from 'discord.js';
 import logger from '../logger';
-const { SlashCommandBuilder } = require('@discordjs/builders');
 
 import roles from '../roles';
 
-import { SlashCommand, ICommand } from '../types/typedefs';
+import { ICommand } from '../types/typedefs';
 
 export default class Role implements ICommand {
-  readonly command: SlashCommand = new SlashCommandBuilder()
+  readonly command: SlashCommandBuilder = new SlashCommandBuilder()
     .setDefaultPermission(false)
     .setName('role')
     .setDescription('Send available select menus for role selection');
 
-  async execute(interaction: Discord.CommandInteraction) {
+  async execute(interaction: Discord.ChatInputCommandInteraction) {
     const { channel } = interaction;
 
     await interaction.reply({ content: 'hath been senterino' });
@@ -24,8 +26,8 @@ export default class Role implements ICommand {
       let row;
 
       if (role === 'Education') {
-        row = new MessageActionRow().addComponents(
-          new MessageSelectMenu()
+        row = new ActionRowBuilder().addComponents(
+          new StringSelectMenuBuilder()
             .setCustomId('role::0')
             .setPlaceholder(`Select ${role} role`)
             .addOptions([
@@ -39,8 +41,8 @@ export default class Role implements ICommand {
             ])
         );
       } else {
-        row = new MessageActionRow().addComponents(
-          new MessageSelectMenu()
+        row = new ActionRowBuilder().addComponents(
+          new StringSelectMenuBuilder()
             .setMinValues(1)
             .setMaxValues(roles[role].length)
             .setCustomId('role::0')
@@ -84,7 +86,7 @@ export default class Role implements ICommand {
     const removedRoles: string[] = [];
     const erroredRoles: string[] = [];
 
-    const c = <Discord.MessageSelectMenu>component;
+    const c = <Discord.StringSelectMenuComponent>component;
 
     await logger.debug(`Modifying roles for user ${user.id}`);
 

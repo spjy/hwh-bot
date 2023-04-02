@@ -1,9 +1,8 @@
-import {
+import Discord, {
   ContextMenuCommandBuilder,
   SlashCommandBuilder,
   SlashCommandSubcommandsOnlyBuilder,
-} from '@discordjs/builders';
-import Discord from 'discord.js';
+} from 'discord.js';
 
 export interface MentionStore {
   channel: string;
@@ -31,7 +30,7 @@ export type SlashCommand =
 export interface ICommand {
   readonly command: SlashCommand;
 
-  execute(interaction: Discord.CommandInteraction): Promise<void>;
+  execute(interaction: Discord.ChatInputCommandInteraction): Promise<void>;
 }
 
 export interface ICommandMention {
@@ -48,7 +47,7 @@ export interface IContextMenu {
   readonly context: ContextMenuCommandBuilder;
 
   executeContextMenu(
-    interaction: Discord.ContextMenuInteraction,
+    interaction: Discord.MessageContextMenuCommandInteraction,
     id: number
   ): Promise<void>;
 }
@@ -57,7 +56,7 @@ export interface IContextMenuMention {
   readonly context: ContextMenuCommandBuilder;
 
   executeContextMenu(
-    interaction: Discord.ContextMenuInteraction,
+    interaction: Discord.MessageContextMenuCommandInteraction,
     helpMentions: Discord.Collection<string, MentionStore>
   ): Promise<void>;
 }

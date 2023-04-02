@@ -16,7 +16,7 @@ import Raven from 'raven';
 
 export default class Embed {
   message: Discord.Message;
-  content: Discord.MessageEmbedOptions;
+  content: Discord.EmbedData;
   channel: Discord.TextChannel;
   guild: Discord.Guild;
   channelToSend: string;
@@ -46,7 +46,7 @@ export default class Embed {
       fields: fields,
       timestamp: timestamp,
       footer: {
-        icon_url: client.user.avatarURL(),
+        // icon_url: client.user.avatarURL(),
         text: footer,
       },
     };
@@ -120,7 +120,7 @@ export default class Embed {
     try {
       await this.channel.send({
         ...(this.preembed !== '' && { content: this.preembed }),
-        embeds: [new Discord.MessageEmbed(this.content)],
+        embeds: [new Discord.EmbedBuilder(this.content)],
       });
 
       await this.message.delete();
@@ -138,7 +138,7 @@ export default class Embed {
         this.guild.channels.cache.get(this.channelToSend)
       )).send({
         content: this.preembed,
-        embeds: [new Discord.MessageEmbed(this.content)],
+        embeds: [new Discord.EmbedBuilder(this.content)],
       });
 
       await this.message.delete();

@@ -1,9 +1,11 @@
 require('dotenv-extended').load();
-import { SlashCommandBuilder } from '@discordjs/builders';
 import Discord, {
-  MessageActionRow,
-  MessageButton,
-  MessageSelectMenu,
+  ActionRow,
+  SlashCommandBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  StringSelectMenuBuilder,
+  ButtonStyle,
 } from 'discord.js';
 import logger from '../logger';
 import { dispositionEntries, reportEmbedFields } from '../types/report';
@@ -32,13 +34,13 @@ export default class Report implements ICommand {
         .setRequired(true)
     );
 
-  async execute(interaction: Discord.CommandInteraction) {
+  async execute(interaction: Discord.ChatInputCommandInteraction) {
     const { guild, client, user, channelId, options } = interaction;
 
     await logger.trace('Executing /report slash command');
 
     // Report indicator in channel where report was created
-    const report = new Discord.MessageEmbed({
+    const report = new Discord.EmbedBuilder({
       color: 16645888,
       description: '',
       fields: reportEmbedFields,
@@ -69,7 +71,7 @@ export default class Report implements ICommand {
     }
 
     // Embed for staff channel
-    const staff = new Discord.MessageEmbed({
+    const staff = new Discord.EmbedBuilder({
       color: 16645888,
       fields: [
         {
@@ -109,13 +111,14 @@ export default class Report implements ICommand {
       },
     });
 
-    const resolve = new MessageActionRow().addComponents(
-      new MessageSelectMenu()
-        .setCustomId('report::0')
-        .setMaxValues(1)
-        .setPlaceholder('Select disposition')
-        .addOptions(dispositionEntries)
-    );
+    const resolve =
+      new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+        new StringSelectMenuBuilder()
+          .setCustomId('report::0')
+          .setMaxValues(1)
+          .setPlaceholder('Select disposition')
+          .addOptions(dispositionEntries)
+      );
 
     let s;
     // Send staff embed
@@ -136,11 +139,12 @@ export default class Report implements ICommand {
     }
 
     // Add URL for staff to jump to staff channel
-    report.fields[1].value = `[Case](${s.url})`;
+    const editedReport = report.toJSON();
+    editedReport.fields[1].value = `[Case](${s.url})`;
 
     try {
       await r.edit({
-        embeds: [report],
+        embeds: [editedReport],
       });
     } catch (error) {
       await logger.error(
@@ -196,7 +200,7 @@ export default class Report implements ICommand {
       const reportEmbed = reportMessage.embeds[0];
 
       // Get resolver's username and discriminator
-      const [username, discriminator] = (<Discord.MessageButton>(
+      const [username, discriminator] = (<Discord.ButtonComponent>(
         message.components[0].components[0]
       )).label.split('#');
 
@@ -204,15 +208,17 @@ export default class Report implements ICommand {
       if (username === user.username && discriminator === user.discriminator) {
         // Delete message in reports archive and send back to regular reports channel
         // Reset buttons to unresolved state
-        const resolve = new MessageActionRow().addComponents(
-          new MessageSelectMenu()
-            .setCustomId('report::0')
-            .setMaxValues(1)
-            .setPlaceholder('Select resolve disposition')
-            .addOptions(dispositionEntries)
-        );
+        const resolve =
+          new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+            new StringSelectMenuBuilder()
+              .setCustomId('report::0')
+              .setMaxValues(1)
+              .setPlaceholder('Select resolve disposition')
+              .addOptions(dispositionEntries)
+          );
 
-        reportLogEmbed.color = 16645888;
+        const reportLogEmbedCopy = reportLogEmbed.toJSON();
+        reportLogEmbedCopy.color = 16645888;
 
         let report;
 
@@ -220,7 +226,7 @@ export default class Report implements ICommand {
           report = await (<Discord.TextChannel>(
             guild.channels.cache.get(process.env.REPORTS_CHANNEL_ID)
           )).send({
-            embeds: [reportLogEmbed],
+            embeds: [reportLogEmbedCopy],
             components: [resolve],
           });
         } catch (error) {
@@ -236,7 +242,7 @@ export default class Report implements ICommand {
         }
 
         // Modify report embed in channel where report was generated
-        reportEmbed.color = 16645888;
+        reportEmbed.setColor(16645888);
         (reportEmbed.fields[0].value =
           'Thank you for the report. We will review it shortly.'),
           (reportEmbed.fields[1].value = `[Case](${report.url})`);
@@ -281,9 +287,11 @@ export default class Report implements ICommand {
       const [, , , , , c, m] = message.embeds[0].fields[4].value.split('/');
 
       // Report message log
-      const reportLogEmbed = message.embeds[0];
+      const reportLogEmbed = new Discord.EmbedBuilder(
+        message.embeds[0].toJSON()
+      );
 
-      let reportMessage;
+      let reportMessage: Discord.Message;
 
       try {
         // Copy embed and edit to reflect resolved
@@ -298,46 +306,48 @@ export default class Report implements ICommand {
 
         await logger.error(error, 'Could not retrieve original report embed');
       }
-      const reportEmbed = reportMessage.embeds[0];
+      const reportEmbed = new Discord.EmbedBuilder(
+        reportMessage.embeds[0].toJSON()
+      );
 
       // Delete report and move into archive channel once resolved
       // Set resolve button to green, set who resolved it. Also add cancel button if there was an error
-      const button = new MessageActionRow().addComponents(
-        new MessageButton()
+      const button = new ActionRowBuilder<ButtonBuilder>().addComponents(
+        new ButtonBuilder()
           .setCustomId('report::0')
           .setLabel(`${user.username}#${user.discriminator}`)
-          .setStyle('SUCCESS')
+          .setStyle(ButtonStyle.Success)
           .setDisabled(),
-        new MessageButton()
+        new ButtonBuilder()
           .setCustomId('report::1')
           .setLabel('Cancel')
-          .setStyle('SECONDARY')
+          .setStyle(ButtonStyle.Secondary)
       );
 
       switch (disposition) {
         case dispositions.NO_ACTION:
-          reportLogEmbed.color = 9807270;
+          reportLogEmbed.setColor(9807270);
           break;
         case dispositions.NOTE:
-          reportLogEmbed.color = 16776960;
+          reportLogEmbed.setColor(16776960);
           break;
         case dispositions.VERBAL_WARN:
-          reportLogEmbed.color = 15844367;
+          reportLogEmbed.setColor(15844367);
           break;
         case dispositions.FORMAL_WARN:
-          reportLogEmbed.color = 15105570;
+          reportLogEmbed.setColor(15105570);
           break;
         case dispositions.MUTE:
-          reportLogEmbed.color = 10181046;
+          reportLogEmbed.setColor(10181046);
           break;
         case dispositions.KICK:
-          reportLogEmbed.color = 15158332;
+          reportLogEmbed.setColor(15158332);
           break;
         case dispositions.SOFTBAN:
-          reportLogEmbed.color = 12370112;
+          reportLogEmbed.setColor(12370112);
           break;
         case dispositions.BAN:
-          reportLogEmbed.color = 10038562;
+          reportLogEmbed.setColor(10038562);
           break;
       }
 
@@ -358,15 +368,16 @@ export default class Report implements ICommand {
         await logger.error(error, 'Could not archive report');
       }
 
-      // Modify report embed in channel where report was generated
-      reportEmbed.color = 1441536;
-      (reportEmbed.fields[0].value =
+      // Edit report embed in channel where report was generated
+      const editedReportEmbed = reportEmbed.toJSON();
+      editedReportEmbed.color = 1441536;
+      (editedReportEmbed.fields[0].value =
         'A staff member has reviewed your report. If you think there was a mistake, please contact us via <@575252669443211264>.'),
-        (reportEmbed.fields[1].value = `[Case](${archived.url})`);
+        (editedReportEmbed.fields[1].value = `[Case](${archived.url})`);
 
       try {
         await reportMessage.edit({
-          embeds: [reportEmbed],
+          embeds: [editedReportEmbed],
         });
 
         await (<Discord.Message>message).delete();

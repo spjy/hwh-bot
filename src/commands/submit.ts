@@ -1,6 +1,4 @@
-import Discord from 'discord.js';
-import { SlashCommandBuilder } from '@discordjs/builders';
-
+import Discord, { SlashCommandBuilder } from 'discord.js';
 import { SlashCommand, ICommand } from '../types/typedefs';
 import logger from '../logger';
 
@@ -23,7 +21,7 @@ export default class Submit implements ICommand {
       option.setName('url').setDescription('URL to your work').setRequired(true)
     );
 
-  async execute(interaction: Discord.CommandInteraction) {
+  async execute(interaction: Discord.ChatInputCommandInteraction) {
     const { guild, user, options } = interaction;
 
     await logger.trace('Executing /submit slash command');
