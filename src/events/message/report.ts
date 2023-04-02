@@ -1,4 +1,4 @@
-import Discord, { MessageSelectMenu } from 'discord.js';
+import Discord, { StringSelectMenuBuilder } from 'discord.js';
 import Raven from 'raven';
 import logger from '../../logger';
 
@@ -41,7 +41,7 @@ export default class Report {
 
       // If mentions includes @Staff
       if (report.includes(this.staffRoleId)) {
-        const indicator = new Discord.MessageEmbed({
+        const indicator = new Discord.EmbedBuilder({
           color: 16645888,
           fields: reportEmbedFields,
           timestamp: new Date(),
@@ -57,12 +57,13 @@ export default class Report {
           embeds: [indicator],
         });
 
-        const resolve = new Discord.MessageActionRow().addComponents(
-          new MessageSelectMenu()
-            .setCustomId('report::0')
-            .setPlaceholder('Select disposition')
-            .addOptions(dispositionEntries)
-        );
+        const resolve =
+          new Discord.ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+            new StringSelectMenuBuilder()
+              .setCustomId('report::0')
+              .setPlaceholder('Select disposition')
+              .addOptions(dispositionEntries)
+          );
 
         // Send information to report channel in an embed
         const m = await (<Discord.TextChannel>(
@@ -70,7 +71,7 @@ export default class Report {
         )).send({
           components: [resolve],
           embeds: [
-            new Discord.MessageEmbed({
+            new Discord.EmbedBuilder({
               color: 16645888,
               description: '',
               fields: [
@@ -107,10 +108,11 @@ export default class Report {
           ],
         });
 
-        indicator.fields[1].value = `[Case](${m.url})`;
+        const indicatorCopy = indicator.toJSON();
+        indicatorCopy.fields[1].value = `[Case](${m.url})`;
 
         await reportMessage.edit({
-          embeds: [indicator],
+          embeds: [indicatorCopy],
         });
 
         this.message.delete();

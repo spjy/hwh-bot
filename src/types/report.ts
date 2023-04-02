@@ -16,17 +16,17 @@ export const reportEmbedFields = [
 
 export const dispositionEntries = [
   {
-    emoji: '<:EverythingIsFine:266216698451853324>',
+    // emoji: '<:EverythingIsFine:266216698451853324>',
     label: 'No action',
     value: dispositions.NO_ACTION,
   },
   {
-    emoji: '<:PeepoNote:809186638789214290>',
+    // emoji: '<:PeepoNote:809186638789214290>',
     label: 'Note',
     value: dispositions.NOTE,
   },
   {
-    emoji: '<:YellingWoman:809187855804006410>',
+    // emoji: '<:YellingWoman:809187855804006410>',
     label: 'Verbal warning',
     value: dispositions.VERBAL_WARN,
   },
@@ -46,12 +46,12 @@ export const dispositionEntries = [
     value: dispositions.KICK,
   },
   {
-    emoji: '<:blanketblob:821415890628902953>',
+    // emoji: '<:blanketblob:821415890628902953>',
     label: 'Softban',
     value: dispositions.SOFTBAN,
   },
   {
-    emoji: '<:feelsbanman:716743099413561426>',
+    // emoji: '<:feelsbanman:716743099413561426>',
     label: 'Ban',
     value: dispositions.BAN,
   },
