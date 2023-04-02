@@ -1,5 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import Discord from 'discord.js';
+import Discord, { SlashCommandBuilder } from 'discord.js';
 import logger from '../logger';
 import { ICommand, SlashCommand } from '../types/typedefs';
 
@@ -18,7 +17,7 @@ export default class Ask implements ICommand {
 
     // User to be pinged
     const user = options.getUser('user') ? `${options.getUser('user')}` : null;
-    const tip: Discord.MessageEmbed = new Discord.MessageEmbed({
+    const tip: Discord.EmbedBuilder = new Discord.EmbedBuilder({
       color: 1441536,
       title: 'Tip',
       description:

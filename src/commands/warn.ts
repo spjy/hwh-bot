@@ -5,12 +5,10 @@ import Discord, {
   Modal,
   TextInputComponent,
   MessageActionRow,
-} from 'discord.js';
-import {
   SlashCommandBuilder,
   ContextMenuCommandBuilder,
-} from '@discordjs/builders';
-import { ApplicationCommandType } from 'discord-api-types/v9';
+  ApplicationCommandType,
+} from 'discord.js';
 
 import { SlashCommand } from '../types/typedefs';
 

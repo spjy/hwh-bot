@@ -1,16 +1,19 @@
 // @ts-nocheck
 require('dotenv-extended').load();
-import Discord, { MessageActionRow, MessageSelectMenu } from 'discord.js';
+import Discord, {
+  SlashCommandBuilder,
+  MessageActionRow,
+  MessageSelectMenu,
+} from 'discord.js';
 import logger from '../logger';
-const { SlashCommandBuilder } = require('@discordjs/builders');
 
 import roles from '../roles';
 
-import { SlashCommand, ICommand } from '../types/typedefs';
+import { ICommand } from '../types/typedefs';
 
 export default class Role implements ICommand {
-  readonly command: SlashCommand = new SlashCommandBuilder()
-    .setDefaultPermission(false)
+  readonly command: SlashCommandBuilder = new SlashCommandBuilder()
+    .setDefaultMemberPermission(false)
     .setName('role')
     .setDescription('Send available select menus for role selection');
 

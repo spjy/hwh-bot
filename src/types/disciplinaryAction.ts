@@ -1,10 +1,8 @@
 // @ts-nocheck
-import {
+import Discord, {
+  ApplicationCommandType,
   ContextMenuCommandBuilder,
   SlashCommandBuilder,
-} from '@discordjs/builders';
-import { ApplicationCommandType } from 'discord-api-types';
-import Discord, {
   MessageActionRow,
   Modal,
   TextInputComponent,

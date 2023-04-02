@@ -18,11 +18,11 @@ class DiscordClient extends Discord.Client {
 // Instantiations of Discord.js, Discord Collection, Sentry
 const client = new DiscordClient({
   intents: [
-    Discord.Intents.FLAGS.GUILDS,
-    Discord.Intents.FLAGS.GUILD_MESSAGES,
-    Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+    Discord.GatewayIntentBits.Guilds,
+    Discord.GatewayIntentBits.GuildMessages,
+    Discord.GatewayIntentBits.GuildMessageReactions,
   ],
-  partials: ['CHANNEL'],
+  partials: [Discord.Partials.Channel],
 });
 const events: Discord.Collection<string, any> = new Discord.Collection();
 const helpMentions: Discord.Collection<string, any> = new Discord.Collection();
@@ -46,7 +46,7 @@ const commandFiles = fs.readdirSync('./src/commands');
 
 aggregateEvents(events); // Require all events
 
-client.on('ready', async () => {
+client.on(Discord.Events.ClientReady, async () => {
   // eslint-disable-next-line
   await logger.info("I'm ready!");
 
@@ -67,7 +67,7 @@ client.on('ready', async () => {
 });
 
 // Slash commands
-client.on('interactionCreate', async (interaction) => {
+client.on(Discord.Events.InteractionCreate, async (interaction) => {
   if (!interaction.isCommand()) return;
 
   await logger.trace('Retrieving slash command logic');
@@ -90,7 +90,7 @@ client.on('interactionCreate', async (interaction) => {
 });
 
 // Buttons
-client.on('interactionCreate', async (interaction) => {
+client.on(Discord.Events.InteractionCreate, async (interaction) => {
   if (!interaction.isButton()) return;
 
   await logger.trace('Retrieving button logic');
@@ -119,8 +119,8 @@ client.on('interactionCreate', async (interaction) => {
 });
 
 // Select menu
-client.on('interactionCreate', async (interaction) => {
-  if (!interaction.isSelectMenu()) return;
+client.on(Discord.Events.InteractionCreate, async (interaction) => {
+  if (!interaction.isStringSelectMenu()) return;
 
   await logger.trace('Retrieving select menu logic');
 
@@ -148,8 +148,8 @@ client.on('interactionCreate', async (interaction) => {
 });
 
 // Context menu
-client.on('interactionCreate', async (interaction) => {
-  if (!interaction.isContextMenu()) return;
+client.on(Discord.Events.InteractionCreate, async (interaction) => {
+  if (!interaction.isContextMenuCommand()) return;
 
   await logger.trace('Retrieving context menu logic');
 
@@ -175,7 +175,7 @@ client.on('interactionCreate', async (interaction) => {
 });
 
 // Modal
-client.on('interactionCreate', async (interaction) => {
+client.on(Discord.Events.InteractionCreate, async (interaction) => {
   if (!interaction.isModalSubmit()) return;
 
   await logger.trace('Retrieving modal logic');
@@ -199,7 +199,7 @@ client.on('interactionCreate', async (interaction) => {
 });
 
 // Messages
-client.on('messageCreate', async (message) => {
+client.on(Discord.Events.MessageCreate, async (message) => {
   try {
     const {
       cleanContent: content,

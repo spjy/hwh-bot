@@ -1,10 +1,9 @@
 require('dotenv-extended').load();
-import Discord, { MessageEmbed } from 'discord.js';
-import {
+import Discord, {
   SlashCommandBuilder,
   ContextMenuCommandBuilder,
-} from '@discordjs/builders';
-import { ApplicationCommandType } from 'discord-api-types/v9';
+  ApplicationCommandType,
+} from 'discord.js';
 
 import {
   ICommandMention,
@@ -111,7 +110,7 @@ export default class Mention implements ICommandMention, IContextMenuMention {
       mention: mention,
     });
 
-    const success = new MessageEmbed({
+    const success = new Discord.EmbedBuilder({
       title: 'Mention Created',
       description: `Successfully created a key for [this message](${mentionMessage.url}) in <#${channel.id}> for ${mention}.`,
       timestamp: mentionCooldown,
@@ -181,7 +180,7 @@ export default class Mention implements ICommandMention, IContextMenuMention {
         }
       }
 
-      const m = new MessageEmbed({
+      const m = new Discord.EmbedBuilder({
         title: 'Mention',
         description: `<@${user.id}>:`,
         fields: fields,
@@ -225,7 +224,7 @@ export default class Mention implements ICommandMention, IContextMenuMention {
   }
 
   async executeContextMenu(
-    interaction: Discord.ContextMenuInteraction,
+    interaction: Discord.MessageContextMenuCommandInteraction,
     helpMentions: Discord.Collection<string, MentionStore>
   ) {
     const { channel: textChannel, options, user } = interaction;
@@ -268,7 +267,7 @@ export default class Mention implements ICommandMention, IContextMenuMention {
   }
 
   async execute(
-    interaction: Discord.CommandInteraction,
+    interaction: Discord.ChatInputCommandInteraction,
     helpMentions: Discord.Collection<string, MentionStore>
   ) {
     const { guild, options, user, channel: textChannel } = interaction;
