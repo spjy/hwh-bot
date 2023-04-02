@@ -144,7 +144,7 @@ export default class Report implements ICommand {
 
     try {
       await r.edit({
-        embeds: [report],
+        embeds: [editedReport],
       });
     } catch (error) {
       await logger.error(
