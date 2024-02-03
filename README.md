@@ -8,7 +8,7 @@ https://homework-help.org - Website
 
 https://discord.gg/YudDZtb - Discord
 
-Any concerns, feedback or suggestions should be directed to @spencer#6388 on Discord.
+Any concerns, feedback or suggestions should be directed to spencerwencer on Discord.
 
 ## Requirements
 
@@ -17,14 +17,12 @@ Any concerns, feedback or suggestions should be directed to @spencer#6388 on Dis
 
 ## Installing
 
-1. Clone respository `git clone https://github.com/spjy/hwh-bot.git`
-2. `cd hwh-bot`
-3. Run `cp .env.schema .env`
-4. Set up your environment variables using `.env`
-5. `npm install` or `yarn install`
-6. `npm start` or `yarn start`
-
-## Standards
-
-- JavaScript: ECMAScript 6
-- ESLint: airbnb-base/legacy
+1. Run commands
+```bash
+git clone https://github.com/spjy/hwh-bot.git
+cd hwh-bot
+cp .env.schema .env
+npm install
+npm start
+```
+2. Set up your environment variables in `.env`
