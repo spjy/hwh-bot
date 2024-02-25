@@ -12,6 +12,8 @@ import {
   SlashCommand,
 } from '../types/typedefs';
 
+import { helpMentions } from '../help_mentions';
+
 export default class Mention implements ICommandMention, IContextMenuMention {
   readonly command: SlashCommand = new SlashCommandBuilder()
     .setName('mention')
@@ -51,7 +53,6 @@ export default class Mention implements ICommandMention, IContextMenuMention {
 
   async createMention(
     interaction: Discord.CommandInteraction,
-    helpMentions: Discord.Collection<string, MentionStore>,
     mention: Discord.Role
   ) {
     const { channel: textChannel, user, guild, client } = interaction;
@@ -137,7 +138,6 @@ export default class Mention implements ICommandMention, IContextMenuMention {
 
   async sendMention(
     interaction: Discord.CommandInteraction,
-    helpMentions: Discord.Collection<string, MentionStore>,
     helpMention: MentionStore
   ) {
     const { guild, client, user } = interaction;
@@ -224,8 +224,7 @@ export default class Mention implements ICommandMention, IContextMenuMention {
   }
 
   async executeContextMenu(
-    interaction: Discord.MessageContextMenuCommandInteraction,
-    helpMentions: Discord.Collection<string, MentionStore>
+    interaction: Discord.MessageContextMenuCommandInteraction
   ) {
     const { channel: textChannel, options, user } = interaction;
 
@@ -266,10 +265,7 @@ export default class Mention implements ICommandMention, IContextMenuMention {
     });
   }
 
-  async execute(
-    interaction: Discord.ChatInputCommandInteraction,
-    helpMentions: Discord.Collection<string, MentionStore>
-  ) {
+  async execute(interaction: Discord.ChatInputCommandInteraction) {
     const { guild, options, user, channel: textChannel } = interaction;
 
     await interaction.deferReply({
@@ -329,7 +325,7 @@ export default class Mention implements ICommandMention, IContextMenuMention {
         return;
       }
 
-      await this.createMention(interaction, helpMentions, mention);
+      await this.createMention(interaction, mention);
     } else if (options.getSubcommand() === 'overwrite') {
       let mention: Discord.Role;
 
@@ -358,7 +354,7 @@ export default class Mention implements ICommandMention, IContextMenuMention {
         return;
       }
 
-      await this.createMention(interaction, helpMentions, mention);
+      await this.createMention(interaction, mention);
     } else if (options.getSubcommand() === 'send') {
       // If help mention not created yet
       // If channel selected or not with context menu
@@ -371,7 +367,7 @@ export default class Mention implements ICommandMention, IContextMenuMention {
         return;
       }
 
-      await this.sendMention(interaction, helpMentions, helpMention);
+      await this.sendMention(interaction, helpMention);
     } else if (options.getSubcommand() === 'cancel') {
       // If help mention not created yet
       // If channel selected or not with context menu
