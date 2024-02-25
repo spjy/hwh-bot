@@ -26,7 +26,6 @@ const client = new DiscordClient({
   partials: [Discord.Partials.Channel],
 });
 const events: Discord.Collection<string, any> = new Discord.Collection();
-const helpMentions: Discord.Collection<string, any> = new Discord.Collection();
 Raven.config(process.env.SENTRY_DSN).install();
 
 // Staff member role ID (@Staff)
@@ -80,11 +79,7 @@ client.on(Discord.Events.InteractionCreate, async (interaction) => {
 
   try {
     // Mention command needs Discord collection
-    if (interaction.commandName !== 'mention') {
-      await command.execute(interaction);
-    } else {
-      await command.execute(interaction, helpMentions);
-    }
+    await command.execute(interaction);
   } catch (error) {
     await logger.error(error);
   }
@@ -109,11 +104,7 @@ client.on(Discord.Events.InteractionCreate, async (interaction) => {
 
   try {
     // Mention command needs Discord collection
-    if (action !== 'mention') {
-      await command.executeButton(interaction, Number(id));
-    } else {
-      await command.executeButton(interaction, Number(id), helpMentions);
-    }
+    await command.executeButton(interaction, Number(id));
   } catch (error) {
     await logger.error(error);
   }
@@ -138,11 +129,7 @@ client.on(Discord.Events.InteractionCreate, async (interaction) => {
 
   try {
     // Mention command needs Discord collection
-    if (action !== 'mention') {
-      await command.executeMenu(interaction, Number(id));
-    } else {
-      await command.executeMenu(interaction, Number(id), helpMentions);
-    }
+    await command.executeMenu(interaction, Number(id));
   } catch (error) {
     await logger.error(error);
   }
@@ -165,11 +152,7 @@ client.on(Discord.Events.InteractionCreate, async (interaction) => {
 
   try {
     // Mention command needs Discord collection
-    if (interaction.commandName !== 'mention') {
-      await command.executeContextMenu(interaction);
-    } else {
-      await command.executeContextMenu(interaction, helpMentions);
-    }
+    await command.executeContextMenu(interaction);
   } catch (error) {
     await logger.error(error);
   }
