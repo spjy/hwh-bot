@@ -68,6 +68,8 @@ export default class Report implements ICommand {
       });
 
       await logger.error(error, '/report: Could not record report');
+
+      return;
     }
 
     // Embed for staff channel
@@ -136,6 +138,8 @@ export default class Report implements ICommand {
       });
 
       await logger.error(error, '/report: Could not record report');
+
+      return;
     }
 
     // Add URL for staff to jump to staff channel
@@ -151,6 +155,8 @@ export default class Report implements ICommand {
         error,
         'Could not modify public report embed to include case url'
       );
+
+      return;
     }
 
     try {
@@ -166,6 +172,8 @@ export default class Report implements ICommand {
       });
 
       await logger.error(error, 'Could not send report confirmation message');
+
+      return;
     }
   }
 
@@ -196,6 +204,8 @@ export default class Report implements ICommand {
         });
 
         await logger.error(error, 'Could not fetch original report embed');
+
+        return;
       }
       const reportEmbed = reportMessage.embeds[0];
 
@@ -239,6 +249,8 @@ export default class Report implements ICommand {
             error,
             'Could not send cancelled report back to unsolved report channel'
           );
+
+          return;
         }
 
         // Modify report embed in channel where report was generated
@@ -263,6 +275,8 @@ export default class Report implements ICommand {
             error,
             'Could not edit original report embed or delete the solved report'
           );
+
+          return;
         }
 
         await interaction.editReply({
@@ -305,6 +319,8 @@ export default class Report implements ICommand {
         });
 
         await logger.error(error, 'Could not retrieve original report embed');
+
+        return;
       }
       const reportEmbed = new Discord.EmbedBuilder(
         reportMessage.embeds[0].toJSON()
@@ -366,6 +382,8 @@ export default class Report implements ICommand {
         });
 
         await logger.error(error, 'Could not archive report');
+
+        return;
       }
 
       // Edit report embed in channel where report was generated
@@ -391,6 +409,8 @@ export default class Report implements ICommand {
           error,
           'Could not edit original report embed or delete the unresolved report'
         );
+
+        return;
       }
 
       await interaction.editReply({
