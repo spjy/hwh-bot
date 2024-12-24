@@ -71,6 +71,8 @@ export default class Role implements ICommand {
           error,
           `/roles: Could not send select menu for ${role}`
         );
+
+        return;
       }
     }
   }
@@ -113,6 +115,8 @@ export default class Role implements ICommand {
                 error,
                 `Could not add role ${r} for user ${user.id}`
               );
+
+              return;
             }
 
             addedRoles.push(r.name);
@@ -129,6 +133,8 @@ export default class Role implements ICommand {
                 error,
                 `Could not remove role ${r} for user ${user.id}`
               );
+
+              return;
             }
             removedRoles.push(r.name);
           }

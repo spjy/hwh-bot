@@ -50,6 +50,8 @@ export default class Submit implements ICommand {
         error,
         '/submit: Could not send challenge submission to bot message channel.'
       );
+
+      return;
     }
 
     await interaction.reply({
