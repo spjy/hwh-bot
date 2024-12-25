@@ -181,32 +181,18 @@ client.on(Discord.Events.InteractionCreate, async (interaction) => {
 // Messages
 client.on(Discord.Events.MessageCreate, async (message) => {
   try {
-    const {
-      cleanContent: content,
-      member,
-      author,
-      channel,
-      mentions,
-    } = message;
+    const { cleanContent: content, member, author, mentions } = message;
 
     await logger.trace('Message create event triggered');
 
     if (member) {
       const command = content.split(' ').shift().toLowerCase(); // Get first word of string
-      const operator = content.slice(0, 1); // Get first letter of string
 
       if (author.id === client.user.id) return; // Ignore own bot's messages
 
       // events
       //   .get('message::dialogflow')
       //   .execute(message);
-
-      // Reports are separate since stipulations are too general
-      if (mentions.roles && channel.id !== reportsChannel) {
-        const Report = events.get('message::report').default;
-
-        new Report(message, reportsChannel, staffReportRoleId).execute();
-      }
 
       // Commands
       if (
