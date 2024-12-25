@@ -9,14 +9,16 @@ export default class Ask implements ICommand {
     .setName('ask')
     .setDescription('Send tip letting users know to just ask their question')
     .addUserOption((option) =>
-      option.setName('user').setDescription('The user to be notified')
+      option.setName('user').setDescription('The user to be notified'),
     );
 
   async execute(interaction: Discord.CommandInteraction) {
     const { client, options } = interaction;
 
     // User to be pinged
-    const user = options.get('user') ? `${options.get('user')}` : null;
+    const user = options.get('user').user
+      ? `${options.get('user').user}`
+      : null;
     const tip: Discord.EmbedBuilder = new Discord.EmbedBuilder({
       color: 1441536,
       title: 'Tip',
