@@ -1,4 +1,4 @@
-require('dotenv-extended').load();
+import dotenv from 'dotenv-extended';
 import Discord, {
   ActionRowBuilder,
   SlashCommandBuilder,
@@ -9,8 +9,9 @@ import Discord, {
   ModalBuilder,
   EmbedBuilder,
 } from 'discord.js';
-
 import { SlashCommand } from '../types/typedefs';
+
+dotenv.load();
 
 const applicationCommandType = ApplicationCommandType.User as number;
 
@@ -22,13 +23,13 @@ export default class Warn {
       option
         .setName('user')
         .setDescription('User to be reported')
-        .setRequired(true)
+        .setRequired(true),
     )
     .addStringOption((option) =>
       option
         .setName('details')
         .setDescription('Details describing what you are reporting')
-        .setRequired(true)
+        .setRequired(true),
     );
 
   readonly context: ContextMenuCommandBuilder = new ContextMenuCommandBuilder()
@@ -43,25 +44,23 @@ export default class Warn {
           .setCustomId('warn::user')
           .setLabel('User (Do not modify)')
           .setStyle(TextInputStyle.Short)
-          .setPlaceholder('User')
+          .setPlaceholder('User'),
       ),
       new ActionRowBuilder<TextInputBuilder>().addComponents(
         new TextInputBuilder()
           .setCustomId('warn::reason')
           .setLabel('Reason')
           .setStyle(TextInputStyle.Paragraph)
-          .setPlaceholder('Reason')
-      )
+          .setPlaceholder('Reason'),
+      ),
     );
 
   async execute(interaction: Discord.CommandInteraction) {
-    const { client, options } = interaction;
-
     await interaction.reply('Not yet implemented.');
   }
 
   async executeContextMenu(interaction: Discord.ContextMenuCommandInteraction) {
-    const { channel: textChannel, options, user } = interaction;
+    const { options } = interaction;
 
     const warnee = options.get('user');
 

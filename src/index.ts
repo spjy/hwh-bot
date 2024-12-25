@@ -32,12 +32,8 @@ Raven.config(process.env.SENTRY_DSN).install();
 const staffRoleId: string = process.env.STAFF_ROLE_ID;
 // Staff member role ID (@Staff)
 const staffReportRoleId: string = process.env.STAFF_REPORT_ROLE_ID;
-// Mention Ban role ID
-const mentionBanId: string = process.env.MENTION_BAN_ROLE_ID;
 
 // Channel IDs
-const mentionLogChannel: string = process.env.MENTION_LOG_CHANNEL_ID; // #mention-log
-const botMessagesChannel: string = process.env.BOT_MESSAGES_CHANNEL_ID; // #bot-messages
 const reportsChannel: string = process.env.REPORTS_CHANNEL_ID; // #reports
 
 client.login(process.env.DISCORD_TOKEN);

@@ -1,11 +1,11 @@
-// @ts-nocheck
 import Discord, {
   ApplicationCommandType,
   ContextMenuCommandBuilder,
   SlashCommandBuilder,
-  MessageActionRow,
-  Modal,
-  TextInputComponent,
+  ActionRowBuilder,
+  ModalBuilder,
+  TextInputBuilder,
+  TextInputStyle,
 } from 'discord.js';
 import { SlashCommand } from './typedefs';
 
@@ -23,14 +23,16 @@ interface disciplinaryAction {
   user: Discord.User;
   moderator: Discord.User;
   channel: Discord.TextChannel;
-  reason: String;
-  log: String[];
+  reason: string;
+  log: string[];
 }
+
+const applicationCommandTypeUser = ApplicationCommandType.User as number;
 
 export default abstract class IDisciplinaryAction {
   command: SlashCommand;
   context: ContextMenuCommandBuilder;
-  modal: Modal;
+  modal: ModalBuilder;
 
   constructor(action: string, actionPastTense: string) {
     this.command = new SlashCommandBuilder()
@@ -40,37 +42,37 @@ export default abstract class IDisciplinaryAction {
         option
           .setName('user')
           .setDescription(`User to be ${actionPastTense}`)
-          .setRequired(true)
+          .setRequired(true),
       )
       .addStringOption((option) =>
         option
           .setName('reason')
           .setDescription(`Reason for user to be ${actionPastTense}`)
-          .setRequired(true)
+          .setRequired(true),
       );
 
     this.context = new ContextMenuCommandBuilder()
       .setName(action)
-      .setType(ApplicationCommandType.User);
+      .setType(applicationCommandTypeUser);
 
-    this.modal = new Modal()
+    const userInput = new ActionRowBuilder<TextInputBuilder>().addComponents(
+      new TextInputBuilder()
+        .setCustomId(`${action}::user`)
+        .setLabel('User (Do not modify)')
+        .setStyle(TextInputStyle.Short)
+        .setPlaceholder('User'),
+    );
+    const reasonInput = new ActionRowBuilder<TextInputBuilder>().addComponents(
+      new TextInputBuilder()
+        .setCustomId(`${action}::reason`)
+        .setLabel('Reason')
+        .setStyle(TextInputStyle.Paragraph)
+        .setPlaceholder('Reason'),
+    );
+
+    this.modal = new ModalBuilder()
       .setCustomId(`${action}::0`)
-      .addComponents([
-        new MessageActionRow().addComponents(
-          new TextInputComponent()
-            .setCustomId(`${action}::user`)
-            .setLabel('User (Do not modify)')
-            .setStyle('SHORT')
-            .setPlaceholder('User')
-        ),
-        new MessageActionRow().addComponents(
-          new TextInputComponent()
-            .setCustomId(`${action}::reason`)
-            .setLabel('Reason')
-            .setStyle('PARAGRAPH')
-            .setPlaceholder('Reason')
-        ),
-      ]);
+      .addComponents(userInput, reasonInput);
   }
 
   abstract save(action: disciplinaryAction): Promise<void>;

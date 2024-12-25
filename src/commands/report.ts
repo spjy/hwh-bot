@@ -1,4 +1,4 @@
-require('dotenv-extended').load();
+import dotenv from 'dotenv-extended';
 import Discord, {
   SlashCommandBuilder,
   ActionRowBuilder,
@@ -9,8 +9,9 @@ import Discord, {
 } from 'discord.js';
 import logger from '../logger';
 import { dispositionEntries, reportEmbedFields } from '../types/report';
-
 import { dispositions, ICommand, SlashCommand } from '../types/typedefs';
+
+dotenv.load();
 
 enum actions {
   RESOLVE_REPORT = 0,

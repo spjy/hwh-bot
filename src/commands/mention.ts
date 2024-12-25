@@ -1,4 +1,4 @@
-require('dotenv-extended').load();
+import dotenv from 'dotenv-extended';
 import Discord, {
   SlashCommandBuilder,
   ContextMenuCommandBuilder,
@@ -12,6 +12,8 @@ import {
 } from '../types/typedefs';
 import { helpMentions } from '../help_mentions';
 
+dotenv.load();
+
 const applicationCommandType = ApplicationCommandType.Message as number;
 
 export default class Mention implements ICommandMention, IContextMenuMention {
@@ -23,28 +25,28 @@ export default class Mention implements ICommandMention, IContextMenuMention {
         .setName('create')
         .setDescription('Create a mention key to use in 10 minutes')
         .addRoleOption((option) =>
-          option.setName('role').setDescription('Role to be mentioned')
-        )
+          option.setName('role').setDescription('Role to be mentioned'),
+        ),
     )
     .addSubcommand((subcommand) =>
       subcommand
         .setName('overwrite')
         .setDescription(
-          'Overwrite currently generated mention key with new role and message'
+          'Overwrite currently generated mention key with new role and message',
         )
         .addRoleOption((option) =>
-          option.setName('role').setDescription('Role to be mentioned')
-        )
+          option.setName('role').setDescription('Role to be mentioned'),
+        ),
     )
     .addSubcommand((subcommand) =>
       subcommand
         .setName('send')
-        .setDescription('Send your created mention in your specified channel')
+        .setDescription('Send your created mention in your specified channel'),
     )
     .addSubcommand((subcommand) =>
       subcommand
         .setName('cancel')
-        .setDescription('Cancel currently created mention')
+        .setDescription('Cancel currently created mention'),
     );
 
   readonly context: ContextMenuCommandBuilder = new ContextMenuCommandBuilder()
@@ -53,16 +55,15 @@ export default class Mention implements ICommandMention, IContextMenuMention {
 
   async createMention(
     interaction: Discord.CommandInteraction,
-    mention: Discord.Role
+    mention: Discord.Role,
   ) {
     const { channel: textChannel, user, guild, client } = interaction;
 
     const channel = <Discord.TextChannel>textChannel;
     const helpMention = helpMentions.get(user.id);
 
-    let mentionChannel: string,
-      mentionMessage: Discord.Message,
-      mentionCooldown: Date = new Date(Date.now() + 600000);
+    let mentionChannel: string, mentionMessage: Discord.Message;
+    const mentionCooldown: Date = new Date(Date.now() + 600000);
 
     // If channel and message already selected with select menu.
     if (helpMention && helpMention.channel && helpMention.message) {
@@ -127,7 +128,7 @@ export default class Mention implements ICommandMention, IContextMenuMention {
 
     await interaction.editReply({
       content: `Type \`/mention send\` at <t:${Math.round(
-        mentionCooldown.getTime() / 1000
+        mentionCooldown.getTime() / 1000,
       )}:t> to use this mention.`,
     });
 
@@ -138,7 +139,7 @@ export default class Mention implements ICommandMention, IContextMenuMention {
 
   async sendMention(
     interaction: Discord.CommandInteraction,
-    helpMention: MentionStore
+    helpMention: MentionStore,
   ) {
     const { guild, client, user } = interaction;
 
@@ -173,9 +174,9 @@ export default class Mention implements ICommandMention, IContextMenuMention {
               name: '\u200B',
               value: helpMessage.content.substr(
                 1024,
-                helpMessage.content.length - 1
+                helpMessage.content.length - 1,
               ),
-            }
+            },
           );
         }
       }
@@ -217,14 +218,14 @@ export default class Mention implements ICommandMention, IContextMenuMention {
       // Send error
       await interaction.editReply({
         content: `The cooldown time (10 minutes) has not elapsed yet.\n\nTry at <t:${Math.round(
-          helpDate.getTime() / 1000
+          helpDate.getTime() / 1000,
         )}:t>.`,
       });
     }
   }
 
   async executeContextMenu(
-    interaction: Discord.MessageContextMenuCommandInteraction
+    interaction: Discord.MessageContextMenuCommandInteraction,
   ) {
     console.log('interaction');
     const { channel: textChannel, options, user } = interaction;
@@ -302,7 +303,7 @@ export default class Mention implements ICommandMention, IContextMenuMention {
             channel.name
               .replace(/-[a-z]$/, '')
               .replace(/-/g, ' ')
-              .toLowerCase()
+              .toLowerCase(),
         );
       }
 
@@ -342,7 +343,7 @@ export default class Mention implements ICommandMention, IContextMenuMention {
             channel.name
               .replace(/-[a-z]$/, '')
               .replace(/-/g, ' ')
-              .toLowerCase()
+              .toLowerCase(),
         );
       }
 

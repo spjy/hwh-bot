@@ -1,6 +1,8 @@
-require('dotenv-extended').load();
+import dotenv from 'dotenv-extended';
 import { REST, Routes } from 'discord.js';
 import fs from 'fs';
+
+dotenv.load();
 
 const commandFiles = fs.readdirSync('./src/commands');
 
@@ -36,9 +38,9 @@ export default function deploy() {
     .put(
       Routes.applicationGuildCommands(
         process.env.APPLICATION_ID,
-        process.env.GUILD_ID
+        process.env.GUILD_ID,
       ),
-      { body: commands }
+      { body: commands },
     )
     .then(() => console.log('Successfully registered application commands.'))
     .catch(console.error);
