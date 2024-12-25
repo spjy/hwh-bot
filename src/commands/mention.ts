@@ -4,15 +4,15 @@ import Discord, {
   ContextMenuCommandBuilder,
   ApplicationCommandType,
 } from 'discord.js';
-
 import {
   ICommandMention,
   IContextMenuMention,
   MentionStore,
   SlashCommand,
 } from '../types/typedefs';
-
 import { helpMentions } from '../help_mentions';
+
+const applicationCommandType = ApplicationCommandType.Message as number;
 
 export default class Mention implements ICommandMention, IContextMenuMention {
   readonly command: SlashCommand = new SlashCommandBuilder()
@@ -49,7 +49,7 @@ export default class Mention implements ICommandMention, IContextMenuMention {
 
   readonly context: ContextMenuCommandBuilder = new ContextMenuCommandBuilder()
     .setName('mention')
-    .setType(ApplicationCommandType.Message);
+    .setType(applicationCommandType);
 
   async createMention(
     interaction: Discord.CommandInteraction,
@@ -226,6 +226,7 @@ export default class Mention implements ICommandMention, IContextMenuMention {
   async executeContextMenu(
     interaction: Discord.MessageContextMenuCommandInteraction
   ) {
+    console.log('interaction');
     const { channel: textChannel, options, user } = interaction;
 
     const channel = <Discord.TextChannel>textChannel;

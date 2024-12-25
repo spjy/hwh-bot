@@ -1,6 +1,7 @@
 import Discord, {
   ContextMenuCommandBuilder,
   SlashCommandBuilder,
+  SlashCommandOptionsOnlyBuilder,
   SlashCommandSubcommandsOnlyBuilder,
 } from 'discord.js';
 
@@ -23,7 +24,8 @@ export enum dispositions {
 }
 
 export type SlashCommand =
-  | Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
+  | SlashCommandBuilder
+  | SlashCommandOptionsOnlyBuilder
   | SlashCommandSubcommandsOnlyBuilder;
 
 /* Slash Command Interface */

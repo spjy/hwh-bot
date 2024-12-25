@@ -14,6 +14,8 @@ import Discord, {
 
 import { SlashCommand } from '../types/typedefs';
 
+const applicationCommandType = ApplicationCommandType.User as number;
+
 export default class Warn {
   readonly command: SlashCommand = new SlashCommandBuilder()
     .setName('warn')
@@ -33,7 +35,7 @@ export default class Warn {
 
   readonly context: ContextMenuCommandBuilder = new ContextMenuCommandBuilder()
     .setName('warn')
-    .setType(ApplicationCommandType.User);
+    .setType(applicationCommandType);
 
   modal: ModalBuilder = new ModalBuilder()
     .setCustomId('warn::0')
@@ -63,13 +65,11 @@ export default class Warn {
   async executeContextMenu(interaction: Discord.ContextMenuCommandInteraction) {
     const { channel: textChannel, options, user } = interaction;
 
-    const warnee: Discord.GuildMember = <Discord.GuildMember>(
-      options.getMember('user')
-    );
+    const warnee = options.get('user');
 
     const modal = this.modal.setTitle(`Warn ${warnee.user.tag}`);
 
-    modal.components[0].components[0].setValue(warnee.id);
+    modal.components[0].components[0].setValue(warnee.user.id);
 
     interaction.showModal(modal);
   }
