@@ -201,13 +201,6 @@ client.on(Discord.Events.MessageCreate, async (message) => {
       //   .get('message::dialogflow')
       //   .execute(message);
 
-      // Reports are separate since stipulations are too general
-      if (mentions.roles && channel.id !== reportsChannel) {
-        const Report = events.get('message::report').default;
-
-        new Report(message, reportsChannel, staffReportRoleId).execute();
-      }
-
       // Commands
       if (
         command === '?gwarn' &&
