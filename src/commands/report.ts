@@ -1,6 +1,5 @@
 require('dotenv-extended').load();
 import Discord, {
-  ActionRow,
   SlashCommandBuilder,
   ActionRowBuilder,
   ButtonBuilder,

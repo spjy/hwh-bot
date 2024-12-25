@@ -1,6 +1,5 @@
 require('dotenv-extended').load();
 import Discord, {
-  Embed,
   ActionRowBuilder,
   SlashCommandBuilder,
   ContextMenuCommandBuilder,
@@ -9,7 +8,6 @@ import Discord, {
   TextInputStyle,
   ModalBuilder,
   EmbedBuilder,
-  TextInputComponent,
 } from 'discord.js';
 
 import { SlashCommand } from '../types/typedefs';

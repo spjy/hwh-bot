@@ -1,4 +1,3 @@
-import { APISelectMenuOption } from 'discord.js';
 import { dispositions } from './typedefs';
 
 export const reportEmbedFields = [

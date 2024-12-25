@@ -7,7 +7,7 @@ import Discord, {
   Modal,
   TextInputComponent,
 } from 'discord.js';
-import { ICommand, SlashCommand } from './typedefs';
+import { SlashCommand } from './typedefs';
 
 enum disciplinaryTypes {
   NOTE,
