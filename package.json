@@ -4,7 +4,7 @@
   "description": "Homework Help Discord Bot",
   "main": "index.js",
   "engines": {
-    "node": "16.x"
+    "node": "20.x"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -29,15 +29,15 @@
     "raven": "^2.6.3"
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.1",
-    "@babel/core": "^7.12.3",
-    "@babel/node": "^7.12.1",
-    "@babel/preset-env": "^7.12.1",
-    "@babel/preset-typescript": "^7.12.7",
+    "@babel/cli": "^7.26.4",
+    "@babel/core": "^7.26.0",
+    "@babel/node": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-typescript": "^7.26.0",
     "@eslint/js": "^9.17.0",
     "@types/raven": "^2.5.4",
     "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.0.4",
+    "babel-loader": "^9.2.1",
     "babel-preset-minify": "^0.5.2",
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
