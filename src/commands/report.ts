@@ -1,16 +1,17 @@
-require('dotenv-extended').load();
+import dotenv from 'dotenv-extended';
 import Discord, {
-  ActionRow,
   SlashCommandBuilder,
   ActionRowBuilder,
   ButtonBuilder,
   StringSelectMenuBuilder,
   ButtonStyle,
+  EmbedBuilder,
 } from 'discord.js';
 import logger from '../logger';
 import { dispositionEntries, reportEmbedFields } from '../types/report';
-
 import { dispositions, ICommand, SlashCommand } from '../types/typedefs';
+
+dotenv.load();
 
 enum actions {
   RESOLVE_REPORT = 0,
@@ -25,13 +26,13 @@ export default class Report implements ICommand {
       option
         .setName('user')
         .setDescription('User to be reported')
-        .setRequired(true)
+        .setRequired(true),
     )
     .addStringOption((option) =>
       option
         .setName('details')
         .setDescription('Details describing what you are reporting')
-        .setRequired(true)
+        .setRequired(true),
     );
 
   async execute(interaction: Discord.ChatInputCommandInteraction) {
@@ -59,7 +60,7 @@ export default class Report implements ICommand {
         {
           content: `<@&${process.env.STAFF_REPORT_ROLE_ID}>`,
           embeds: [report],
-        }
+        },
       );
     } catch (error) {
       await interaction.reply({
@@ -119,7 +120,7 @@ export default class Report implements ICommand {
           .setCustomId('report::0')
           .setMaxValues(1)
           .setPlaceholder('Select disposition')
-          .addOptions(dispositionEntries)
+          .addOptions(dispositionEntries),
       );
 
     let s;
@@ -153,7 +154,7 @@ export default class Report implements ICommand {
     } catch (error) {
       await logger.error(
         error,
-        'Could not modify public report embed to include case url'
+        'Could not modify public report embed to include case url',
       );
 
       return;
@@ -177,7 +178,7 @@ export default class Report implements ICommand {
     }
   }
 
-  async executeButton(interaction: Discord.ButtonInteraction, id: Number) {
+  async executeButton(interaction: Discord.ButtonInteraction, id: number) {
     if (id === actions.CANCEL_REPORT) {
       const { guild, message, user } = interaction;
 
@@ -190,7 +191,7 @@ export default class Report implements ICommand {
       const reportLogEmbed = message.embeds[0];
 
       // Copy embed and edit to reflect resolved
-      let reportMessage;
+      let reportMessage: Discord.Message;
 
       // Fetch report embed (created by reporter)
       try {
@@ -224,7 +225,7 @@ export default class Report implements ICommand {
               .setCustomId('report::0')
               .setMaxValues(1)
               .setPlaceholder('Select resolve disposition')
-              .addOptions(dispositionEntries)
+              .addOptions(dispositionEntries),
           );
 
         const reportLogEmbedCopy = reportLogEmbed.toJSON();
@@ -247,21 +248,31 @@ export default class Report implements ICommand {
 
           await logger.error(
             error,
-            'Could not send cancelled report back to unsolved report channel'
+            'Could not send cancelled report back to unsolved report channel',
           );
 
           return;
         }
 
         // Modify report embed in channel where report was generated
-        reportEmbed.setColor(16645888);
-        (reportEmbed.fields[0].value =
-          'Thank you for the report. We will review it shortly.'),
-          (reportEmbed.fields[1].value = `[Case](${report.url})`);
+        const newEmbed = new EmbedBuilder(reportEmbed.toJSON())
+          .setColor(16645888)
+          .setFields([
+            {
+              name: reportEmbed.fields[0].name,
+              value: 'Thank you for the report. We will review it shortly.',
+              inline: true,
+            },
+            {
+              name: reportEmbed.fields[1].name,
+              value: `[Case](${report.url})`,
+              inline: true,
+            },
+          ]);
 
         try {
           await reportMessage.edit({
-            embeds: [reportEmbed],
+            embeds: [newEmbed],
           });
 
           await (<Discord.Message>message).delete();
@@ -273,7 +284,7 @@ export default class Report implements ICommand {
 
           await logger.error(
             error,
-            'Could not edit original report embed or delete the solved report'
+            'Could not edit original report embed or delete the solved report',
           );
 
           return;
@@ -290,7 +301,7 @@ export default class Report implements ICommand {
     }
   }
 
-  async executeMenu(interaction: Discord.SelectMenuInteraction, id: Number) {
+  async executeMenu(interaction: Discord.SelectMenuInteraction, id: number) {
     if (id === actions.RESOLVE_REPORT) {
       const { guild, message, user, values } = interaction;
       const [disposition] = values; // get first value since only one can be selected from dropdown
@@ -302,7 +313,7 @@ export default class Report implements ICommand {
 
       // Report message log
       const reportLogEmbed = new Discord.EmbedBuilder(
-        message.embeds[0].toJSON()
+        message.embeds[0].toJSON(),
       );
 
       let reportMessage: Discord.Message;
@@ -323,7 +334,7 @@ export default class Report implements ICommand {
         return;
       }
       const reportEmbed = new Discord.EmbedBuilder(
-        reportMessage.embeds[0].toJSON()
+        reportMessage.embeds[0].toJSON(),
       );
 
       // Delete report and move into archive channel once resolved
@@ -337,7 +348,7 @@ export default class Report implements ICommand {
         new ButtonBuilder()
           .setCustomId('report::1')
           .setLabel('Cancel')
-          .setStyle(ButtonStyle.Secondary)
+          .setStyle(ButtonStyle.Secondary),
       );
 
       switch (disposition) {
@@ -387,11 +398,21 @@ export default class Report implements ICommand {
       }
 
       // Edit report embed in channel where report was generated
-      const editedReportEmbed = reportEmbed.toJSON();
-      editedReportEmbed.color = 1441536;
-      (editedReportEmbed.fields[0].value =
-        'A staff member has reviewed your report. If you think there was a mistake, please contact us via <@575252669443211264>.'),
-        (editedReportEmbed.fields[1].value = `[Case](${archived.url})`);
+      const editedReportEmbed = new EmbedBuilder(reportEmbed.toJSON())
+        .setColor(1441536)
+        .setFields([
+          {
+            name: reportEmbed.data.fields[0].name,
+            value:
+              'A staff member has reviewed your report. If you think there was a mistake, please contact us via <@575252669443211264>.',
+            inline: true,
+          },
+          {
+            name: reportEmbed.data.fields[1].name,
+            value: `[Case](${archived.url})`,
+            inline: true,
+          },
+        ]);
 
       try {
         await reportMessage.edit({
@@ -407,7 +428,7 @@ export default class Report implements ICommand {
 
         await logger.error(
           error,
-          'Could not edit original report embed or delete the unresolved report'
+          'Could not edit original report embed or delete the unresolved report',
         );
 
         return;

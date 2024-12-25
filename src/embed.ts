@@ -33,7 +33,7 @@ export default class Embed {
     preembed = '',
     timestamp = new Date(),
   } = {}) {
-    const { channel, guild, client } = message;
+    const { channel, guild } = message;
 
     this.message = message;
 

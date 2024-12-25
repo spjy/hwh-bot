@@ -25,7 +25,7 @@ export default class Warning extends Embed {
    */
   async execute() {
     try {
-      const { content, mentions, channel } = this.message;
+      const { content, mentions, channel, guild } = this.message;
 
       let warn;
       let reason;
@@ -51,7 +51,9 @@ export default class Warning extends Embed {
 
         super.sendToCurrentChannel();
       } else {
-        const error = await channel.send('No mention supplied.');
+        const error = await (<Discord.TextChannel>(
+          guild.channels.cache.get(channel.id)
+        )).send('No mention supplied.');
 
         await setTimeout(() => {
           error.delete();

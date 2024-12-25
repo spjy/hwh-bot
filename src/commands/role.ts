@@ -1,18 +1,18 @@
-require('dotenv-extended').load();
+import dotenv from 'dotenv-extended';
 import Discord, {
   SlashCommandBuilder,
   ActionRowBuilder,
   StringSelectMenuBuilder,
 } from 'discord.js';
 import logger from '../logger';
-
 import roles from '../roles';
-
 import { ICommand } from '../types/typedefs';
+
+dotenv.load();
 
 export default class Role implements ICommand {
   readonly command: SlashCommandBuilder = new SlashCommandBuilder()
-    .setDefaultPermission(false)
+    .setDefaultMemberPermissions('0')
     .setName('role')
     .setDescription('Send available select menus for role selection');
 
@@ -22,7 +22,7 @@ export default class Role implements ICommand {
     await interaction.reply({ content: 'hath been senterino' });
 
     // Send roles based on structure from src/roles.ts
-    for (let role in roles) {
+    for (const role in roles) {
       let row;
 
       if (role === 'Education') {
@@ -38,7 +38,7 @@ export default class Role implements ICommand {
                 value: 'clear',
               },
               ...roles[role],
-            ])
+            ]),
         );
       } else {
         row = new ActionRowBuilder().addComponents(
@@ -55,7 +55,7 @@ export default class Role implements ICommand {
                 value: 'clear',
               },
               ...roles[role],
-            ])
+            ]),
         );
       }
 
@@ -69,7 +69,7 @@ export default class Role implements ICommand {
       } catch (error) {
         await logger.error(
           error,
-          `/roles: Could not send select menu for ${role}`
+          `/roles: Could not send select menu for ${role}`,
         );
 
         return;
@@ -77,7 +77,7 @@ export default class Role implements ICommand {
     }
   }
 
-  async executeMenu(interaction: Discord.SelectMenuInteraction, id: Number) {
+  async executeMenu(interaction: Discord.SelectMenuInteraction) {
     const { component, guild, user, values } = interaction;
 
     await interaction.deferReply({
@@ -113,7 +113,7 @@ export default class Role implements ICommand {
 
               await logger.error(
                 error,
-                `Could not add role ${r} for user ${user.id}`
+                `Could not add role ${r} for user ${user.id}`,
               );
 
               return;
@@ -131,7 +131,7 @@ export default class Role implements ICommand {
 
               await logger.error(
                 error,
-                `Could not remove role ${r} for user ${user.id}`
+                `Could not remove role ${r} for user ${user.id}`,
               );
 
               return;
@@ -139,7 +139,7 @@ export default class Role implements ICommand {
             removedRoles.push(r.name);
           }
         }
-      })
+      }),
     );
 
     // Construct message
@@ -147,19 +147,19 @@ export default class Role implements ICommand {
 
     if (addedRoles.length > 0) {
       message += `You have **added** the following roles:\n${addedRoles.join(
-        '\n'
+        '\n',
       )}\n\n`;
     }
 
     if (removedRoles.length > 0) {
       message += `You have **removed** the following roles:\n${removedRoles.join(
-        '\n'
+        '\n',
       )}`;
     }
 
     if (erroredRoles.length > 0) {
       message += `Due to an error, could not modify the following roles:\n${erroredRoles.join(
-        '\n'
+        '\n',
       )}`;
     }
 

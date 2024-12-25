@@ -1,7 +1,10 @@
-require('dotenv-extended').load();
+import dotenv from 'dotenv-extended';
 import Discord from 'discord.js';
 import Raven from 'raven';
-const dialogflow = require('dialogflow');
+import dialogflow from 'dialogflow';
+import logger from '../../logger';
+
+dotenv.load();
 
 export default {
   description: 'DialogFlow',
@@ -10,8 +13,7 @@ export default {
       const { cleanContent: content, author } = message;
 
       if (!process.env.DIALOGFLOW_PROJECT_ID) {
-        // eslint-disable-next-line
-        console.warn('DialogFlow not configured.');
+        logger.warn('DialogFlow not configured.');
         return;
       }
 
@@ -21,14 +23,14 @@ export default {
           client_email: process.env.GOOGLE_CLOUD_CLIENT_EMAIL,
           private_key: process.env.GOOGLE_CLOUD_PRIVATE_KEY.replace(
             /\\n/g,
-            '\n'
+            '\n',
           ),
         },
       });
 
       const sessionPath = sessionClient.sessionPath(
         process.env.DIALOGFLOW_PROJECT_ID,
-        author.id
+        author.id,
       );
 
       const request = {
