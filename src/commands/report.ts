@@ -177,7 +177,7 @@ export default class Report implements ICommand {
     }
   }
 
-  async executeButton(interaction: Discord.ButtonInteraction, id: Number) {
+  async executeButton(interaction: Discord.ButtonInteraction, id: number) {
     if (id === actions.CANCEL_REPORT) {
       const { guild, message, user } = interaction;
 
@@ -300,7 +300,7 @@ export default class Report implements ICommand {
     }
   }
 
-  async executeMenu(interaction: Discord.SelectMenuInteraction, id: Number) {
+  async executeMenu(interaction: Discord.SelectMenuInteraction, id: number) {
     if (id === actions.RESOLVE_REPORT) {
       const { guild, message, user, values } = interaction;
       const [disposition] = values; // get first value since only one can be selected from dropdown
