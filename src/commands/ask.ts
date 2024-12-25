@@ -16,9 +16,7 @@ export default class Ask implements ICommand {
     const { client, options } = interaction;
 
     // User to be pinged
-    const user = options.get('user').user
-      ? `${options.get('user').user}`
-      : null;
+    const user = options.get('user') ? `${options.get('user').user}` : null;
     const tip: Discord.EmbedBuilder = new Discord.EmbedBuilder({
       color: 1441536,
       title: 'Tip',
