@@ -21,7 +21,6 @@ const client = new DiscordClient({
     Discord.GatewayIntentBits.Guilds,
     Discord.GatewayIntentBits.GuildMessages,
     Discord.GatewayIntentBits.GuildMessageReactions,
-    Discord.GatewayIntentBits.MessageContent,
   ],
   partials: [Discord.Partials.Channel],
 });
@@ -175,52 +174,5 @@ client.on(Discord.Events.InteractionCreate, async (interaction) => {
     await command.executeModalSubmit(interaction, Number(id));
   } catch (error) {
     await logger.error(error);
-  }
-});
-
-// Messages
-client.on(Discord.Events.MessageCreate, async (message) => {
-  try {
-    const {
-      cleanContent: content,
-      member,
-      author,
-      channel,
-      mentions,
-    } = message;
-
-    await logger.trace('Message create event triggered');
-
-    if (member) {
-      const command = content.split(' ').shift().toLowerCase(); // Get first word of string
-      const operator = content.slice(0, 1); // Get first letter of string
-
-      if (author.id === client.user.id) return; // Ignore own bot's messages
-
-      // events
-      //   .get('message::dialogflow')
-      //   .execute(message);
-
-      // Reports are separate since stipulations are too general
-      if (mentions.roles && channel.id !== reportsChannel) {
-        const Report = events.get('message::report').default;
-
-        new Report(message, reportsChannel, staffReportRoleId).execute();
-      }
-
-      // Commands
-      if (
-        command === '?gwarn' &&
-        mentions.members &&
-        member.roles.cache.has(staffRoleId)
-      ) {
-        const Warning = events.get('message::warning').default;
-
-        new Warning(message).execute();
-      }
-    }
-  } catch (error) {
-    await logger.error(error);
-    Raven.captureException(error);
   }
 });
